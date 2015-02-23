@@ -61,14 +61,18 @@
   (define (assoc-set new-assoc-pair)
     (if assoc-pair
         (assoc-swap assoc-list assoc-pair new-assoc-pair #:is-equal? equal?)
-        (append assoc-list new-assoc-pair)))
+        (append assoc-list (list new-assoc-pair))))
   (values assoc-pair assoc-set))
 
 (module+ test
   (define assoc-a-lens (assoc-lens 'a))
+  (define assoc-d-lens (assoc-lens 'd))
   (check-equal? (lens-view assoc-a-lens assoc-list) '(a 1))
   (check-equal? (lens-set assoc-a-lens assoc-list '(FOO BAR))
-                '((FOO BAR) (b 2) (c 3))))
+                '((FOO BAR) (b 2) (c 3)))
+  (check-false (lens-view assoc-d-lens assoc-list))
+  (check-equal? (lens-set assoc-d-lens assoc-list '(FOO BAR))
+                '((a 1) (b 2) (c 3) (FOO BAR))))
 
 (define (assv-lens assv-key)
   (assoc-lens assv-key #:is-equal? eqv?))
@@ -81,12 +85,16 @@
   (define (assf-set new-assf-pair)
     (if assf-pair
         (assoc-swap assoc-list assf-pair new-assf-pair #:is-equal? eq?)
-        (append assoc-list new-assf-pair)))
+        (append assoc-list (list new-assf-pair))))
   (values assf-pair assf-set))
 
 (module+ test
   (define assf>10-lens (assf-lens (λ (v) (> v 10))))
+  (define assf>100-lens (assf-lens (λ (v) (> v 100))))
   (define assf-list '((1 a) (10 b) (100 c)))
   (check-equal? (lens-view assf>10-lens assf-list) '(100 c))
   (check-equal? (lens-set assf>10-lens assf-list '(FOO BAR))
-                '((1 a) (10 b) (FOO BAR))))
+                '((1 a) (10 b) (FOO BAR)))
+  (check-false (lens-view assf>100-lens assf-list))
+  (check-equal? (lens-set assf>100-lens assf-list '(FOO BAR))
+                '((1 a) (10 b) (100 c) (FOO BAR))))
