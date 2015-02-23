@@ -1,6 +1,10 @@
 #lang racket
 
-(require)
+(require "core.rkt"
+         "list.rkt"
+         "syntax.rkt")
 
 (provide
- (all-from-out))
+ (all-from-out "core.rkt"
+               "list.rkt"
+               "syntax.rkt"))
