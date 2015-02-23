@@ -51,28 +51,35 @@
         assoc-pair))
   (map swap-assoc-pair assoc-list))
 
+(define (assoc-set assoc-list key value #:is-equal? [equal? equal?])
+  (define (set-assoc-pair assoc-pair)
+    (if (equal? (first assoc-pair) key)
+        (list (first assoc-pair) value)
+        assoc-pair))
+  (map set-assoc-pair assoc-list))
+
 (module+ test
   (define assoc-list '((a 1) (b 2) (c 3)))
   (check-equal? (assoc-swap assoc-list '(b 2) '(FOO BAR))
                 '((a 1) (FOO BAR) (c 3))))
 
-(define ((assoc-lens assoc-key #:is-equal? [equal? equal?]) assoc-list)
-  (define assoc-pair (assoc assoc-key assoc-list equal?))
-  (define (assoc-set new-assoc-pair)
+(define ((assoc-lens key #:is-equal? [equal? equal?]) assoc-list)
+  (define assoc-pair (assoc key assoc-list equal?))
+  (define (assoc-lens-set v)
     (if assoc-pair
-        (assoc-swap assoc-list assoc-pair new-assoc-pair #:is-equal? equal?)
-        (append assoc-list (list new-assoc-pair))))
-  (values assoc-pair assoc-set))
+        (assoc-set assoc-list key v #:is-equal? equal?)
+        (append assoc-list (list (list key v)))))
+  (values assoc-pair assoc-lens-set))
 
 (module+ test
   (define assoc-a-lens (assoc-lens 'a))
   (define assoc-d-lens (assoc-lens 'd))
   (check-equal? (lens-view assoc-a-lens assoc-list) '(a 1))
-  (check-equal? (lens-set assoc-a-lens assoc-list '(FOO BAR))
-                '((FOO BAR) (b 2) (c 3)))
+  (check-equal? (lens-set assoc-a-lens assoc-list 100)
+                '((a 100) (b 2) (c 3)))
   (check-false (lens-view assoc-d-lens assoc-list))
-  (check-equal? (lens-set assoc-d-lens assoc-list '(FOO BAR))
-                '((a 1) (b 2) (c 3) (FOO BAR))))
+  (check-equal? (lens-set assoc-d-lens assoc-list 4)
+                '((a 1) (b 2) (c 3) (d 4))))
 
 (define (assv-lens assv-key)
   (assoc-lens assv-key #:is-equal? eqv?))
