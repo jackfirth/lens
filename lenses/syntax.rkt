@@ -1,6 +1,8 @@
 #lang racket
 
 (require syntax/parse
+         rackunit
+         "core.rkt"
          (for-syntax racket/syntax
                      syntax/stx
                      syntax/parse))
@@ -16,6 +18,13 @@
        #'(syntax-parser
            [parse-pattern
             (values #'target rebuilder)]))]))
+
+(module+ test
+  (define stx-lens (syntax-lens A (_ _ (_ _ A _ _) _ ...)))
+  (define stx #'(a b (1 2 3 4 5) c d e f))
+  (check-equal? (syntax->datum (lens-view stx-lens stx)) 3)
+  (define stx2 (lens-set stx-lens stx #'FOO))
+  (check-equal? (syntax->datum stx2) '(a b (1 2 FOO 4 5) c d e f)))
 
 (begin-for-syntax
   
