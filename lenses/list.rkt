@@ -11,8 +11,7 @@
          fifth-lens
          assoc-lens
          assv-lens
-         assq-lens
-         assf-lens)
+         assq-lens)
 
 (define ((list-lens i) lst)
   (define (list-set-first v)
