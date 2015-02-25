@@ -126,3 +126,35 @@ source code: @url["https://github.com/jackfirth/lenses"]
       (lens-view (lens-compose second-lens fourth-lens)
                  '((a 1) (b 2) (c 3) (d 4)))
 ]}
+
+@defproc[(assoc-lens [key any/c] [#:is-equal? key-equal? (-> any/c any/c any/c) equal?])
+         (lens/c (listof pair?) any/c)]{
+  Constructs a lens for examiniming association lists.
+  Specifically, for a given association list the returned
+  lens examines the second value of the first pair that
+  has a key that is @racket[key-equal?] to @racket[key].
+  @lenses-examples[
+    (define assoc-a-lens (assoc-lens 'a))
+    (define some-assoc-list '((a 1) (b 2) (c 3)))
+    (lens-view assoc-a-lens some-assoc-list)
+    (lens-set assoc-a-lens some-assoc-list 100)
+  ]
+  
+  If no key in the association list exists that is
+  @racket[key-equal?] to @racket[key], then attempting
+  to view an association list with the lens returns
+  @racket[#f] and setting a view appends a new pair
+  to the end of the association list
+  @lenses-examples[
+    (define assoc-d-lens (assoc-lens 'd))
+    (lens-view assoc-d-lens some-assoc-list)
+    (lens-set assoc-d-lens some-assoc-list 100)
+  ]
+  
+  The @racket[key-equal?] procedure is useful for
+  datatypes that have their own definition of
+  equality, such as strings.
+  @lenses-examples[
+    (define assoc-foo-lens (assoc-lens "foo" #:is-equal? string=?))
+    (lens-view assoc-foo-lens '(("bar" 1) ("foo" 2) ("baz" 3)))
+]}
