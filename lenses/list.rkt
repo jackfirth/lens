@@ -79,7 +79,12 @@
                 '((a 100) (b 2) (c 3)))
   (check-false (lens-view assoc-d-lens assoc-list))
   (check-equal? (lens-set assoc-d-lens assoc-list 4)
-                '((a 1) (b 2) (c 3) (d 4))))
+                '((a 1) (b 2) (c 3) (d 4)))
+  (define assoc-foo-lens (assoc-lens "foo"))
+  (define assoc-str '(("bar" 1) ("foo" 2) ("baz" 3)))
+  (check-equal? (lens-view assoc-foo-lens assoc-str) 2)
+  (check-equal? (lens-set assoc-foo-lens assoc-str 100)
+                '(("bar" 1) ("foo" 100) ("baz" 3))))
 
 (define (assv-lens assv-key)
   (assoc-lens assv-key #:is-equal? eqv?))
