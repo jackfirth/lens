@@ -68,12 +68,13 @@
     (if assoc-pair
         (assoc-set assoc-list key v #:is-equal? equal?)
         (append assoc-list (list (list key v)))))
-  (values assoc-pair assoc-lens-set))
+  (values (and assoc-pair (second assoc-pair))
+          assoc-lens-set))
 
 (module+ test
   (define assoc-a-lens (assoc-lens 'a))
   (define assoc-d-lens (assoc-lens 'd))
-  (check-equal? (lens-view assoc-a-lens assoc-list) '(a 1))
+  (check-equal? (lens-view assoc-a-lens assoc-list) 1)
   (check-equal? (lens-set assoc-a-lens assoc-list 100)
                 '((a 100) (b 2) (c 3)))
   (check-false (lens-view assoc-d-lens assoc-list))
