@@ -160,7 +160,7 @@ source code: @url["https://github.com/jackfirth/lenses"]
 ]}
 
 @defproc[(assv-lens [key any/c]) (lens/c (listof pair?) any/c)]{
-  Equivalent to @racket[(assov-lens key #:is-equal? eqv?)].
+  Equivalent to @racket[(assoc-lens key #:is-equal? eqv?)].
 }
 
 @defproc[(assq-lens [key any/c]) (lens/c (listof pair?) any/c)]{
