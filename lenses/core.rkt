@@ -28,6 +28,10 @@
               (-> subcomponent
                   input))))
 
+(module+ test
+  (define list-lens (lens/c list? any/c))
+  (check-pred chaperone-contract? list-lens))
+
 ;; Lens result local bindings syntax
 
 (define-syntax-rule (let-lens (view setter) lens-call-expr body ...)
@@ -86,6 +90,7 @@
   (define (num-append2 n m)
     (+ (* 10 n) m))
   (define num-append (generalize-operator num-append2))
-  (check-eqv? (num-append 1 2 3 4 5) 12345))
+  (check-eqv? (num-append 1 2 3 4 5) 12345)
+  (check-eqv? (num-append 1) 1))
 
 (define lens-compose (generalize-operator lens-compose2))
