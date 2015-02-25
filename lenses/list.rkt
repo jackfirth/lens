@@ -86,22 +86,3 @@
 
 (define (assq-lens assq-key)
   (assoc-lens assq-key #:is-equal? eq?))
-
-(define ((assf-lens predicate) assoc-list)
-  (define assf-pair (assf predicate assoc-list))
-  (define (assf-set new-assf-pair)
-    (if assf-pair
-        (assoc-swap assoc-list assf-pair new-assf-pair #:is-equal? eq?)
-        (append assoc-list (list new-assf-pair))))
-  (values assf-pair assf-set))
-
-(module+ test
-  (define assf>10-lens (assf-lens (λ (v) (> v 10))))
-  (define assf>100-lens (assf-lens (λ (v) (> v 100))))
-  (define assf-list '((1 a) (10 b) (100 c)))
-  (check-equal? (lens-view assf>10-lens assf-list) '(100 c))
-  (check-equal? (lens-set assf>10-lens assf-list '(FOO BAR))
-                '((1 a) (10 b) (FOO BAR)))
-  (check-false (lens-view assf>100-lens assf-list))
-  (check-equal? (lens-set assf>100-lens assf-list '(FOO BAR))
-                '((1 a) (10 b) (100 c) (FOO BAR))))
