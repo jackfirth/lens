@@ -1,3 +1,3 @@
 lenses [![Build Status](https://travis-ci.org/jackfirth/doc-coverage.svg?branch=master)](https://travis-ci.org/jackfirth/doc-coverage) [![Coverage Status](https://coveralls.io/repos/jackfirth/lenses/badge.svg)](https://coveralls.io/r/jackfirth/lenses)
 ===================================
-A Racket package for creating and composing pure functional lenses
+A Racket package for creating and composing pure functional lenses. A lens is a function that examines a small subpiece of some larger structure. When given a value of that larger structure, the lens returns two values: a *view* value, which is the subpiece, and a *context* function, which accepts a new view value and returns a new structure with the old view replaced by the new view. Think of them as composable, pure functional getters and setters. Examples can be found in the documentation, as soon as the package server finishes building it.
