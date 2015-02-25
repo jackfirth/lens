@@ -55,12 +55,12 @@
 
 ;; Composing a lens with a function to make a value-sensitive setter
 
-(define (lens-transform lens v f)
+(define (lens-transform lens f v)
   (let-lens (view setter) (lens v)
     (setter (f view))))
 
 (module+ test
-  (check-equal? (lens-transform second-lens '(1 2 3) number->string) '(1 "2" 3)))
+  (check-equal? (lens-transform second-lens number->string '(1 2 3)) '(1 "2" 3)))
 
 ;; Lens composition
 

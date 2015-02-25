@@ -77,8 +77,8 @@ source code: @url["https://github.com/jackfirth/lenses"]
 ]}
 
 @defproc[(lens-transform [lens (lens/c target/c view/c)]
-                         [target target/c]
-                         [transformer (-> view/c view/c)])
+                         [transformer (-> view/c view/c)]
+                         [target target/c])
          target/c]{
   Transforms the view of @racket[target] through the given @racket[lens]
   with the @racket[transformer] function. Equivalent to getting the
@@ -87,7 +87,7 @@ source code: @url["https://github.com/jackfirth/lenses"]
   to the return value of calling @racket[transformer] with the old
   view.
   @lenses-examples[
-    (lens-transform first-lens '(1 2 3) number->string)
+    (lens-transform first-lens number->string '(1 2 3))
 ]}
 
 @defproc[(lens-compose [lens proc] ...+) proc?]{
