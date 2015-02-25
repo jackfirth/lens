@@ -166,3 +166,20 @@ source code: @url["https://github.com/jackfirth/lenses"]
 @defproc[(assq-lens [key any/c]) (lens/c (listof pair?) any/c)]{
   Equivalent to @racket[(assoc-lens key #:is-equal? eq?)].
 }
+
+@section{Syntax lenses}
+
+@defform[(syntax-lens target-id structure)]{
+  Constructs a lens that parses a syntax object and returns
+  a piece of that syntax object as determined by where
+  @racket[target-id] appears in @racket[structure].
+  @lenses-examples[
+    (define first-of-second-stx-lens
+      (syntax-lens A
+        (_ (A _ ...) _ ...)))
+    (lens-view first-of-second-stx-lens
+               #'(foo (1 2 3) bar baz (blah blah)))
+    (lens-set first-of-second-stx-lens
+              #'(define (f a) a)
+              #'g)
+]}
