@@ -101,3 +101,28 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (lens-view first-of-second-lens '((1 a) (2 b) (3 c)))
     (lens-set first-of-second-lens '((1 a) (2 b) (3 c)) 200)
 ]}
+
+@section{List lenses}
+
+@defproc[(list-lens [n exact-nonnegative-integer?])
+         (lens/c list? any?)]{
+  Returns a lens for examining the @racket[n]th item of a list,
+  with indexing starting from zero.
+  @lenses-examples[
+    (lens-view (list-lens 3) '(a b c d e f g h))
+    (lens-set (list-lens 1) '(a b c d e f g h) 'FOO)
+]}
+
+@deftogether[(
+  @defthing[first-lens (lens/c list? any/c)]
+  @defthing[second-lens (lens/c list? any/c)]
+  @defthing[third-lens (lens/c list? any/c)]
+  @defthing[fourth-lens (lens/c list? any/c)]
+  @defthing[fifth-lens (lens/c list? any/c)])]{
+    Lenses for examiniming specific items of lists. Shorthands
+    for the common use cases of @racket[list-lens].
+    @lenses-examples[
+      (lens-view third-lens '(a b c d))
+      (lens-view (lens-compose second-lens fourth-lens)
+                 '((a 1) (b 2) (c 3) (d 4)))
+]}
