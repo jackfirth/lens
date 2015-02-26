@@ -89,5 +89,19 @@
 (define (assv-lens assv-key)
   (assoc-lens assv-key #:is-equal? eqv?))
 
+(module+ test
+  (define assv-2-lens (assv-lens 2))
+  (define assv-list '((1 a) (2 b) (3 c)))
+  (check-eq? (lens-view assv-2-lens assv-list) 'b)
+  (check-equal? (lens-set assv-2-lens assv-list 'FOO)
+                '((1 a) (2 FOO) (3 c))))
+
 (define (assq-lens assq-key)
   (assoc-lens assq-key #:is-equal? eq?))
+
+(module+ test
+  (define assq-a-lens (assq-lens 'a))
+  (define assq-list '((a 1) (b 2) (c 3)))
+  (check-eqv? (lens-view assq-a-lens assq-list) 1)
+  (check-equal? (lens-set assq-a-lens assq-list 100)
+                '((a 100) (b 2) (c 3))))
