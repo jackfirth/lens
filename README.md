@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/jackfirth/lenses.png?label=ready&title=Ready)](https://waffle.io/jackfirth/lenses)
 lenses [![Build Status](https://travis-ci.org/jackfirth/doc-coverage.svg?branch=master)](https://travis-ci.org/jackfirth/doc-coverage) [![Coverage Status](https://coveralls.io/repos/jackfirth/lenses/badge.svg)](https://coveralls.io/r/jackfirth/lenses)
 ===================================
 [Documentation](http://pkg-build.racket-lang.org/doc/lenses/index.html)
