@@ -1,10 +1,9 @@
 #lang racket
 
-(require "core.rkt"
-         "list.rkt"
-         "syntax.rkt")
+(require mischief)
 
-(provide
- (all-from-out "core.rkt"
-               "list.rkt"
-               "syntax.rkt"))
+(require/provide
+ "core.rkt"
+ "list.rkt"
+ "syntax.rkt"
+ "syntax-keyword.rkt")

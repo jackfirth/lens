@@ -9,6 +9,7 @@
 
 (provide syntax-lens)
 
+
 (define-syntax syntax-lens
   (syntax-parser
     [(_ target-name:id template)
@@ -25,6 +26,7 @@
   (check-equal? (syntax->datum (lens-view stx-lens stx)) 3)
   (define stx2 (lens-set stx-lens stx #'FOO))
   (check-equal? (syntax->datum stx2) '(a b (1 2 FOO 4 5) c d e f)))
+
 
 (begin-for-syntax
   

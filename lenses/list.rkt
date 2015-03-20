@@ -1,6 +1,6 @@
 #lang racket
 
-(require rackunit
+(require fancy-app
          "core.rkt")
 
 (provide list-lens
@@ -13,17 +13,25 @@
          assv-lens
          assq-lens)
 
-(define ((list-lens i) lst)
-  (define (list-set-first v)
-    (cons v (drop lst 1)))
-  (define (list-set-i v)
+(module+ test
+  (require rackunit))
+
+
+(define (list-set-first lst v)
+  (cons v (drop lst 1)))
+
+(define ((list-setter i) lst v)
     (append (take lst i)
             (list v)
             (drop lst (add1 i))))
-  (values (list-ref lst i)
-          (if (zero? i)
-              list-set-first
-              list-set-i)))
+
+(define (list-getter i)
+  (list-ref _ i))
+
+(define (list-lens i)
+  (make-lens (list-getter i)
+             (if (zero? i) list-set-first (list-setter i))))
+
 
 (define first-lens (list-lens 0))
 (define second-lens (list-lens 1))
@@ -43,6 +51,7 @@
   (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
   (check-equal? (lens-set fifth-lens '(1 2 3 4 5) 'a) '(1 2 3 4 a)))
 
+
 (define (assoc-swap assoc-list old-assoc-pair new-assoc-pair #:is-equal? [equal? equal?])
   (define (swap-assoc-pair assoc-pair)
     (if (equal? assoc-pair old-assoc-pair)
@@ -61,6 +70,7 @@
   (define assoc-list '((a 1) (b 2) (c 3)))
   (check-equal? (assoc-swap assoc-list '(b 2) '(FOO BAR))
                 '((a 1) (FOO BAR) (c 3))))
+
 
 (define ((assoc-lens key #:is-equal? [equal? equal?]) assoc-list)
   (define assoc-pair (assoc key assoc-list equal?))
@@ -86,6 +96,7 @@
   (check-equal? (lens-set assoc-foo-lens assoc-str 100)
                 '(("bar" 1) ("foo" 100) ("baz" 3))))
 
+
 (define (assv-lens assv-key)
   (assoc-lens assv-key #:is-equal? eqv?))
 
@@ -95,6 +106,7 @@
   (check-eq? (lens-view assv-2-lens assv-list) 'b)
   (check-equal? (lens-set assv-2-lens assv-list 'FOO)
                 '((1 a) (2 FOO) (3 c))))
+
 
 (define (assq-lens assq-key)
   (assoc-lens assq-key #:is-equal? eq?))

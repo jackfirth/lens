@@ -7,6 +7,7 @@
 
 @(define lenses-eval (make-base-eval))
 @(lenses-eval '(require "main.rkt"))
+@(lenses-eval '(require racket/list))
 @(define-syntax-rule (lenses-examples datum ...)
    (examples #:eval lenses-eval datum ...))
 
@@ -48,6 +49,20 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (first-lens '(1 2 3))
     (let-values ([(_ context) (first-lens '(1 2 3))])
       (context 'a))
+]}
+
+@defproc[(make-lens [getter (-> target/c view/c)]
+                    [setter (-> target/c view/c target/c)])
+         (lens/c target/c view/c)]{
+  Given a getter and a setter, constructs a lens. The setter must take
+  the new value to use second.
+  @lenses-examples[
+    (define (set-first lst v)
+      (list* v (rest lst)))
+    (set-first '(1 2 3) 'a)
+    (define first-lens (make-lens first set-first))
+    (lens-view first-lens '(1 2 3))
+    (lens-set first-lens '(1 2 3) 'a)
 ]}
 
 @defform[(let-lens (view-id context-id) lens-call-expr body ...)]{
@@ -182,4 +197,28 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (lens-set first-of-second-stx-lens
               #'(define (f a) a)
               #'g)
+]}
+
+@defproc[(syntax-keyword-seq-lens [kw keyword?])
+         (lens/c syntax? syntax?)]{
+  Constructs a lens that examines a non-flat syntax object
+  and views a syntax object containing all the terms in the
+  target syntax that appear after @racket[kw] but before any
+  other keyword.
+  @lenses-examples[
+    (define foo-kw-seq-lens (syntax-keyword-seq-lens '#:foo))
+    (lens-view foo-kw-seq-lens #'(a #:foo c d #:bar f))
+    (lens-set foo-kw-seq-lens #'(a #:foo c d #:bar f) #'(1 2 3 4 5 6))
+  ]
+  
+  If the target syntax object has no occurence of @racket[kw],
+  or if the occurence of @racket[kw] is at the end of the syntax
+  object or immediately followed by another keyword, then viewing
+  produces the empty list syntax object @racket[#'()]. In the case
+  where @racket[kw] is not present, setting is a no-op.
+  @lenses-examples[
+    (lens-view foo-kw-seq-lens #'(a b f g))
+    (lens-view foo-kw-seq-lens #'(a #:foo #:bar f))
+    (lens-set foo-kw-seq-lens #'(a #:foo #:bar f) #'(1 2 3 4 5 6))
+    (lens-set foo-kw-seq-lens #'(a b f g) #'(these are ignored))
 ]}

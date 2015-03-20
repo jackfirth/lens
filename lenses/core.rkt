@@ -1,8 +1,9 @@
 #lang racket
 
-(require rackunit)
+(require fancy-app)
 
 (provide lens/c
+         make-lens
          let-lens
          lens-view
          lens-set
@@ -10,17 +11,8 @@
          lens-compose)
 
 (module+ test
-  (define (first-lens lst)
-    (values (first lst)
-            (λ (v) (cons v (drop lst 1)))))
-  (define (second-lens lst)
-    (values (second lst)
-            (λ (v)
-              (append (take lst 1)
-                      (list v)
-                      (drop lst 2))))))
+  (require rackunit))
 
-;; Lens contract
 
 (define (lens/c input subcomponent)
   (-> input
@@ -32,7 +24,19 @@
   (define list-lens (lens/c list? any/c))
   (check-pred chaperone-contract? list-lens))
 
-;; Lens result local bindings syntax
+
+(define ((make-lens getter setter) v)
+  (values (getter v)
+          (setter v _)))
+
+(module+ test
+  (define (set-first l v)
+    (list* v (rest l)))
+  (define test-list '(1 2 3))
+  (define first-lens (make-lens first set-first))
+  (check-equal? (lens-view first-lens test-list) 1)
+  (check-equal? (lens-set first-lens test-list 'a) '(a 2 3)))
+
 
 (define-syntax-rule (let-lens (view setter) lens-call-expr body ...)
   (let-values ([(view setter) lens-call-expr])
@@ -43,7 +47,6 @@
     (check-eqv? view-first 1)
     (check-equal? (setter-first 'a) '(a 2 3 4 5))))
 
-;; Helpers for only working with one half of a lens
 
 (define (lens-view lens v)
   (let-lens (view _) (lens v)
@@ -54,19 +57,17 @@
     (setter x)))
 
 (module+ test
-  (check-eqv? (lens-view second-lens '(1 2 3)) 2)
-  (check-equal? (lens-set second-lens '(1 2 3) 'a) '(1 a 3)))
+  (check-eqv? (lens-view first-lens '(1 2 3)) 1)
+  (check-equal? (lens-set first-lens '(1 2 3) 'a) '(a 2 3)))
 
-;; Composing a lens with a function to make a value-sensitive setter
 
 (define (lens-transform lens f v)
   (let-lens (view setter) (lens v)
     (setter (f view))))
 
 (module+ test
-  (check-equal? (lens-transform second-lens number->string '(1 2 3)) '(1 "2" 3)))
+  (check-equal? (lens-transform first-lens number->string '(1 2 3)) '("1" 2 3)))
 
-;; Lens composition
 
 (define ((lens-compose2 sub-lens super-lens) v)
   (let-lens (super-view super-setter) (super-lens v)
@@ -75,11 +76,15 @@
               (compose super-setter sub-setter)))))
 
 (module+ test
+  (define (second-set l v)
+    (list* (first l) v (rest (rest l))))
+  (define second-lens (make-lens second second-set))
   (define first-of-second-lens (lens-compose2 first-lens second-lens))
   (define test-alist '((a 1) (b 2) (c 3)))
   (check-eq? (lens-view first-of-second-lens test-alist) 'b)
   (check-equal? (lens-set first-of-second-lens test-alist 'B)
                 '((a 1) (B 2) (c 3))))
+
 
 (define ((generalize-operator op) v . vs)
   (if (empty? vs)
@@ -92,5 +97,6 @@
   (define num-append (generalize-operator num-append2))
   (check-eqv? (num-append 1 2 3 4 5) 12345)
   (check-eqv? (num-append 1) 1))
+
 
 (define lens-compose (generalize-operator lens-compose2))
