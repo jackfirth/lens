@@ -72,7 +72,7 @@
                 '((a 1) (FOO BAR) (c 3))))
 
 
-(define ((assoc-lens key #:is-equal? [equal? equal?]) assoc-list)
+(define ((assoc-lens/proc key #:is-equal? equal?) assoc-list)
   (define assoc-pair (assoc key assoc-list equal?))
   (define (assoc-lens-set v)
     (if assoc-pair
@@ -80,6 +80,9 @@
         (append assoc-list (list (list key v)))))
   (values (and assoc-pair (second assoc-pair))
           assoc-lens-set))
+
+(define (assoc-lens key #:is-equal? [equal? equal?])
+  (lens-struct (assoc-lens/proc key #:is-equal? equal?)))
 
 (module+ test
   (define assoc-a-lens (assoc-lens 'a))

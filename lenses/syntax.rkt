@@ -10,7 +10,7 @@
 (provide syntax-lens)
 
 
-(define-syntax syntax-lens
+(define-syntax syntax-lens-proc
   (syntax-parser
     [(_ target-name:id template)
      (with-syntax* ([target ((target-stx #'target-name) #'template)]
@@ -19,6 +19,11 @@
        #'(syntax-parser
            [parse-pattern
             (values #'target rebuilder)]))]))
+
+(define-syntax syntax-lens
+  (syntax-parser
+    [(_ target-name:id template)
+     #'(lens-struct (syntax-lens-proc target-name template))]))
 
 (module+ test
   (define stx-lens (syntax-lens A (_ _ (_ _ A _ _) _ ...)))
