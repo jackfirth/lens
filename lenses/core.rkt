@@ -8,17 +8,51 @@
          lens-view
          lens-set
          lens-transform
-         lens-compose)
+         lens-compose
+         lens-struct
+         lens-proc
+         )
 
 (module+ test
   (require rackunit))
 
 
-(define (lens/c input subcomponent)
+(define (lens-proc/c input subcomponent)
   (-> input
       (values subcomponent
               (-> subcomponent
                   input))))
+
+(define lens-2-val-context-key
+  (make-continuation-mark-key 'lens-2-val-context-key))
+
+(struct lens-struct (proc)
+  #:property prop:procedure
+  (lambda (this target)
+    (call-with-immediate-continuation-mark
+     lens-2-val-context-key
+     (lambda (lens-2-val-context?)
+       (cond [lens-2-val-context?
+              ((lens-struct-proc this) target)]
+             [else
+              (lens-view (lens-struct-proc this) target)])))))
+
+(define (lens-proc lns)
+  (match lns
+    [(lens-struct proc) proc]
+    [(? procedure?  proc) proc]))
+
+(define (lens/c target/c view/c)
+  (define proc/c (lens-proc/c target/c view/c))
+  ;I would like to use if/c, but it produces an impersonator contract instead of a chaparone
+  ;(if/c lens?
+  ;      (struct/c lens proc/c)
+  ;      proc/c)
+  (or/c
+   (and/c lens-struct?
+          (struct/c lens-struct proc/c))
+   (and/c (not/c lens-struct?)
+          proc/c)))
 
 (module+ test
   (define list-lens (lens/c list? any/c))
@@ -27,7 +61,7 @@
 
 (define ((make-lens getter setter) v)
   (values (getter v)
-          (setter v _)))
+          (setter v _))) ; fancy-app
 
 (module+ test
   (define (set-first l v)
@@ -35,11 +69,17 @@
   (define test-list '(1 2 3))
   (define first-lens (make-lens first set-first))
   (check-equal? (lens-view first-lens test-list) 1)
-  (check-equal? (lens-set first-lens test-list 'a) '(a 2 3)))
+  (check-equal? (lens-set first-lens test-list 'a) '(a 2 3))
+  (define first* (lens-struct first-lens))
+  (check-equal? (first* test-list) 1)
+  (check-equal? (lens-view first* test-list) 1)
+  (check-equal? (lens-set first* test-list 'a) '(a 2 3))
+  )
 
 
 (define-syntax-rule (let-lens (view setter) lens-call-expr body ...)
-  (let-values ([(view setter) lens-call-expr])
+  (let-values ([(view setter) (with-continuation-mark lens-2-val-context-key #t
+                                lens-call-expr)])
     body ...))
 
 (module+ test
