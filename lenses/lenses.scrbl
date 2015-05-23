@@ -27,7 +27,8 @@ source code: @url["https://github.com/jackfirth/lenses"]
 @section{Core Lens Forms}
 
 @defproc[(lens/c [target/c contract?] [view/c contract?]) contract?]{
-  Contract constructor for lenses. A lens is a function that takes one
+  Contract constructor for lenses. A lens is either a function or
+  @racket[lens-struct] containing that function. The function takes one
   value, its @italic{target}, and returns two values, a @italic{view}
   and a @italic{context}. The context is a function that takes a new view
   value and "replaces" the old view value with the new value, giving a
@@ -35,8 +36,8 @@ source code: @url["https://github.com/jackfirth/lenses"]
   specific piece of a @racket[target/c] that is a @racket[view/c],
   along with a way to replace that piece with a new view value. Lenses
   deconstruct and reconstruct data by examinimg small portions of their
-  structure. In terms of contracts, a @racket[(lens/c target/c view/c)]
-  is equivalent to the following function contract:
+  structure. In terms of contracts, @racket[(lens/c target/c view/c)]
+  checks the function with following function contract:
   @racketblock[
     (-> target/c
         (values view/c
@@ -46,10 +47,23 @@ source code: @url["https://github.com/jackfirth/lenses"]
   An example is the @racket[first-lens], which is a lens for examiniming
   specifically the first item in a list:
   @lenses-examples[
-    (first-lens '(1 2 3))
-    (let-values ([(_ context) (first-lens '(1 2 3))])
+    (define first-lens-proc (lens-proc first-lens))
+    (first-lens-proc '(1 2 3))
+    (let-values ([(_ context) (first-lens-proc '(1 2 3))])
       (context 'a))
-]}
+    (let-lens (_ context) (first-lens '(1 2 3))
+      (context 'a))
+  ]
+
+  Lenses that are instances of the lens struct can also be used directly
+  as getter procedures:
+  @lenses-examples[
+    (define first-lens* (lens-struct first-lens))
+    (first-lens* '(1 2 3))
+    (let-lens (fst context) (first-lens* '(1 2 3))
+      (values fst (context 'a)))
+  ]
+}
 
 @defproc[(make-lens [getter (-> target/c view/c)]
                     [setter (-> target/c view/c target/c)])
@@ -66,9 +80,8 @@ source code: @url["https://github.com/jackfirth/lenses"]
 ]}
 
 @defform[(let-lens (view-id context-id) lens-call-expr body ...)]{
-  Restricted form of @racket[let-values] specifically for working with
-  the return values of a lens function. This is purely for semantic
-  clarity and to eliminate a few extra parens.
+  Gets the two return values of a lens function and binds them to the
+  given identifiers within the body expressions.
   @lenses-examples[
     (let-lens (view context) (first-lens '(1 2 3))
       (printf "View is ~a\n" view)
@@ -105,7 +118,7 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (lens-transform first-lens number->string '(1 2 3))
 ]}
 
-@defproc[(lens-compose [lens proc] ...+) proc?]{
+@defproc[(lens-compose [lens proc] ...) lens?]{
   Composes the given lenses together into one @italic{compound lens}.
   The compound lens operates similarly to composed functions do in
   that the last @racket[lens] is the first @racket[lens] the compound
@@ -116,6 +129,10 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (lens-view first-of-second-lens '((1 a) (2 b) (3 c)))
     (lens-set first-of-second-lens '((1 a) (2 b) (3 c)) 200)
 ]}
+
+@defthing[identity-lens (lens/c any/c any/c)]{
+The identity lens.
+}
 
 @section{List lenses}
 
@@ -222,3 +239,15 @@ source code: @url["https://github.com/jackfirth/lenses"]
     (lens-set foo-kw-seq-lens #'(a #:foo #:bar f) #'(1 2 3 4 5 6))
     (lens-set foo-kw-seq-lens #'(a b f g) #'(these are ignored))
 ]}
+
+@section{Lens Structs}
+
+@defproc[(lens-struct [proc procedure?]) lens-struct?]{
+Wraps a lens function in the lens struct. The result lens can also be
+used directly as a getter procedure.
+}
+
+@defproc[(lens-proc [lens lens?]) procedure?]{
+Gets a lens function. If @racket[lens] is a lens function but not a lens
+struct, returns the @racket[lens].
+}
