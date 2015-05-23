@@ -63,6 +63,9 @@
   (values (getter v)
           (setter v _))) ; fancy-app
 
+(define identity-lens
+  (values _ identity)) ; fancy-app
+
 (module+ test
   (define (set-first l v)
     (list* v (rest l)))
@@ -70,6 +73,9 @@
   (define first-lens (make-lens first set-first))
   (check-equal? (lens-view first-lens test-list) 1)
   (check-equal? (lens-set first-lens test-list 'a) '(a 2 3))
+  (check-equal? (lens-view identity-lens 3) 3)
+  (check-equal? (lens-set identity-lens 3 4) 4)
+  (check-equal? (lens-compose) identity-lens)
   (define first* (lens-struct first-lens))
   (check-equal? (first* test-list) 1)
   (check-equal? (lens-view first* test-list) 1)
@@ -119,7 +125,7 @@
   (define (second-set l v)
     (list* (first l) v (rest (rest l))))
   (define second-lens (make-lens second second-set))
-  (define first-of-second-lens (lens-compose2 first-lens second-lens))
+  (define first-of-second-lens (lens-compose first-lens second-lens))
   (define test-alist '((a 1) (b 2) (c 3)))
   (check-eq? (lens-view first-of-second-lens test-alist) 'b)
   (check-equal? (lens-set first-of-second-lens test-alist 'B)
@@ -139,4 +145,11 @@
   (check-eqv? (num-append 1) 1))
 
 
-(define lens-compose (generalize-operator lens-compose2))
+(define lens-compose-proc (generalize-operator lens-compose2))
+
+(define lens-compose
+  (case-lambda
+    [() identity-lens]
+    [(v . vs)
+     (apply lens-compose-proc v vs)]))
+
