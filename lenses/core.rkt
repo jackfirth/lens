@@ -59,12 +59,15 @@
   (check-pred chaperone-contract? list-lens))
 
 
-(define ((make-lens getter setter) v)
+(define ((make-lens-proc getter setter) v)
   (values (getter v)
           (setter v _))) ; fancy-app
 
+(define (make-lens getter setter)
+  (lens-struct (make-lens-proc getter setter)))
+
 (define identity-lens
-  (values _ identity)) ; fancy-app
+  (lens-struct (values _ identity))) ; fancy-app
 
 (module+ test
   (define (set-first l v)
@@ -73,13 +76,16 @@
   (define first-lens (make-lens first set-first))
   (check-equal? (lens-view first-lens test-list) 1)
   (check-equal? (lens-set first-lens test-list 'a) '(a 2 3))
+  (check-equal? (first-lens test-list) 1)
   (check-equal? (lens-view identity-lens 3) 3)
   (check-equal? (lens-set identity-lens 3 4) 4)
+  (check-equal? (identity-lens 3) 3)
   (check-equal? (lens-compose) identity-lens)
-  (define first* (lens-struct first-lens))
-  (check-equal? (first* test-list) 1)
-  (check-equal? (lens-view first* test-list) 1)
-  (check-equal? (lens-set first* test-list 'a) '(a 2 3))
+  (define first-lens-proc (lens-proc first-lens))
+  (check-equal? (lens-proc first-lens-proc) first-lens-proc)
+  (let-values ([(a b) (first-lens-proc '(1 2 3))])
+    (check-equal? a 1)
+    (check-equal? (b 'a) '(a 2 3)))
   )
 
 
@@ -90,6 +96,9 @@
 
 (module+ test
   (let-lens (view-first setter-first) (first-lens '(1 2 3 4 5))
+    (check-eqv? view-first 1)
+    (check-equal? (setter-first 'a) '(a 2 3 4 5)))
+  (let-lens (view-first setter-first) (if #t (first-lens '(1 2 3 4 5)) (values 1 2))
     (check-eqv? view-first 1)
     (check-equal? (setter-first 'a) '(a 2 3 4 5))))
 
@@ -115,7 +124,7 @@
   (check-equal? (lens-transform first-lens number->string '(1 2 3)) '("1" 2 3)))
 
 
-(define ((lens-compose2 sub-lens super-lens) v)
+(define ((lens-compose2-proc sub-lens super-lens) v)
   (let-lens (super-view super-setter) (super-lens v)
     (let-lens (sub-view sub-setter) (sub-lens super-view)
       (values sub-view
@@ -145,11 +154,11 @@
   (check-eqv? (num-append 1) 1))
 
 
-(define lens-compose-proc (generalize-operator lens-compose2))
+(define lens-compose-proc (generalize-operator lens-compose2-proc))
 
 (define lens-compose
   (case-lambda
     [() identity-lens]
     [(v . vs)
-     (apply lens-compose-proc v vs)]))
+     (lens-struct (apply lens-compose-proc v vs))]))
 
