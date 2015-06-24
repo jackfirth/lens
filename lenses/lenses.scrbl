@@ -251,3 +251,12 @@ used directly as a getter procedure.
 Gets a lens function. If @racket[lens] is a lens function but not a lens
 struct, returns the @racket[lens].
 }
+
+@section{lenses/applicable}
+
+@defmodule[lenses/applicable]
+
+This module provides the same functions as @racketmodname[lenses], but lenses
+are provided as applicable lens structs, and functions that return lenses return
+lens structs.
+
