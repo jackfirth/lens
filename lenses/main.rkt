@@ -1,9 +1,16 @@
 #lang racket
 
-(require mischief)
+(require
+  "core.rkt"
+  "list.rkt"
+  "syntax.rkt"
+  "syntax-keyword.rkt")
 
-(require/provide
- "core.rkt"
- "list.rkt"
- "syntax.rkt"
- "syntax-keyword.rkt")
+(provide
+ (except-out
+  (all-from-out
+   "core.rkt"
+   "list.rkt"
+   "syntax.rkt"
+   "syntax-keyword.rkt")
+  lens-application-context?))
