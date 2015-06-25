@@ -1,12 +1,14 @@
 #lang racket
 
 (require "main.rkt"
-         "core.rkt")
+         "core/main.rkt")
 
-(lens-application-context? #t)
+(use-applicable-lenses!)
 
 (provide (all-from-out "main.rkt"))
 
 (module+ test
   (require rackunit)
-  (check-equal? (identity-lens 3) 3))
+  (check-equal? (identity-lens 3) 3)
+  (check-equal? (lens-view identity-lens 3) 3)
+  (check-equal? (lens-set identity-lens 3 'a) 'a))

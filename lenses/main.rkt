@@ -1,16 +1,14 @@
 #lang racket
 
 (require
-  "core.rkt"
+  "core/main.rkt"
   "list.rkt"
   "syntax.rkt"
   "syntax-keyword.rkt")
 
 (provide
- (except-out
   (all-from-out
-   "core.rkt"
+   "core/main.rkt"
    "list.rkt"
    "syntax.rkt"
-   "syntax-keyword.rkt")
-  lens-application-context?))
+   "syntax-keyword.rkt"))
