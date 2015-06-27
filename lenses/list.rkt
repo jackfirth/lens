@@ -1,43 +1,105 @@
 #lang racket
 
-(require fancy-app
-         "core.rkt")
+(require racket/match
+         syntax/parse/define
+         fancy-app
+         srfi/1
+         "core.rkt"
+         (for-syntax racket/base
+                     syntax/parse
+                     racket/syntax
+                     ))
 
-(provide list-lens
+(provide car-lens
+         cdr-lens
+         take-lens
+         drop-lens
+         list-ref-lens
+         list-lens
          first-lens
          second-lens
          third-lens
          fourth-lens
          fifth-lens
+         sixth-lens
+         seventh-lens
+         eighth-lens
+         nineth-lens
+         tenth-lens
+         ;; cadr-lens etc. provided by macro
          assoc-lens
          assv-lens
-         assq-lens)
+         assq-lens
+         )
 
 (module+ test
   (require rackunit))
 
+(define (car-lens v)
+  (match-define (cons car cdr) v)
+  (values car (cons _ cdr))) ; fancy-app
 
-(define (list-set-first lst v)
-  (cons v (drop lst 1)))
+(define (cdr-lens v)
+  (match-define (cons car cdr) v)
+  (values cdr (cons car _)))
 
-(define ((list-setter i) lst v)
-    (append (take lst i)
-            (list v)
-            (drop lst (add1 i))))
+(define ((take-lens n) lst)
+  (define-values [fst-lst rst-lst] (split-at lst n))
+  (values fst-lst (append _ rst-lst)))
 
-(define (list-getter i)
-  (list-ref _ i))
+(define ((drop-lens n) lst)
+  (define-values [fst-lst rst-lst] (split-at-reverse lst n))
+  (values rst-lst (append-reverse fst-lst _)))
+
+(define (list-ref-lens i)
+  (lens-compose car-lens (drop-lens i)))
 
 (define (list-lens i)
-  (make-lens (list-getter i)
-             (if (zero? i) list-set-first (list-setter i))))
+  (list-ref-lens i))
+
+;; modified from split-at in racket/list
+(define (split-at-reverse list0 n0)
+  (let loop ([list list0] [n n0] [rev-pfx '()])
+    (cond [(zero? n) (values rev-pfx list)]
+          [(pair? list) (loop (cdr list) (sub1 n) (cons (car list) rev-pfx))]
+          [else (raise-arguments-error
+                 'split-at-reverse
+                 (if (list? list0) "index is too large for list" "index reaches a non-pair")
+                 "index" n0
+                 (if (list? list0) "list" "in")
+                 list0)])))
 
 
-(define first-lens (list-lens 0))
-(define second-lens (list-lens 1))
-(define third-lens (list-lens 2))
-(define fourth-lens (list-lens 3))
-(define fifth-lens (list-lens 4))
+(define first-lens (list-ref-lens 0))
+(define second-lens (list-ref-lens 1))
+(define third-lens (list-ref-lens 2))
+(define fourth-lens (list-ref-lens 3))
+(define fifth-lens (list-ref-lens 4))
+(define sixth-lens (list-ref-lens 5))
+(define seventh-lens (list-ref-lens 6))
+(define eighth-lens (list-ref-lens 7))
+(define nineth-lens (list-ref-lens 8))
+(define tenth-lens (list-ref-lens 9))
+
+(define (c_r->lens sym)
+  (apply lens-compose
+         (for/list ([char (in-string (symbol->string sym))])
+           (case char [(#\a) car-lens] [(#\d) cdr-lens]))))
+(define-simple-macro (define-c_r-lens id:id)
+  #:with c_r-lens (format-id #'id "c~ar-lens" #'id #:source #'id #:props #'id)
+  (begin (provide c_r-lens) (define c_r-lens (c_r->lens 'id))))
+(define-simple-macro (define-c_r-lenses id:id ...)
+  (begin (define-c_r-lens id) ...))
+
+(define-c_r-lenses
+  aa ad da dd
+  aaa aad ada add
+  daa dad dda ddd
+  aaaa aaad aada aadd
+  adaa adad adda addd
+  daaa daad dada dadd
+  ddaa ddad ddda dddd
+  )
 
 (module+ test
   (check-eqv? (lens-view first-lens '(1 2 3 4 5)) 1)
@@ -49,7 +111,10 @@
   (check-equal? (lens-set second-lens '(1 2 3 4 5) 'a) '(1 a 3 4 5))
   (check-equal? (lens-set third-lens '(1 2 3 4 5) 'a) '(1 2 a 4 5))
   (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
-  (check-equal? (lens-set fifth-lens '(1 2 3 4 5) 'a) '(1 2 3 4 a)))
+  (check-equal? (lens-set fifth-lens '(1 2 3 4 5) 'a) '(1 2 3 4 a))
+  (check-equal? (lens-transform cdaddr-lens list->vector '(9 8 (6 5 4 3 2 1) 7))
+                '(9 8 (6 . #(5 4 3 2 1)) 7))
+  )
 
 
 (define (assoc-swap assoc-list old-assoc-pair new-assoc-pair #:is-equal? [equal? equal?])
