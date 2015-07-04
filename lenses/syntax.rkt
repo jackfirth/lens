@@ -2,7 +2,7 @@
 
 (require syntax/parse
          rackunit
-         "core/main.rkt"
+         "core.rkt"
          (for-syntax racket/syntax
                      syntax/stx
                      syntax/parse))
@@ -10,30 +10,15 @@
 (provide syntax-lens)
 
 
-(define-syntax syntax-lens-getter
-  (syntax-parser
-    [(_ target-name:id template)
-     (with-syntax ([target ((target-stx #'target-name) #'template)]
-                   [parse-pattern (template->pattern #'template)])
-       #'(syntax-parser
-           [parse-pattern #'target]))]))
-
-(define-syntax syntax-lens-setter
+(define-syntax syntax-lens
   (syntax-parser
     [(_ target-name:id template)
      (with-syntax* ([target ((target-stx #'target-name) #'template)]
                     [parse-pattern (template->pattern #'template)]
                     [rebuilder ((template-rebuilder #'target-name) #'parse-pattern)])
-       #'(lambda (stx v)
-           (syntax-parse stx
-             [parse-pattern (rebuilder v)])))]))
-
-(define-syntax syntax-lens
-  (syntax-parser
-    [(_ target-name:id template)
-     #'(let ([getter (syntax-lens-getter target-name template)]
-             [setter (syntax-lens-setter target-name template)])
-         (make-lens getter setter))]))
+       #'(syntax-parser
+           [parse-pattern
+            (values #'target rebuilder)]))]))
 
 (module+ test
   (define stx-lens (syntax-lens A (_ _ (_ _ A _ _) _ ...)))
