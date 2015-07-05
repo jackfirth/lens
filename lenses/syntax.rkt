@@ -10,15 +10,32 @@
 (provide syntax-lens)
 
 
-(define-syntax syntax-lens
+(define-syntax syntax-lens-getter
+  (syntax-parser
+    [(_ target-name:id template)
+     (with-syntax* ([target ((target-stx #'target-name) #'template)]
+                    [parse-pattern (template->pattern #'template)])
+       #'(syntax-parser
+           [parse-pattern
+            #'target]))]))
+
+(define-syntax syntax-lens-setter
   (syntax-parser
     [(_ target-name:id template)
      (with-syntax* ([target ((target-stx #'target-name) #'template)]
                     [parse-pattern (template->pattern #'template)]
                     [rebuilder ((template-rebuilder #'target-name) #'parse-pattern)])
-       #'(syntax-parser
-           [parse-pattern
-            (values #'target rebuilder)]))]))
+       #'(λ (stx new-view)
+           (syntax-parse stx
+             [parse-pattern
+              (rebuilder new-view)])))]))
+
+
+(define-syntax syntax-lens
+  (syntax-parser
+    [(_ target-name:id template)
+     #'(make-lens (syntax-lens-getter target-name template)
+                  (syntax-lens-setter target-name template))]))
 
 (module+ test
   (define stx-lens (syntax-lens A (_ _ (_ _ A _ _) _ ...)))
