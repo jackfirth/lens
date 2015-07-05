@@ -12,26 +12,49 @@
          sixth-lens
          seventh-lens
          eighth-lens
-         nineth-lens
-         tenth-lens
-         )
+         ninth-lens
+         tenth-lens)
 
 (require racket/list
-         (only-in srfi/1 append-reverse)
          fancy-app
          "../core/main.rkt"
-         "car-cdr.rkt"
-         )
+         "car-cdr.rkt")
+
 (module+ test
   (require rackunit))
 
-(define ((take-lens n) lst)
-  (define-values [fst-lst rst-lst] (split-at lst n))
-  (values fst-lst (append _ rst-lst)))
 
-(define ((drop-lens n) lst)
-  (define-values [fst-lst rst-lst] (split-at-reverse lst n))
-  (values rst-lst (append-reverse fst-lst _)))
+(define (set-take n lst new-head)
+  (append new-head (drop lst n)))
+
+(module+ test
+  (check-equal? (set-take 2 '(1 2 3 4 5) '(a b)) '(a b 3 4 5)))
+
+
+(define (set-drop n lst new-tail)
+  (append (take lst n) new-tail))
+
+(module+ test
+  (check-equal? (set-drop 2 '(1 2 3 4 5) '(a b c)) '(1 2 a b c)))
+
+
+(define (take-lens n)
+  (make-lens (take _ n) (set-take n _ _)))
+
+(module+ test
+  (define take2-lens (take-lens 2))
+  (check-equal? (lens-view take2-lens '(1 2 3 4 5)) '(1 2))
+  (check-equal? (lens-set take2-lens '(1 2 3 4 5) '(a b)) '(a b 3 4 5)))
+
+
+(define (drop-lens n)
+  (make-lens (drop _ n) (set-drop n _ _)))
+
+(module+ test
+  (define drop2-lens (drop-lens 2))
+  (check-equal? (lens-view drop2-lens '(1 2 3 4 5)) '(3 4 5))
+  (check-equal? (lens-set drop2-lens '(1 2 3 4 5) '(a b c)) '(1 2 a b c)))
+
 
 (define (list-ref-lens i)
   (lens-compose car-lens (drop-lens i)))
@@ -47,8 +70,9 @@
 (define sixth-lens (list-ref-lens 5))
 (define seventh-lens (list-ref-lens 6))
 (define eighth-lens (list-ref-lens 7))
-(define nineth-lens (list-ref-lens 8))
+(define ninth-lens (list-ref-lens 8))
 (define tenth-lens (list-ref-lens 9))
+
 
 (module+ test
   (check-eqv? (lens-view first-lens  '(1 2 3 4 5)) 1)
@@ -62,20 +86,4 @@
   (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
   (check-equal? (lens-set fifth-lens  '(1 2 3 4 5) 'a) '(1 2 3 4 a))
   (check-equal? (lens-transform* '(a (b c) (d e f)) (list-ref-nested-lens 2 1) symbol->string)
-                '(a (b c) (d "e" f)))
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; modified from split-at in racket/list
-(define (split-at-reverse list0 n0)
-  (let loop ([list list0] [n n0] [rev-pfx '()])
-    (cond [(zero? n) (values rev-pfx list)]
-          [(pair? list) (loop (cdr list) (sub1 n) (cons (car list) rev-pfx))]
-          [else (raise-arguments-error
-                 'split-at-reverse
-                 (if (list? list0) "index is too large for list" "index reaches a non-pair")
-                 "index" n0
-                 (if (list? list0) "list" "in")
-                 list0)])))
-
+                '(a (b c) (d "e" f))))
