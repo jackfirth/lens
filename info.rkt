@@ -6,7 +6,9 @@
 (define deps
   '("base"
     "rackunit-lib"
-    "fancy-app"))
+    "fancy-app"
+    "alexis-util"
+    ))
 
 
 (define build-deps
