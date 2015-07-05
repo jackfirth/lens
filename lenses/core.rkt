@@ -1,6 +1,6 @@
 #lang racket
 
-(require fancy-app)
+(require fancy-app unstable/contract)
 
 (provide lens/c
          make-lens
@@ -8,26 +8,59 @@
          lens-view
          lens-set
          lens-transform
-         lens-compose)
+         lens-compose
+         identity-lens
+         lens-struct
+         lens-proc
+         )
 
 (module+ test
   (require rackunit))
 
 
-(define (lens/c input subcomponent)
+(define (lens-proc/c input subcomponent)
   (-> input
       (values subcomponent
               (-> subcomponent
                   input))))
 
+(define lens-2-val-context-key
+  (make-continuation-mark-key 'lens-2-val-context-key))
+
+(define-syntax-rule (let/immediate-mark key-expr val-id body-expr ...)
+  (call-with-immediate-continuation-mark key-expr (lambda (val-id) body-expr ...)))
+
+(struct lens-struct (proc)
+  #:property prop:procedure
+  (lambda (this target)
+    (let/immediate-mark lens-2-val-context-key lens-2-val-context?
+      (if lens-2-val-context?
+          ((lens-struct-proc this) target)
+          (lens-view (lens-struct-proc this) target)))))
+
+(define (lens-proc lns)
+  (match lns
+    [(lens-struct proc) proc]
+    [(? procedure?  proc) proc]))
+
+(define (lens/c target/c view/c)
+  (define proc/c (lens-proc/c target/c view/c))
+  (if/c lens-struct?
+        (struct/c lens-struct proc/c)
+        proc/c))
+
 (module+ test
-  (define list-lens (lens/c list? any/c))
-  (check-pred chaperone-contract? list-lens))
+  (define list-lens/c (lens/c list? any/c))
+  (check-true (contract? list-lens/c))
+  (check-false (flat-contract? list-lens/c)))
 
 
 (define ((make-lens getter setter) v)
   (values (getter v)
-          (setter v _)))
+          (setter v _))) ; fancy-app
+
+(define identity-lens
+  (values _ identity)) ; fancy-app
 
 (module+ test
   (define (set-first l v)
@@ -35,11 +68,20 @@
   (define test-list '(1 2 3))
   (define first-lens (make-lens first set-first))
   (check-equal? (lens-view first-lens test-list) 1)
-  (check-equal? (lens-set first-lens test-list 'a) '(a 2 3)))
+  (check-equal? (lens-set first-lens test-list 'a) '(a 2 3))
+  (check-equal? (lens-view identity-lens 3) 3)
+  (check-equal? (lens-set identity-lens 3 4) 4)
+  (check-equal? (lens-compose) identity-lens)
+  (define first* (lens-struct first-lens))
+  (check-equal? (first* test-list) 1)
+  (check-equal? (lens-view first* test-list) 1)
+  (check-equal? (lens-set first* test-list 'a) '(a 2 3))
+  )
 
 
 (define-syntax-rule (let-lens (view setter) lens-call-expr body ...)
-  (let-values ([(view setter) lens-call-expr])
+  (let-values ([(view setter) (with-continuation-mark lens-2-val-context-key #t
+                                lens-call-expr)])
     body ...))
 
 (module+ test
@@ -79,7 +121,7 @@
   (define (second-set l v)
     (list* (first l) v (rest (rest l))))
   (define second-lens (make-lens second second-set))
-  (define first-of-second-lens (lens-compose2 first-lens second-lens))
+  (define first-of-second-lens (lens-compose first-lens second-lens))
   (define test-alist '((a 1) (b 2) (c 3)))
   (check-eq? (lens-view first-of-second-lens test-alist) 'b)
   (check-equal? (lens-set first-of-second-lens test-alist 'B)
@@ -99,4 +141,11 @@
   (check-eqv? (num-append 1) 1))
 
 
-(define lens-compose (generalize-operator lens-compose2))
+(define lens-compose-proc (generalize-operator lens-compose2))
+
+(define lens-compose
+  (case-lambda
+    [() identity-lens]
+    [(v . vs)
+     (apply lens-compose-proc v vs)]))
+
