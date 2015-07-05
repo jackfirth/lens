@@ -11,11 +11,11 @@
 
 
 (define (lens-view lens v)
-  (let-lens (view _) (lens v)
+  (let-lens (view _) lens v
     view))
 
 (define (lens-set lens v x)
-  (let-lens (_ setter) (lens v)
+  (let-lens (_ setter) lens v
     (setter x)))
 
 (define (lens-view* v . lenses)

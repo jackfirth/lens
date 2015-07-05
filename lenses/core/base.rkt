@@ -7,49 +7,41 @@
 
 (provide let-lens
          make-lens
-         lens-proc
-         (struct-out lens-struct))
+         apply-lens
+         use-applicable-lenses!
+         (rename-out [lens-struct? lens?]))
 
 
-(define lens-2-val-context-key
-  (make-continuation-mark-key 'lens-2-val-context-key))
+(define lens-app-context? (make-parameter #f))
 
-(define-syntax-rule (let/immediate-mark [val-id key-expr] body-expr ...)
-  (call-with-immediate-continuation-mark key-expr (lambda (val-id) body-expr ...)))
+(define (use-applicable-lenses!)
+  (lens-app-context? #t))
 
-
-(define (first-value v _) v)
-
-
-(struct lens-struct (proc)
+(struct lens-struct (get set)
   #:property prop:procedure
   (lambda (this target)
-    (let/immediate-mark [lens-2-val-context? lens-2-val-context-key]
-      (if lens-2-val-context?
-          ((lens-struct-proc this) target)
-          (call-with-values (thunk ((lens-struct-proc this) target))
-                            first-value)))))
-
-(define (lens-proc lns)
-  (match lns
-    [(lens-struct proc) proc]
-    [(? procedure?  proc) proc]))
-
-(define ((make-lens getter setter) v)
-  (values (getter v)
-          (setter v _))) ; fancy-app
+    (if (lens-app-context?)
+        ((lens-struct-get this) target)
+        (raise "cannot apply a non-applicable lens as a function"))))
 
 
-(define-syntax-rule (let-lens (view setter) lens-call-expr body ...)
-  (let-values ([(view setter) (with-continuation-mark lens-2-val-context-key #t
-                                lens-call-expr)])
+(define (make-lens getter setter)
+  (lens-struct getter setter))
+
+(define (apply-lens lens target)
+  (match-define (lens-struct get set) lens)
+  (values (get target)
+          (set target _)))
+
+
+(define-syntax-rule (let-lens (view setter) lens-expr target-expr body ...)
+  (let-values ([(view setter) (apply-lens lens-expr target-expr)])
     body ...))
 
 (module+ test
   (define (set-first l v)
     (list* v (rest l)))
   (define first-lens (make-lens first set-first))
-  (let-lens (view-first setter-first) (first-lens '(1 2 3 4 5))
+  (let-lens (view-first setter-first) first-lens '(1 2 3 4 5)
     (check-eqv? view-first 1)
     (check-equal? (setter-first 'a) '(a 2 3 4 5))))
-
