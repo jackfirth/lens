@@ -6,6 +6,9 @@
 (module+ test
   (require rackunit))
 
+(provide lens/c
+         lens-proc/c)
+
 
 (define (lens-proc/c input subcomponent)
   (-> input
