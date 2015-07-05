@@ -1,7 +1,5 @@
 #lang racket
 
-(require mischief)
-
 (require "base.rkt"
          "view-set.rkt"
          "contract.rkt"
