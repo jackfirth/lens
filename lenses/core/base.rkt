@@ -7,6 +7,7 @@
 
 (provide let-lens
          make-lens
+         lens-proc
          (struct-out lens-struct))
 
 
