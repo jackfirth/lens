@@ -3,7 +3,7 @@
 (require mischief)
 
 (require/provide
- "core.rkt"
- "list.rkt"
+ "core/main.rkt"
+ "list/main.rkt"
  "syntax.rkt"
  "syntax-keyword.rkt")

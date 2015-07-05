@@ -18,7 +18,7 @@
 (require racket/list
          (only-in srfi/1 append-reverse)
          fancy-app
-         "../core.rkt"
+         "../core/main.rkt"
          "car-cdr.rkt"
          )
 (module+ test
