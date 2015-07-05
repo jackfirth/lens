@@ -1,9 +1,16 @@
 #lang racket
 
-(require mischief)
+(require
+  "core/main.rkt"
+  "assoc.rkt"
+  "list.rkt"
+  "syntax.rkt"
+  "syntax-keyword.rkt")
 
-(require/provide
- "core.rkt"
- "list.rkt"
- "syntax.rkt"
- "syntax-keyword.rkt")
+(provide
+  (all-from-out
+   "core/main.rkt"
+   "assoc.rkt"
+   "list.rkt"
+   "syntax.rkt"
+   "syntax-keyword.rkt"))
