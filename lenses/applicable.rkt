@@ -3,9 +3,16 @@
 (provide (all-defined-out)
          lens/c let-lens lens-view lens-set lens-transform lens-struct lens-proc)
 
-(require (prefix-in - "main.rkt")
+(require syntax/parse/define
+         (prefix-in - "main.rkt")
          (only-in "main.rkt"
                   lens/c let-lens lens-view lens-set lens-transform lens-struct lens-proc))
+
+(define-simple-macro (lens-lambda (tgt:id) body:expr ...+)
+  (lens-struct (lambda (tgt) body ...)))
+
+(define-simple-macro (define-lens (lens:id tgt:id) body:expr ...+)
+  (define lens (lens-lambda (tgt) body ...)))
 
 (define (make-lens getter setter)
   (lens-struct (-make-lens getter setter)))
