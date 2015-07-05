@@ -22,7 +22,11 @@
   (lambda (this target)
     (if (lens-app-context?)
         ((lens-struct-get this) target)
-        (raise "cannot apply a non-applicable lens as a function"))))
+        (error "cannot apply a non-applicable lens as a function"))))
+
+(module+ test
+  (require rackunit)
+  (check-exn exn:fail? (thunk (first-lens '(a b c)))))
 
 
 (define (make-lens getter setter)
