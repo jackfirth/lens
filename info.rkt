@@ -6,8 +6,7 @@
 (define deps
   '("base"
     "rackunit-lib"
-    "fancy-app"
-    "mischief"))
+    "fancy-app"))
 
 
 (define build-deps
