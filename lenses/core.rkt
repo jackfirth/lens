@@ -1,14 +1,18 @@
 #lang racket
 
-(require fancy-app unstable/contract)
+(require racket/match fancy-app unstable/contract unstable/sequence)
 
 (provide lens/c
          make-lens
          let-lens
          lens-view
+         lens-view*
          lens-set
+         lens-set*
          lens-transform
+         lens-transform*
          lens-compose
+         lens-thrush
          identity-lens
          lens-struct
          lens-proc
@@ -65,8 +69,11 @@
 (module+ test
   (define (set-first l v)
     (list* v (rest l)))
+  (define (set-second l v)
+    (list* (first l) v (rest (rest l))))
   (define test-list '(1 2 3))
   (define first-lens (make-lens first set-first))
+  (define second-lens (make-lens second set-second))
   (check-equal? (lens-view first-lens test-list) 1)
   (check-equal? (lens-set first-lens test-list 'a) '(a 2 3))
   (check-equal? (lens-view identity-lens 3) 3)
@@ -98,17 +105,44 @@
   (let-lens (_ setter) (lens v)
     (setter x)))
 
+(define (lens-view* v . lenses)
+  (for/fold ([v v]) ([lens (in-list lenses)])
+    (lens-view lens v)))
+
+(define (lens-set* v . lenses/xs)
+  (unless (even? (length lenses/xs))
+    (error 'lens-set*
+           "expected an even number of association elements\n  association elements: ~v"
+           lenses/xs))
+  (for/fold ([v v]) ([lens/x (in-slice 2 lenses/xs)])
+    (match-define (list lens x) lens/x)
+    (lens-set lens v x)))
+
 (module+ test
   (check-eqv? (lens-view first-lens '(1 2 3)) 1)
-  (check-equal? (lens-set first-lens '(1 2 3) 'a) '(a 2 3)))
+  (check-equal? (lens-view* '((1 2) 3) first-lens second-lens) 2)
+  (check-equal? (lens-set first-lens '(1 2 3) 'a) '(a 2 3))
+  (check-equal? (lens-set* '(1 2 3) first-lens 10 second-lens 20) '(10 20 3))
+  )
 
 
 (define (lens-transform lens f v)
   (let-lens (view setter) (lens v)
     (setter (f view))))
 
+(define (lens-transform* v . lenses/fs)
+  (unless (even? (length lenses/fs))
+    (error 'lens-transform*
+           "expected an even number of association elements\n  association elements: ~v"
+           lenses/fs))
+  (for/fold ([v v]) ([lens/f (in-slice 2 lenses/fs)])
+    (match-define (list lens f) lens/f)
+    (lens-transform lens f v)))
+
 (module+ test
-  (check-equal? (lens-transform first-lens number->string '(1 2 3)) '("1" 2 3)))
+  (check-equal? (lens-transform first-lens number->string '(1 2 3)) '("1" 2 3))
+  (check-equal? (lens-transform* '(1 2 3) first-lens number->string second-lens (* 10 _)) '("1" 20 3))
+  )
 
 
 (define ((lens-compose2 sub-lens super-lens) v)
@@ -118,14 +152,16 @@
               (compose super-setter sub-setter)))))
 
 (module+ test
-  (define (second-set l v)
-    (list* (first l) v (rest (rest l))))
-  (define second-lens (make-lens second second-set))
   (define first-of-second-lens (lens-compose first-lens second-lens))
+  (define first-of-second-lens* (lens-thrush second-lens first-lens))
   (define test-alist '((a 1) (b 2) (c 3)))
   (check-eq? (lens-view first-of-second-lens test-alist) 'b)
   (check-equal? (lens-set first-of-second-lens test-alist 'B)
-                '((a 1) (B 2) (c 3))))
+                '((a 1) (B 2) (c 3)))
+  (let-lens [val ctxt] (first-of-second-lens* test-alist)
+    (check-equal? val 'b)
+    (check-equal? (ctxt 'B) '((a 1) (B 2) (c 3))))
+  )
 
 
 (define ((generalize-operator op) v . vs)
@@ -148,4 +184,7 @@
     [() identity-lens]
     [(v . vs)
      (apply lens-compose-proc v vs)]))
+
+(define (lens-thrush . args)
+  (apply lens-compose (reverse args)))
 
