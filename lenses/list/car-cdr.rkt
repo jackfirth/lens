@@ -4,7 +4,7 @@
 
 (require racket/match
          fancy-app
-         "../core.rkt"
+         "../core/main.rkt"
          )
 
 (define (car-lens v)

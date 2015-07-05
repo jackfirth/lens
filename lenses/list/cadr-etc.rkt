@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require syntax/parse/define
-         "../core.rkt"
+         "../core/main.rkt"
          "car-cdr.rkt"
          (for-syntax racket/base
                      racket/syntax

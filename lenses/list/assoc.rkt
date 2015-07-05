@@ -3,7 +3,7 @@
 (provide assoc-lens assv-lens assq-lens)
 
 (require racket/list
-         "../core.rkt"
+         "../core/main.rkt"
          )
 (module+ test
   (require rackunit))
