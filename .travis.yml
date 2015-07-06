@@ -1,6 +1,5 @@
 langauge: c
 sudo: false
-
 env:
   global:
     - RACKET_DIR=~/racket
@@ -17,7 +16,3 @@ install: raco pkg install --deps search-auto $TRAVIS_BUILD_DIR # install depende
 script:
  - raco test $TRAVIS_BUILD_DIR # run tests. you wrote tests, right?
  - raco cover -f coveralls -d $TRAVIS_BUILD_DIR/coverage . # generate coverage information for coveralls
-
-branches:
-  only:
-    - master
