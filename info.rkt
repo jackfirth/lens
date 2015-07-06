@@ -8,14 +8,15 @@
     "rackunit-lib"
     "fancy-app"
     "alexis-util"
-    "scribble-lib"
-    ))
+    "scribble-lib"))
 
 
 (define build-deps
   '("cover"
     "rackunit-lib"
-    "racket-doc"))
+    "racket-doc"
+    "doc-coverage"))
+
 
 (define test-omit-paths
   '("info.rkt"
