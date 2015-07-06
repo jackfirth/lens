@@ -8,12 +8,12 @@
     "rackunit-lib"
     "fancy-app"
     "alexis-util"
+    "scribble-lib"
     ))
 
 
 (define build-deps
   '("cover"
-    "scribble-lib"
     "rackunit-lib"
     "racket-doc"))
 
