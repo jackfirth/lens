@@ -9,19 +9,11 @@
   (require rackunit))
 
 (provide
- (contract-out [lens-view (-> lens? any/c any/c)]
-               [lens-view/list (->* (any/c) #:rest (listof lens?) list?)]
-               [lens-set (-> lens? any/c any/c any/c)]
+ lens-view
+ lens-set
+ (contract-out [lens-view/list (->* (any/c) #:rest (listof lens?) list?)]
                [lens-set/list (->* (any/c) #:rest (listof2 lens? any/c) any/c)]))
 
-
-(define (lens-view lens target)
-  (let-lens (view _) lens target
-    view))
-
-(define (lens-set lens target x)
-  (let-lens (_ setter) lens target
-    (setter x)))
 
 (define (lens-view/list target . lenses)
   (map (lens-view _ target) lenses))

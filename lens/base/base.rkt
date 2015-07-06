@@ -1,57 +1,8 @@
-#lang racket
-
-(require fancy-app)
-
+#lang racket/base
+(require (except-in "gen-lens.rkt" gen-lens/c) "make-lens.rkt" "contract.rkt")
+(provide (all-from-out "gen-lens.rkt" "make-lens.rkt" "contract.rkt"))
 (module+ test
-  (require rackunit))
-
-(provide let-lens
-         (contract-out [make-lens (-> (-> any/c any/c)
-                                      (-> any/c any/c any/c)
-                                      lens?)]
-                       [focus-lens (-> lens? any/c
-                                       (values any/c (-> any/c any/c)))]
-                       [use-applicable-lenses! (-> void?)]
-                       [lens? predicate/c]
-                       [lens/c (contract? contract? . -> . contract?)]
-                       ))
-
-
-(define lenses-applicable? (make-parameter #f))
-
-(define (use-applicable-lenses!)
-  (lenses-applicable? #t))
-
-(struct lens-struct (get set)
-  #:property prop:procedure
-  (lambda (this target)
-    (if (lenses-applicable?)
-        ((lens-struct-get this) target)
-        (error "cannot apply a non-applicable lens as a function"))))
-
-(define (lens/c target/c view/c)
-  (struct/c lens-struct (-> target/c view/c) (-> target/c view/c target/c)))
-
-(module+ test
-  (require rackunit)
-  (check-exn exn:fail? (thunk (first-lens '(a b c)))))
-
-(define lens? lens-struct?)
-
-(define (make-lens getter setter)
-  (lens-struct getter setter))
-
-(define (focus-lens lens target)
-  (match-define (lens-struct get set) lens)
-  (values (get target)
-          (set target _)))
-
-
-(define-syntax-rule (let-lens (view setter) lens-expr target-expr body ...)
-  (let-values ([(view setter) (focus-lens lens-expr target-expr)])
-    body ...))
-
-(module+ test
+  (require rackunit racket/list)
   (define (set-first l v)
     (list* v (rest l)))
   (define first-lens (make-lens first set-first))
