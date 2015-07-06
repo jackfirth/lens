@@ -2,16 +2,21 @@
 
 (provide car-lens cdr-lens)
 
-(require racket/match
-         fancy-app
-         "../core/main.rkt"
-         )
+(require "../core/main.rkt")
 
-(define (car-lens v)
-  (match-define (cons car cdr) v)
-  (values car (cons _ cdr))) ; fancy-app
+(module+ test
+  (require rackunit))
 
-(define (cdr-lens v)
-  (match-define (cons car cdr) v)
-  (values cdr (cons car _)))
 
+(define (set-car pair v)
+  (cons v (cdr pair)))
+
+(define (set-cdr pair v)
+  (cons (car pair) v))
+
+(define car-lens (make-lens car set-car))
+(define cdr-lens (make-lens cdr set-cdr))
+
+(module+ test
+  (check-equal? (lens-view car-lens '(1 . 2)) 1)
+  (check-equal? (lens-view cdr-lens '(1 . 2)) 2))

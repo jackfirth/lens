@@ -1,19 +1,25 @@
 #lang racket/base
 
-(provide assoc-lens assv-lens assq-lens)
+(provide assoc-lens
+         assv-lens
+         assq-lens)
 
 (require racket/list
-         "../core/main.rkt"
-         )
-(module+ test
-  (require rackunit))
+         fancy-app
+         "../core/main.rkt")
 
-(define (assoc-swap assoc-list old-assoc-pair new-assoc-pair #:is-equal? [equal? equal?])
-  (define (swap-assoc-pair assoc-pair)
-    (if (equal? assoc-pair old-assoc-pair)
-        new-assoc-pair
-        assoc-pair))
-  (map swap-assoc-pair assoc-list))
+(module+ test
+  (require rackunit)
+  (define assoc-list '((a . 1) (b . 2) (c . 3))))
+
+
+(define (assoc-get assoc-list key #:is-equal? [equal? equal?])
+  (define assoc-pair (assoc key assoc-list equal?))
+  (and assoc-pair (cdr assoc-pair)))
+
+(module+ test
+  (check-equal? (assoc-get assoc-list 'b) 2))
+
 
 (define (assoc-set assoc-list key value #:is-equal? [equal? equal?])
   (define (set-assoc-pair assoc-pair)
@@ -23,34 +29,19 @@
   (map set-assoc-pair assoc-list))
 
 (module+ test
-  (define assoc-list '((a . 1) (b . 2) (c . 3)))
-  (check-equal? (assoc-swap assoc-list '(b . 2) '(FOO . BAR))
-                '((a . 1) (FOO . BAR) (c . 3))))
+  (check-equal? (assoc-set assoc-list 'b 200) '((a . 1) (b . 200) (c . 3))))
 
 
-(define ((assoc-lens key #:is-equal? [equal? equal?]) assoc-list)
-  (define assoc-pair (assoc key assoc-list equal?))
-  (define (assoc-lens-set v)
-    (if assoc-pair
-        (assoc-set assoc-list key v #:is-equal? equal?)
-        (append assoc-list (list (cons key v)))))
-  (values (and assoc-pair (cdr assoc-pair))
-          assoc-lens-set))
+(define (assoc-lens key #:is-equal? [equal? equal?])
+  (define get (assoc-get _ key #:is-equal? equal?))
+  (define set (assoc-set _ key _ #:is-equal? equal?))
+  (make-lens get set))
 
 (module+ test
-  (define assoc-a-lens (assoc-lens 'a))
-  (define assoc-d-lens (assoc-lens 'd))
-  (check-equal? (lens-view assoc-a-lens assoc-list) 1)
-  (check-equal? (lens-set assoc-a-lens assoc-list 100)
-                '((a . 100) (b . 2) (c . 3)))
-  (check-false (lens-view assoc-d-lens assoc-list))
-  (check-equal? (lens-set assoc-d-lens assoc-list 4)
-                '((a . 1) (b . 2) (c . 3) (d . 4)))
-  (define assoc-foo-lens (assoc-lens "foo"))
-  (define assoc-str '(("bar" . 1) ("foo" . 2) ("baz" . 3)))
-  (check-equal? (lens-view assoc-foo-lens assoc-str) 2)
-  (check-equal? (lens-set assoc-foo-lens assoc-str 100)
-                '(("bar" . 1) ("foo" . 100) ("baz" . 3))))
+  (define assoc-b-lens (assoc-lens 'b))
+  (check-equal? (lens-view assoc-b-lens assoc-list) 2)
+  (check-equal? (lens-set assoc-b-lens assoc-list 200)
+                '((a . 1) (b . 200) (c . 3))))
 
 
 (define (assv-lens assv-key)

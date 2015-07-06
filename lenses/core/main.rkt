@@ -2,7 +2,6 @@
 
 (require "base.rkt"
          "view-set.rkt"
-         "contract.rkt"
          "transform.rkt"
          "identity.rkt"
          "compose.rkt")
@@ -11,7 +10,6 @@
  (all-from-out
   "base.rkt"
   "view-set.rkt"
-  "contract.rkt"
   "transform.rkt"
   "identity.rkt"
   "compose.rkt"))
