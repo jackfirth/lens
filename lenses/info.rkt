@@ -1,4 +1,4 @@
 #lang info
 
 (define name "lenses")
-(define scribblings '(("lenses.scrbl" ())))
+(define scribblings '(("main.scrbl" () () "lenses")))
