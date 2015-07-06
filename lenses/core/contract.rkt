@@ -18,9 +18,7 @@
 
 (define (lens/c target/c view/c)
   (define proc/c (lens-proc/c target/c view/c))
-  (if/c lens-struct?
-        (struct/c lens-struct proc/c)
-        proc/c))
+  (struct/c lens proc/c))
 
 
 (module+ test

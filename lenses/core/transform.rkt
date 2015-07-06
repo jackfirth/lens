@@ -12,7 +12,7 @@
 
 
 (define (lens-transform lens f v)
-  (let-lens (view setter) (lens v)
+  (let-lens (view setter) lens v
     (setter (f view))))
 
 (module+ test
