@@ -1,6 +1,6 @@
 #lang racket
 
-(require fancy-app)
+(require fancy-app "base.rkt")
 
 (module+ test
   (require rackunit
@@ -10,7 +10,7 @@
 
 
 (define identity-lens
-  (values _ identity))
+  (lens (values _ identity)))
 
 
 (module+ test

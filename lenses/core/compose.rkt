@@ -2,6 +2,7 @@
 
 (require fancy-app
          "base.rkt"
+         "lens-lambda.rkt"
          "identity.rkt")
 
 (module+ test
@@ -12,15 +13,16 @@
          lens-thrush)
 
 
-(define ((lens-compose2 sub-lens super-lens) v)
-  (let-lens (super-view super-setter) (super-lens v)
-    (let-lens (sub-view sub-setter) (sub-lens super-view)
-      (values sub-view
-              (compose super-setter sub-setter)))))
+(define (lens-compose2 sub-lens super-lens)
+  (lens-lambda (v)
+    (let-lens (super-view super-setter) super-lens v
+      (let-lens (sub-view sub-setter) sub-lens super-view
+        (values sub-view
+                (compose super-setter sub-setter))))))
 
 
-(define lens-compose
-  (compose (foldr lens-compose2 identity-lens _) list))
+(define (lens-compose . args)
+  (foldr lens-compose2 identity-lens args))
 
 
 (module+ test
@@ -42,6 +44,6 @@
 
 (module+ test
   (define first-of-second-lens* (lens-thrush second-lens first-lens))
-  (let-lens [val ctxt] (first-of-second-lens* test-alist)
+  (let-lens [val ctxt] first-of-second-lens* test-alist
     (check-equal? val 'b)
     (check-equal? (ctxt 'B) '((a 1) (B 2) (c 3)))))
