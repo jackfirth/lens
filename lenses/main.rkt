@@ -16,7 +16,6 @@
   apply-lens
   drop-lens
   lens-set*
-  lens-thrush
   lens-transform*
   lens-view*
   list-ref-lens
