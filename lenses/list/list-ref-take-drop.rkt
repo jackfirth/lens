@@ -20,18 +20,21 @@
          (only-in srfi/1 append-reverse)
          fancy-app
          "../core/main.rkt"
+         "../core/lens-lambda.rkt"
          "car-cdr.rkt"
          )
 (module+ test
   (require rackunit))
 
-(define ((take-lens n) lst)
-  (define-values [fst-lst rst-lst] (split-at lst n))
-  (values fst-lst (append _ rst-lst)))
+(define (take-lens n)
+  (lens-lambda (lst)
+    (define-values [fst-lst rst-lst] (split-at lst n))
+    (values fst-lst (append _ rst-lst))))
 
-(define ((drop-lens n) lst)
-  (define-values [fst-lst rst-lst] (split-at-reverse lst n))
-  (values rst-lst (append-reverse fst-lst _)))
+(define (drop-lens n)
+  (lens-lambda (lst)
+    (define-values [fst-lst rst-lst] (split-at-reverse lst n))
+    (values rst-lst (append-reverse fst-lst _))))
 
 (define (list-ref-lens i)
   (lens-compose car-lens (drop-lens i)))

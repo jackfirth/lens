@@ -4,6 +4,7 @@
 
 (require racket/list
          "../core/main.rkt"
+         "../core/lens-lambda.rkt"
          )
 (module+ test
   (require rackunit))
@@ -28,14 +29,15 @@
                 '((a . 1) (FOO . BAR) (c . 3))))
 
 
-(define ((assoc-lens key #:is-equal? [equal? equal?]) assoc-list)
-  (define assoc-pair (assoc key assoc-list equal?))
-  (define (assoc-lens-set v)
-    (if assoc-pair
-        (assoc-set assoc-list key v #:is-equal? equal?)
-        (append assoc-list (list (cons key v)))))
-  (values (and assoc-pair (cdr assoc-pair))
-          assoc-lens-set))
+(define (assoc-lens key #:is-equal? [equal? equal?])
+  (lens-lambda (assoc-list)
+    (define assoc-pair (assoc key assoc-list equal?))
+    (define (assoc-lens-set v)
+      (if assoc-pair
+          (assoc-set assoc-list key v #:is-equal? equal?)
+          (append assoc-list (list (cons key v)))))
+    (values (and assoc-pair (cdr assoc-pair))
+            assoc-lens-set)))
 
 (module+ test
   (define assoc-a-lens (assoc-lens 'a))
