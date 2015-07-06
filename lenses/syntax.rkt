@@ -16,9 +16,9 @@
      (with-syntax* ([target ((target-stx #'target-name) #'template)]
                     [parse-pattern (template->pattern #'template)]
                     [rebuilder ((template-rebuilder #'target-name) #'parse-pattern)])
-       #'(syntax-parser
-           [parse-pattern
-            (values #'target rebuilder)]))]))
+       #'(lens (syntax-parser
+                 [parse-pattern
+                  (values #'target rebuilder)])))]))
 
 (module+ test
   (define stx-lens (syntax-lens A (_ _ (_ _ A _ _) _ ...)))
