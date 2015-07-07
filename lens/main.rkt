@@ -18,7 +18,6 @@
   lens-set*
   lens-transform*
   lens-view*
-  list-ref-lens
   list-ref-nested-lens
   take-lens
   use-applicable-lenses!))
