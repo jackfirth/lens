@@ -23,6 +23,7 @@
    "string.rkt"
    "struct/main.rkt"
    "vector/main.rkt")
+  gen:lens
   focus-lens
   drop-lens
   take-lens
