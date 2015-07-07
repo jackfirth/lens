@@ -9,5 +9,4 @@
           "car-cdr.rkt"
           "list-ref-take-drop.rkt"
           "cadr-etc.rkt"
-          "assoc.rkt")
-         (rename-out [list-ref-lens list-lens]))
+          "assoc.rkt"))
