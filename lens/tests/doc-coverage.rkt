@@ -1,7 +1,7 @@
 #lang racket
 
 (require doc-coverage
-         lenses)
+         lens)
 
 
-(check-all-documented 'lenses)
+(check-all-documented 'lens)
