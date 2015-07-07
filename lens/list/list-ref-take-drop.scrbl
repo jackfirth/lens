@@ -3,7 +3,7 @@
 @(require scribble/eval
           "../lenses-examples.rkt"
           "../deflenses.rkt"
-          (for-label lenses
+          (for-label lens
                      racket/base
                      racket/contract))
 
