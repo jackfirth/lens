@@ -6,7 +6,7 @@
 
 (require racket/list
          fancy-app
-         "../core/main.rkt")
+         "../base/main.rkt")
 
 (module+ test
   (require rackunit)

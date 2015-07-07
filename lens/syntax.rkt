@@ -2,7 +2,7 @@
 
 (require syntax/parse
          rackunit
-         "core/main.rkt"
+         "base/main.rkt"
          (for-syntax racket/syntax
                      syntax/stx
                      syntax/parse))

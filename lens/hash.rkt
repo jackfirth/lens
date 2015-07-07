@@ -3,7 +3,7 @@
 (provide hash-ref-lens)
 
 (require fancy-app
-         "core/main.rkt")
+         "base/main.rkt")
 
 (module+ test
   (require rackunit))

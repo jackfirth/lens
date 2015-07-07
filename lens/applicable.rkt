@@ -3,7 +3,7 @@
 (provide (all-from-out "main.rkt"))
 
 (require "main.rkt"
-         (only-in "core/base.rkt" use-applicable-lenses!))
+         (only-in "base/base.rkt" use-applicable-lenses!))
 
 (module+ test
   (require rackunit))
