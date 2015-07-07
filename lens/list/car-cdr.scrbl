@@ -6,7 +6,7 @@
           "../deflenses.rkt"
           (for-syntax racket/base
                       racket/syntax)
-          (for-label lenses
+          (for-label lens
                      racket/base
                      racket/contract))
 

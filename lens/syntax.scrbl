@@ -2,7 +2,7 @@
 
 @(require scribble/eval
           "lenses-examples.rkt"
-          (for-label lenses
+          (for-label lens
                      racket/base
                      racket/contract))
 
