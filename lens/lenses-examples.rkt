@@ -15,7 +15,7 @@
 
 
 (define-examples-form lenses-examples
-  lenses racket/list)
+  lens racket/list)
 
 (define-examples-form lenses-applicable-examples
-  lenses/applicable racket/list)
+  lens/applicable racket/list)
