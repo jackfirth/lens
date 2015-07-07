@@ -7,7 +7,7 @@
 
 (provide let-lens
          make-lens
-         apply-lens
+         focus-lens
          use-applicable-lenses!
          (rename-out [lens-struct? lens?]))
 
@@ -32,14 +32,14 @@
 (define (make-lens getter setter)
   (lens-struct getter setter))
 
-(define (apply-lens lens target)
+(define (focus-lens lens target)
   (match-define (lens-struct get set) lens)
   (values (get target)
           (set target _)))
 
 
 (define-syntax-rule (let-lens (view setter) lens-expr target-expr body ...)
-  (let-values ([(view setter) (apply-lens lens-expr target-expr)])
+  (let-values ([(view setter) (focus-lens lens-expr target-expr)])
     body ...))
 
 (module+ test

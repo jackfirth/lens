@@ -13,7 +13,7 @@
    "list/main.rkt"
    "syntax.rkt"
    "syntax-keyword.rkt")
-  apply-lens
+  focus-lens
   drop-lens
   lens-set*
   lens-transform*
