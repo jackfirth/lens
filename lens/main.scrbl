@@ -13,7 +13,7 @@ representation of getters and setters in object-oriented languages.
 
 source code: @url["https://github.com/jackfirth/lens"]
 
-@include-section["core/main.scrbl"]
+@include-section["base/main.scrbl"]
 @include-section["list/main.scrbl"]
 @include-section["struct-lens.scrbl"]
 @include-section["syntax.scrbl"]
