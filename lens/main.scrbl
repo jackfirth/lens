@@ -15,6 +15,6 @@ source code: @url["https://github.com/jackfirth/lens"]
 
 @include-section["base/main.scrbl"]
 @include-section["list/main.scrbl"]
-@include-section["struct-lens.scrbl"]
+@include-section["struct.scrbl"]
 @include-section["syntax.scrbl"]
 @include-section["applicable.scrbl"]
