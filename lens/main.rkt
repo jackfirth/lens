@@ -9,7 +9,7 @@
 (provide
  (except-out
   (all-from-out
-   "core/main.rkt"
+   "base/main.rkt"
    "list/main.rkt"
    "syntax.rkt"
    "syntax-keyword.rkt")
