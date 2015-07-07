@@ -11,7 +11,7 @@
                      racket/syntax
                      ))
 (module+ test
-  (require rackunit fancy-app (only-in lenses/core/main lens-transform*)))
+  (require rackunit fancy-app (only-in lens/core/main lens-transform*)))
 
 (define-simple-macro (struct-lens s:id fld:id)
   #:with s-fld      (format-id #'s "~a-~a" #'s #'fld #:source #'fld)
