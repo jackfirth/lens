@@ -12,15 +12,15 @@
          (rename-out [lens-struct? lens?]))
 
 
-(define lens-app-context? (make-parameter #f))
+(define lenses-applicable? (make-parameter #f))
 
 (define (use-applicable-lenses!)
-  (lens-app-context? #t))
+  (lenses-applicable? #t))
 
 (struct lens-struct (get set)
   #:property prop:procedure
   (lambda (this target)
-    (if (lens-app-context?)
+    (if (lenses-applicable?)
         ((lens-struct-get this) target)
         (error "cannot apply a non-applicable lens as a function"))))
 
