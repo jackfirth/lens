@@ -27,7 +27,7 @@
   equality, such as strings.
   @lenses-examples[
     (define assoc-foo-lens (assoc-lens "foo" #:is-equal? string=?))
-    (lens-view assoc-foo-lens '(("bar" 1) ("foo" 2) ("baz" 3)))
+    (lens-view assoc-foo-lens '(("bar" . 1) ("foo" . 2) ("baz" . 3)))
 ]}
 
 @defproc[(assv-lens [key any/c]) lens?]{

@@ -22,3 +22,14 @@
   @lenses-examples[
     (lens-transform first-lens number->string '(1 2 3))
 ]}
+
+@defproc[(lens-transform* [target target/c] [lens lens?] [transformer (-> view/c view/c)] ... ...)
+         target/c]{
+  Like @racket[lens-transform], except that it can take multiple
+  lenses-transformer pairs in the same way as @racket[lens-set*], and
+  the argument order is switched in the same way.
+  @lenses-examples[
+    (lens-transform* '(1 2 3 4 5)
+                     first-lens number->string
+                     third-lens (λ (x) (* 100 x)))
+]}

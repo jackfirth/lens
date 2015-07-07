@@ -15,9 +15,6 @@
    "syntax-keyword.rkt")
   focus-lens
   drop-lens
-  lens-set*
-  lens-transform*
-  lens-view*
   list-ref-nested-lens
   take-lens
   use-applicable-lenses!))
