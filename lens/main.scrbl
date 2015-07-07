@@ -2,7 +2,7 @@
 
 @title{Lenses}
 
-@defmodule[lenses]
+@defmodule[lens]
 
 This library includes functions and forms for working with @italic{lenses}.
 A lens is a value that operates on some small piece of a larger
@@ -11,7 +11,7 @@ setters in object-oriented languages.
 
 @author[@author+email["Jack Firth" "jackhfirth@gmail.com"]]
 
-source code: @url["https://github.com/jackfirth/lenses"]
+source code: @url["https://github.com/jackfirth/lens"]
 
 @include-section["core/main.scrbl"]
 @include-section["list/main.scrbl"]
