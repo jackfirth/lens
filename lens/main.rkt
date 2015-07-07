@@ -1,7 +1,7 @@
 #lang racket
 
 (require
-  "core/main.rkt"
+  "base/main.rkt"
   "list/main.rkt"
   "syntax.rkt"
   "syntax-keyword.rkt")

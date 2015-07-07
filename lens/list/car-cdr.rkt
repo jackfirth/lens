@@ -2,7 +2,7 @@
 
 (provide car-lens cdr-lens)
 
-(require "../core/main.rkt")
+(require "../base/main.rkt")
 
 (module+ test
   (require rackunit))

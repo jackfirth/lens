@@ -17,7 +17,7 @@
 
 (require racket/list
          fancy-app
-         "../core/main.rkt"
+         "../base/main.rkt"
          "car-cdr.rkt")
 
 (module+ test

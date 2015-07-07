@@ -1,6 +1,6 @@
 #lang racket
 
-(require "core/main.rkt"
+(require "base/main.rkt"
          fancy-app
          syntax/parse)
 
