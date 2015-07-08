@@ -1,19 +1,21 @@
-#lang racket/base
+#lang racket
 
-(provide list-ref-lens
-         list-ref-nested-lens
-         take-lens
-         drop-lens
-         first-lens
-         second-lens
-         third-lens
-         fourth-lens
-         fifth-lens
-         sixth-lens
-         seventh-lens
-         eighth-lens
-         ninth-lens
-         tenth-lens)
+(provide
+ (contract-out
+  [list-ref-lens (-> exact-nonnegative-integer? lens?)]
+  [list-ref-nested-lens (->* () #:rest (listof exact-nonnegative-integer?) lens?)]
+  [take-lens (-> exact-nonnegative-integer? lens?)]
+  [drop-lens (-> exact-nonnegative-integer? lens?)]
+  [first-lens lens?]
+  [second-lens lens?]
+  [third-lens lens?]
+  [fourth-lens lens?]
+  [fifth-lens lens?]
+  [sixth-lens lens?]
+  [seventh-lens lens?]
+  [eighth-lens lens?]
+  [ninth-lens lens?]
+  [tenth-lens lens?]))
 
 (require racket/list
          fancy-app
