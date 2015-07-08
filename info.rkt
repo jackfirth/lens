@@ -3,7 +3,7 @@
 (define collection 'multi)
 
 
-(define version "0.4")
+(define version "0.5")
 
 
 (define deps
