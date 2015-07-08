@@ -1,6 +1,8 @@
-#lang racket/base
+#lang racket
 
-(provide car-lens cdr-lens)
+(provide
+ (contract-out [car-lens lens?]
+               [cdr-lens lens?]))
 
 (require "../base/main.rkt")
 

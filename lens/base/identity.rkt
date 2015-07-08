@@ -6,7 +6,8 @@
   (require rackunit
            "view-set.rkt"))
 
-(provide identity-lens)
+(provide
+ (contract-out [identity-lens lens?]))
 
 
 (define (second-value _ v) v)

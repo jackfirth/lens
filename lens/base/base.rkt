@@ -6,10 +6,13 @@
   (require rackunit))
 
 (provide let-lens
-         make-lens
-         focus-lens
-         use-applicable-lenses!
-         (rename-out [lens-struct? lens?]))
+         (contract-out [make-lens (-> (-> any/c any/c)
+                                      (-> any/c any/c any/c)
+                                      lens?)]
+                       [focus-lens (-> lens? any/c
+                                       (values any/c (-> any/c any/c)))]
+                       [use-applicable-lenses! (-> void?)]
+                       [lens? predicate/c]))
 
 
 (define lenses-applicable? (make-parameter #f))
@@ -28,6 +31,7 @@
   (require rackunit)
   (check-exn exn:fail? (thunk (first-lens '(a b c)))))
 
+(define lens? lens-struct?)
 
 (define (make-lens getter setter)
   (lens-struct getter setter))

@@ -17,7 +17,7 @@
 
 (define-simple-macro (provide-c_r-lens id:id)
   #:with c_r-lens (c_r-lens-id #'id)
-  (provide c_r-lens))
+  (provide (contract-out [c_r-lens lens?])))
 
 (provide-c_r-lenses
  aa ad da dd

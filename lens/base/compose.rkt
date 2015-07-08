@@ -8,8 +8,9 @@
 (module+ test
   (require rackunit))
 
-(provide lens-compose
-         lens-thrush)
+(provide
+ (contract-out [lens-compose (->* () () #:rest (listof lens?) lens?)]
+               [lens-thrush (->* () () #:rest (listof lens?) lens?)]))
 
 
 (define (lens-compose2 sub-lens super-lens)

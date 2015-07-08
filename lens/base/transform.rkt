@@ -1,16 +1,23 @@
 #lang racket
 
 (require unstable/sequence
-         "base.rkt")
+         "base.rkt"
+         "../list-pair-contract.rkt")
 
 (module+ test
   (require rackunit
            fancy-app))
 
-(provide lens-transform
-         lens-transform*)
+(provide
+ (contract-out
+  [lens-transform (-> lens? any/c (-> any/c any/c) any/c)]
+  [lens-transform* (->* (any/c) #:rest (listof2 lens? (-> any/c any/c)) any/c)]))
 
 
+
+(define (listof* . contracts)
+  (or/c '() (apply list/c (append contracts (list (apply listof* contracts))))))
+                                     
 (define (lens-transform lens v f)
   (let-lens (view setter) lens v
     (setter (f view))))
