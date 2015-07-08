@@ -23,21 +23,23 @@
     (lens-set first-lens '(1 2 3) 'a)
 ]}
 
-@defproc[(lens-view* [target target/c] [lens lens?] ...) view/c]{
+@defproc[(lens-view/list [target target/c] [lens lens?] ...) view/c]{
   Like @racket[lens-view], except that it takes multiple lenses and
   returns a list of views.
   @lenses-examples[
-    (lens-view* '(a b c d e f g)
-                first-lens fourth-lens fifth-lens)
+    (lens-view/list '(a b c d e f g)
+                    first-lens fourth-lens fifth-lens)
 ]}
 
-@defproc[(lens-set* [target target/c] [lens lens?] [new-view view/c] ... ...) target/c]{
+@defproc[(lens-set/list [target target/c] [lens lens?] [new-view view/c] ... ...) target/c]{
   Like @racket[lens-set], except that it can take multiple
-  lenses-value pairs. Like @racket[lens-view*], the argument order is
-  switched, so that the @racket[target] comes first and the lens-value
-  pairs come after it. @racket[lens-set*] is analogous to @racket[hash-set*].
+  lenses-value pairs. If the view of two of the lenses overlap, the
+  later views overwrite the earlier ones.
   @lenses-examples[
-    (lens-set* '(1 2 3 4 5)
-               first-lens 10
-               third-lens 300)
+    (lens-set/list '(1 2 3 4 5)
+                   first-lens 10
+                   third-lens 300)
+    (lens-set/list '(1 2 3)
+                   first-lens 'a
+                   first-lens 'b)
 ]}
