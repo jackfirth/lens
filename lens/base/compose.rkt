@@ -9,8 +9,8 @@
   (require rackunit))
 
 (provide
- (contract-out [lens-compose (->* () () #:rest lens? lens?)]
-               [lens-thrush (->* () () #:rest lens? lens?)]))
+ (contract-out [lens-compose (->* () () #:rest (listof lens?) lens?)]
+               [lens-thrush (->* () () #:rest (listof lens?) lens?)]))
 
 
 (define (lens-compose2 sub-lens super-lens)
