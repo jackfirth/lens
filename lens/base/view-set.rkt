@@ -10,9 +10,9 @@
 
 (provide
  (contract-out [lens-view (-> lens? any/c any/c)]
-               [lens-view* (->* (any/c) #:rest (listof lens?) list?)]
+               [lens-view/list (->* (any/c) #:rest (listof lens?) list?)]
                [lens-set (-> lens? any/c any/c any/c)]
-               [lens-set* (->* (any/c) #:rest (listof2 lens? any/c) any/c)]))
+               [lens-set/list (->* (any/c) #:rest (listof2 lens? any/c) any/c)]))
 
 
 (define (lens-view lens target)
@@ -23,14 +23,10 @@
   (let-lens (_ setter) lens target
     (setter x)))
 
-(define (lens-view* target . lenses)
+(define (lens-view/list target . lenses)
   (map (lens-view _ target) lenses))
 
-(define (lens-set* target . lenses/xs)
-  (unless (even? (length lenses/xs))
-    (error 'lens-set*
-           "expected an even number of association elements\n  association elements: ~v"
-           lenses/xs))
+(define (lens-set/list target . lenses/xs)
   (for/fold ([target target]) ([lens/x (in-slice 2 lenses/xs)])
     (match-define (list lens x) lens/x)
     (lens-set lens target x)))
@@ -44,9 +40,9 @@
   (define second-lens (make-lens second set-second))
   (check-equal? (lens-view first-lens '(1 2 3)) 1)
   (check-equal? (lens-set first-lens '(1 2 3) 'a) '(a 2 3))
-  (check-equal? (lens-view* '(1 2 3) first-lens second-lens)
+  (check-equal? (lens-view/list '(1 2 3) first-lens second-lens)
                 '(1 2))
-  (check-equal? (lens-set* '(1 2 3)
-                           first-lens 10
-                           second-lens 20)
+  (check-equal? (lens-set/list '(1 2 3)
+                               first-lens 10
+                               second-lens 20)
                 '(10 20 3)))

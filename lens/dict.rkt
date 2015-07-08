@@ -11,6 +11,5 @@
              (dict-set _ key _)))
 
 (module+ test
-  (check-equal? (lens-transform* '((a . 1) (b . 2) (c . 3)) (dict-ref-lens 'a) (* 100 _))
-                '((a . 100) (b . 2) (c . 3)))
-  )
+  (check-equal? (lens-transform/list '((a . 1) (b . 2) (c . 3)) (dict-ref-lens 'a) (* 100 _))
+                '((a . 100) (b . 2) (c . 3))))
