@@ -1,6 +1,8 @@
-#lang racket/base
+#lang racket
 
-(provide hash-ref-lens)
+(provide
+ (contract-out
+  [hash-ref-lens (-> any/c lens?)]))
 
 (require fancy-app
          "base/main.rkt")
