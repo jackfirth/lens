@@ -87,5 +87,5 @@
   (check-equal? (lens-set third-lens  '(1 2 3 4 5) 'a) '(1 2 a 4 5))
   (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
   (check-equal? (lens-set fifth-lens  '(1 2 3 4 5) 'a) '(1 2 3 4 a))
-  (check-equal? (lens-transform* '(a (b c) (d e f)) (list-ref-nested-lens 2 1) symbol->string)
+  (check-equal? (lens-transform/list '(a (b c) (d e f)) (list-ref-nested-lens 2 1) symbol->string)
                 '(a (b c) (d "e" f))))
