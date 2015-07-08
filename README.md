@@ -8,3 +8,7 @@ A Racket package for creating and composing pure functional lenses.
 `(require lens)`
 
 A lens is a value that can be used to focus on a small subpiece of some larger structure. Given a lens and a value of that larger structure, two values can be dervied: a *view* value, which is the subpiece, and a *context* function, which accepts a new view value and returns a new structure with the old view replaced by the new view. Think of them as composable, pure functional getters and setters. Examples can be found in the documentation.
+
+# Contributions
+
+This project uses Github issues organized by a [Waffle board](https://waffle.io/jackfirth/lens) to track what's being worked on. Check the board to see if there's any features, bugs, etc. that interest you, or create a new Github issue to inquire about something you'd like to see changed.
