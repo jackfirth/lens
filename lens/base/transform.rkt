@@ -11,7 +11,7 @@
          lens-transform*)
 
 
-(define (lens-transform lens f v)
+(define (lens-transform lens v f)
   (let-lens (view setter) lens v
     (setter (f view))))
 
@@ -19,7 +19,7 @@
   (define (set-first l v)
     (list* v (rest l)))
   (define first-lens (make-lens first set-first))
-  (check-equal? (lens-transform first-lens number->string '(1 2 3))
+  (check-equal? (lens-transform first-lens '(1 2 3) number->string)
                 '("1" 2 3)))
   
 
@@ -30,7 +30,7 @@
            lenses/fs))
   (for/fold ([v v]) ([lens/f (in-slice 2 lenses/fs)])
     (match-define (list lens f) lens/f)
-    (lens-transform lens f v)))
+    (lens-transform lens v f)))
 
 (module+ test
   (define (set-second l v)
