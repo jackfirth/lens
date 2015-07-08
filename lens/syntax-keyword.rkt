@@ -7,7 +7,9 @@
 (module+ test
   (require rackunit))
 
-(provide syntax-keyword-seq-lens)
+(provide
+ (contract-out
+  [syntax-keyword-seq-lens (-> keyword? lens?)]))
 
 
 (define-syntax-rule (syntax-parse/default-noop stx option-or-clause ...)
