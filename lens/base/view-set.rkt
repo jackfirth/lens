@@ -7,9 +7,9 @@
   (require rackunit))
 
 (provide
- lens-view*
  lens-set*
  (contract-out [lens-view (-> lens? any/c any/c)]
+               [lens-view* (->* [any/c] #:rest (listof lens?) any/c)]
                [lens-set (-> lens? any/c any/c any/c)]))
 
 
