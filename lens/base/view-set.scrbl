@@ -24,15 +24,11 @@
 ]}
 
 @defproc[(lens-view* [target target/c] [lens lens?] ...) view/c]{
-  Like @racket[lens-view], except that it can take multiple lenses,
-  which are combined into a nested lens. The argument order is
-  switched, so that the @racket[target] comes first and the
-  @racket[lens] arguments come after it.
-  @racket[(lens-view* target lens ...)] produces the same value as
-  @racket[(lens-view (lens-thrush lens ...) target)], but can be more
-  efficient.
+  Like @racket[lens-view], except that it takes multiple lenses and
+  returns a list of views.
   @lenses-examples[
-    (lens-view* '(a b ((c d) e f) g) third-lens first-lens second-lens)
+    (lens-view* '(a b c d e f g)
+                first-lens fourth-lens fifth-lens)
 ]}
 
 @defproc[(lens-set* [target target/c] [lens lens?] [new-view view/c] ... ...) target/c]{
