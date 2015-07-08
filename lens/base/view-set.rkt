@@ -2,15 +2,17 @@
 
 (require unstable/sequence
          fancy-app
-         "base.rkt")
+         "base.rkt"
+         "../list-pair-contract.rkt")
+
 (module+ test
   (require rackunit))
 
 (provide
- lens-set*
  (contract-out [lens-view (-> lens? any/c any/c)]
-               [lens-view* (->* [any/c] #:rest (listof lens?) any/c)]
-               [lens-set (-> lens? any/c any/c any/c)]))
+               [lens-view* (->* (any/c) #:rest (listof lens?) any/c)]
+               [lens-set (-> lens? any/c any/c any/c)]
+               [lens-set* (->* (any/c) #:rest (listof2 lens? any/c) any/c)]))
 
 
 (define (lens-view lens v)
