@@ -45,4 +45,8 @@
   (check-equal? (lens-set/list '(1 2 3)
                                first-lens 10
                                second-lens 20)
-                '(10 20 3)))
+                '(10 20 3))
+  (check-equal? (lens-set/list '(1 2 3)
+                               first-lens 'a
+                               first-lens 'b)
+                '(b 2 3)))
