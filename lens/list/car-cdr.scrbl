@@ -44,5 +44,5 @@
     @lenses-examples[
       (cdaddr '(9 8 (6 5 4 3 2 1) 7))
       (lens-view cdaddr-lens '(9 8 (6 5 4 3 2 1) 7))
-      (lens-transform cdaddr-lens list->vector '(9 8 (6 5 4 3 2 1) 7))
+      (lens-transform cdaddr-lens '(9 8 (6 5 4 3 2 1) 7) list->vector)
 ]}

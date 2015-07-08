@@ -10,8 +10,8 @@
 @title{Transforming Values With Lenses}
 
 @defproc[(lens-transform [lens lens?]
-                         [transformer (-> view/c view/c)]
-                         [target target/c])
+                         [target target/c]
+                         [transformer (-> view/c view/c)])
          target/c]{
   Transforms the view of @racket[target] through the given @racket[lens]
   with the @racket[transformer] function. Equivalent to getting the
@@ -20,7 +20,7 @@
   to the return value of calling @racket[transformer] with the old
   view.
   @lenses-examples[
-    (lens-transform first-lens number->string '(1 2 3))
+    (lens-transform first-lens '(1 2 3) number->string)
 ]}
 
 @defproc[(lens-transform* [target target/c] [lens lens?] [transformer (-> view/c view/c)] ... ...)

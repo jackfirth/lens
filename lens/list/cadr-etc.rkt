@@ -57,5 +57,5 @@
   ddaa ddad ddda dddd)
 
 (module+ test
-  (check-equal? (lens-transform cdaddr-lens list->vector '(9 8 (6 5 4 3 2 1) 7))
+  (check-equal? (lens-transform cdaddr-lens '(9 8 (6 5 4 3 2 1) 7) list->vector)
                 '(9 8 (6 . #(5 4 3 2 1)) 7)))
