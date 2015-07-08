@@ -6,10 +6,11 @@
 (module+ test
   (require rackunit))
 
-(provide lens-view
-         lens-set
-         lens-view*
-         lens-set*)
+(provide
+ lens-view*
+ lens-set*
+ (contract-out [lens-view (-> lens? any/c any/c)]
+               [lens-set (-> lens? any/c any/c any/c)]))
 
 
 (define (lens-view lens v)
