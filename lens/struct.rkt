@@ -5,13 +5,13 @@
 (require racket/local
          syntax/parse/define
          alexis/util/struct
-         "main.rkt"
+         "base/main.rkt"
          (for-syntax racket/base
                      syntax/parse
                      racket/syntax
                      ))
 (module+ test
-  (require rackunit fancy-app (only-in lens/base/main lens-transform*)))
+  (require rackunit fancy-app))
 
 (define-simple-macro (struct-lens s:id fld:id)
   #:with s-fld      (format-id #'s "~a-~a" #'s #'fld #:source #'fld)
