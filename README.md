@@ -5,7 +5,6 @@ lens [![Build Status](https://travis-ci.org/jackfirth/lens.svg?branch=master)](h
 A Racket package for creating and composing pure functional lenses.
 
 `raco pkg install lens`
-
 `(require lens)`
 
 A lens is a value that can be used to focus on a small subpiece of some larger structure. Given a lens and a value of that larger structure, two values can be dervied: a *view* value, which is the subpiece, and a *context* function, which accepts a new view value and returns a new structure with the old view replaced by the new view. Think of them as composable, pure functional getters and setters. Examples can be found in the documentation.
