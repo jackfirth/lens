@@ -2,17 +2,13 @@
 
 (require
   "base/main.rkt"
-  "list/main.rkt"
-  "syntax.rkt"
-  "syntax-keyword.rkt")
+  "list/main.rkt")
 
 (provide
  (except-out
   (all-from-out
    "base/main.rkt"
-   "list/main.rkt"
-   "syntax.rkt"
-   "syntax-keyword.rkt")
+   "list/main.rkt")
   focus-lens
   drop-lens
   list-ref-nested-lens
