@@ -1,14 +1,6 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          syntax/parse/define
-          "../lenses-examples.rkt"
-          "../deflenses.rkt"
-          (for-syntax racket/base
-                      racket/syntax)
-          (for-label lens
-                     racket/base
-                     racket/contract))
+@(require "../doc-util/main.rkt")
 
 @title{Pair lenses}
 

@@ -1,11 +1,6 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          lens/lenses-examples
-          (for-label lens
-                     unstable/lens
-                     racket/base
-                     racket/contract))
+@(require lens/doc-util/main)
 
 
 @title{Compound Lenses}
