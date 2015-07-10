@@ -20,26 +20,22 @@
 (define (use-applicable-lenses!)
   (lenses-applicable? #t))
 
-(struct lens-struct (get set)
+(struct lens (proc)
   #:property prop:procedure
   (lambda (this target)
     (if (lenses-applicable?)
-        ((lens-struct-get this) target)
+        (let-lens (view _) this target view)
         (error "cannot apply a non-applicable lens as a function"))))
 
 (module+ test
   (require rackunit)
   (check-exn exn:fail? (thunk (first-lens '(a b c)))))
 
-(define lens? lens-struct?)
-
 (define (make-lens getter setter)
-  (lens-struct getter setter))
+  (lens (λ (target) (values (getter target) (setter target _)))))
 
 (define (focus-lens lens target)
-  (match-define (lens-struct get set) lens)
-  (values (get target)
-          (set target _)))
+  ((lens-proc lens) target))
 
 
 (define-syntax-rule (let-lens (view setter) lens-expr target-expr body ...)
