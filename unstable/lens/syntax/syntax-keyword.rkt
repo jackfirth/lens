@@ -1,6 +1,6 @@
 #lang racket
 
-(require "base/main.rkt"
+(require lens
          fancy-app
          syntax/parse)
 

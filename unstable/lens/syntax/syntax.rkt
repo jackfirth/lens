@@ -2,7 +2,7 @@
 
 (require syntax/parse
          rackunit
-         "base/main.rkt"
+         lens
          (for-syntax racket/syntax
                      syntax/stx
                      syntax/parse))
