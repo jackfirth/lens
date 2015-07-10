@@ -3,6 +3,7 @@
 @(require scribble/eval
           lens/lenses-examples
           (for-label lens
+                     unstable/lens
                      racket/base
                      racket/contract))
 

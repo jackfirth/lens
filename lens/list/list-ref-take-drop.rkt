@@ -3,7 +3,6 @@
 (provide
  (contract-out
   [list-ref-lens (-> exact-nonnegative-integer? lens?)]
-  [list-ref-nested-lens (->* () #:rest (listof exact-nonnegative-integer?) lens?)]
   [take-lens (-> exact-nonnegative-integer? lens?)]
   [drop-lens (-> exact-nonnegative-integer? lens?)]
   [first-lens lens?]
@@ -61,9 +60,6 @@
 (define (list-ref-lens i)
   (lens-compose car-lens (drop-lens i)))
 
-(define (list-ref-nested-lens . args)
-  (apply lens-thrush (map list-ref-lens args)))
-
 (define first-lens (list-ref-lens 0))
 (define second-lens (list-ref-lens 1))
 (define third-lens (list-ref-lens 2))
@@ -86,6 +82,4 @@
   (check-equal? (lens-set second-lens '(1 2 3 4 5) 'a) '(1 a 3 4 5))
   (check-equal? (lens-set third-lens  '(1 2 3 4 5) 'a) '(1 2 a 4 5))
   (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
-  (check-equal? (lens-set fifth-lens  '(1 2 3 4 5) 'a) '(1 2 3 4 a))
-  (check-equal? (lens-transform/list '(a (b c) (d e f)) (list-ref-nested-lens 2 1) symbol->string)
-                '(a (b c) (d "e" f))))
+  (check-equal? (lens-set fifth-lens  '(1 2 3 4 5) 'a) '(1 2 3 4 a)))

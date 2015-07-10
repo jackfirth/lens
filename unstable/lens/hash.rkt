@@ -2,25 +2,26 @@
 
 (provide
  (contract-out
-  [hash-ref-lens (-> any/c lens?)]))
+  [hash-ref-lens (-> any/c lens?)]
+  [hash-ref-nested-lens (->* () #:rest list? lens?)]))
 
 (require fancy-app
-         "base/main.rkt")
+         lens)
 
 (module+ test
   (require rackunit))
 
 
-(define (hash-ref-lens1 key)
+(define (hash-ref-lens key)
   (make-lens (hash-ref _ key)
              (hash-set _ key _)))
 
-(define (hash-ref-lens . keys)
-  (apply lens-thrush (map hash-ref-lens1 keys)))
+(define (hash-ref-nested-lens . keys)
+  (apply lens-thrush (map hash-ref-lens keys)))
 
 (module+ test
   (define a (hash-ref-lens 'a))
-  (define a-x (hash-ref-lens 'a 'x))
+  (define a-x (hash-ref-nested-lens 'a 'x))
   (let-lens [val ctxt] a (hash 'a 1 'b 2 'c 3)
     (check-equal? val 1)
     (check-equal? (ctxt 100) (hash 'a 100 'b 2 'c 3)))
