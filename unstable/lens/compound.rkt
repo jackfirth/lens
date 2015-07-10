@@ -1,6 +1,7 @@
 #lang racket
 
-(require lens)
+(require lens
+         unstable/sequence)
 
 (module+ test
   (require rackunit))
@@ -33,3 +34,27 @@
 (define first-first-lens
   (compound-list-lens first-lens
                       first-lens))
+
+
+(define (compound-hash-lens . keys/lenses)
+  (define grouped-keys/lenses
+    (for/list ([key/lens (in-slice 2 keys/lenses)])
+      key/lens))
+  (define keys (map first grouped-keys/lenses))
+  (define lenses (map second grouped-keys/lenses))
+  (define list-lens (apply compound-list-lens lenses))
+  (define (value-list->hash keys xs)
+    (make-immutable-hash (map cons keys xs)))
+  (define (get target)
+    (value-list->hash keys (lens-view list-lens target)))
+  (define (set target new-view-hash)
+    (lens-set list-lens target (hash-values new-view-hash)))
+  (make-lens get set))
+
+(module+ test
+  (define a-b-lens (compound-hash-lens 'a first-lens
+                                       'b third-lens))
+  (check-equal? (lens-view a-b-lens '(1 2 3))
+                (hash 'a 1 'b 3))
+  (check-equal? (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))
+                '(100 2 200)))
