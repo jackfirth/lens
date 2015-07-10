@@ -1,5 +1,7 @@
 #lang racket
 
-(require "syntax.rkt")
+(require "syntax.rkt"
+         "compound.rkt")
 
-(provide (all-from-out "syntax.rkt"))
+(provide (all-from-out "syntax.rkt"
+                       "compound.rkt"))

@@ -9,4 +9,5 @@ This library provides additional features for the
 may change in future releases. Do not depend on
 this library being backwards-compatible.
 
+@include-section["compound.scrbl"]
 @include-section["syntax.scrbl"]
