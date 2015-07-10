@@ -2,6 +2,7 @@
 
 (require fancy-app
          lens
+         lens/list-pair-contract
          unstable/sequence)
 
 (module+ test
@@ -9,7 +10,8 @@
 
 (provide
  (contract-out
-  [compound-list-lens (->* () #:rest (listof lens?) lens?)]))
+  [compound-list-lens (->* () #:rest (listof lens?) lens?)]
+  [compound-hash-lens (->* () #:rest (listof2 any/c lens?) lens?)]))
 
 
 (define (zip xs ys)
