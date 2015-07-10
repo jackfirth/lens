@@ -1,10 +1,6 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          lens/lenses-examples
-          (for-label lens
-                     racket/base
-                     racket/contract))
+@(require lens/doc-util/main)
 
 
 @title{List Lenses}

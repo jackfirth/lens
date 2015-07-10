@@ -1,10 +1,6 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          "lenses-examples.rkt"
-          (for-label lens
-                     racket/base
-                     racket/contract))
+@(require "doc-util/main.rkt")
 
 
 @title{Struct lenses}
