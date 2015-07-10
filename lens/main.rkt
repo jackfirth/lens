@@ -17,6 +17,5 @@
    )
   focus-lens
   drop-lens
-  list-ref-nested-lens
   take-lens
   use-applicable-lenses!))
