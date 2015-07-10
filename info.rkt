@@ -37,4 +37,7 @@
     "lens/list/assoc.scrbl"
     "lens/list/car-cdr.scrbl"
     "lens/list/list-ref-take-drop.scrbl"
-    "lens/list/main.scrbl"))
+    "lens/list/main.scrbl"
+    "unstable/lens/main.scrbl"
+    "unstable/lens/compound.scrbl"
+    "unstable/lens/syntax.scrbl"))
