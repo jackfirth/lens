@@ -10,7 +10,8 @@
   The compound lens operates similarly to composed functions do in
   that the last @racket[lens] is the first @racket[lens] the compound
   lens's target is viewed through. Each successive lens "zooms in"
-  to a more detailed view.
+  to a more detailed view. When called with no arguments, @racket[lens-compose]
+  produces the identity lens.
   @lenses-examples[
     (define first-of-second-lens (lens-compose first-lens second-lens))
     (lens-view first-of-second-lens '((1 a) (2 b) (3 c)))
