@@ -15,3 +15,4 @@ this library being backwards-compatible.
 @include-section["hash.scrbl"]
 @include-section["syntax.scrbl"]
 @include-section["sublist.scrbl"]
+@include-section["struct.scrbl"]
