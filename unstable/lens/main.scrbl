@@ -9,6 +9,7 @@ This library provides additional features for the
 may change in future releases. Do not depend on
 this library being backwards-compatible.
 
+@include-section["view-set.scrbl"]
 @include-section["compound.scrbl"]
 @include-section["list.scrbl"]
 @include-section["hash.scrbl"]
