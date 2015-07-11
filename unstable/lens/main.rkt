@@ -8,6 +8,7 @@
          "sublist.rkt"
          "struct.rkt"
          "arrow.rkt"
+         "hash-pluck.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -18,4 +19,5 @@
                        "sublist.rkt"
                        "struct.rkt"
                        "arrow.rkt"
+                       "hash-pluck.rkt"
                        ))
