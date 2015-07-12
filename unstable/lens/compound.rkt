@@ -61,7 +61,7 @@
   (define (get target)
     (value-list->hash keys (lens-view list-lens target)))
   (define (set target new-view-hash)
-    (lens-set list-lens target (hash-values new-view-hash)))
+    (lens-set list-lens target (map (hash-ref new-view-hash _) keys)))
   (make-lens get set))
 
 (module+ test
