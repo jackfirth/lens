@@ -9,55 +9,52 @@
 (module+ test
   (require lens/list/main racket/stream racket/contract))
 
-(define (make-equation-checker name lhs-s-exp rhs-s-exp lhs-f/LTV rhs-f/LTV)
-  (define (check L Ts Vs n [equal? equal?])
+(define-simple-macro
+  (define-equation-checker name:id [arg:id ...] lhs-expr:expr rhs-expr:expr)
+  #:with [i ...] (generate-temporaries #'[arg ...])
+  #:with {{clause ...} ...}
+  #'{{[(arg i) (in-indexed arg)] #:break (<= n i)} ...}
+  (define (name n equal? arg ...)
     (define fail
-      (for*/first ([(T i1) (in-indexed Ts)]
-                   #:break (<= n i1)
-                   [(V i2) (in-indexed Vs)]
-                   #:break (<= n i2)
-                   [lhs (in-value (lhs-f/LTV L T V))] [rhs (in-value (rhs-f/LTV L T V))]
+      (for*/first (clause ... ...
+                   [lhs (in-value lhs-expr)] [rhs (in-value rhs-expr)]
                    #:when (not (equal? lhs rhs)))
-        (list T V lhs rhs)))
+        (list lhs rhs arg ...)))
     (if fail
-        (match-let ([(list T V lhs rhs) fail])
+        (match-let ([(list lhs rhs arg ...) fail])
           (error name
                  (string-append "failure: ~s = ~s does not hold\n"
-                                "  L: ~v\n"
-                                "  T: ~v\n"
-                                "  V: ~v\n"
                                 "  lhs: ~v\n"
-                                "  rhs: ~v\n")
-                 lhs-s-exp rhs-s-exp L T V lhs rhs))
-        #t))
-  (procedure-rename check name))
+                                "  rhs: ~v\n"
+                                (format "  ~a: ~~v\n" 'arg) ...)
+                 'lhs-expr 'rhs-expr lhs rhs arg ...))
+        #t)))
 
-(define-simple-macro
-  (define-equation-checker name:id lhs:expr rhs:expr)
-  #:with [-L -T -V] (syntax-local-introduce #'[L T V])
-  (define name
-    (make-equation-checker 'name 'lhs 'rhs (λ (-L -T -V) lhs) (λ (-L -T -V) rhs))))
-
-(define-equation-checker check-set-get
+(define-equation-checker check-set-get [L T V]
   (lens-view L (lens-set L T V))
   V)
 
-(define-equation-checker check-get-set
+(define-equation-checker check-get-set [L T]
   (lens-set L T (lens-view L T))
   T)
 
-(define (check L Ts Vs n [equal? equal?])
+(define-equation-checker check-last-set [L T V1 V2]
+  (lens-view L (lens-set L (lens-set L T V1) V2))
+  V2)
+
+(define (check n equal? Ls Ts Vs)
   (and
-   (check-set-get L Ts Vs n equal?)
-   (check-get-set L Ts Vs n equal?)))
+   (check-set-get n equal? Ls Ts Vs)
+   (check-get-set n equal? Ls Ts)
+   (check-last-set n equal? Ls Ts Vs Vs)))
 
 (module+ test
-  (check car-lens
+  (check 10000 equal?
+         (in-value car-lens)
          (in-producer contract-random-generate #f pair?)
-         (in-producer gensym)
-         10000)
-  (check cdr-lens
+         (in-producer gensym))
+  (check 10000 equal?
+         (in-value cdr-lens)
          (in-producer contract-random-generate #f pair?)
-         (in-producer gensym)
-         10000)
+         (in-producer gensym))
   )
