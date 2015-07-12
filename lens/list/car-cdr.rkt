@@ -7,7 +7,8 @@
 (require "../base/main.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit
+           "../test-util/test-lens.rkt"))
 
 
 (define (set-car pair v)
@@ -20,5 +21,10 @@
 (define cdr-lens (make-lens cdr set-cdr))
 
 (module+ test
-  (check-equal? (lens-view car-lens '(1 . 2)) 1)
-  (check-equal? (lens-view cdr-lens '(1 . 2)) 2))
+  (check-view car-lens '(1 . 2) 1)
+  (check-set car-lens '(1 . 2) 'a '(a . 2))
+  (test-lens-laws car-lens '(1 . 2) 'a 'b)
+
+  (check-view cdr-lens '(1 . 2) 2)
+  (check-set cdr-lens '(1 . 2) 'a '(1 . a))
+  (test-lens-laws cdr-lens '(1 . 2) 'a 'b))
