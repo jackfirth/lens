@@ -2,7 +2,8 @@
 
 (require rackunit
          fancy-app
-         "../main.rkt")
+         "../base/base.rkt"
+         "../base/view-set.rkt")
 
 (provide
  (contract-out
