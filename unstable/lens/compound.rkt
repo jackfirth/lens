@@ -65,8 +65,8 @@
   (make-lens get set))
 
 (module+ test
-  (define a-b-lens (compound-hash-lens 'a first-lens
-                                       'b third-lens))
+  (define a-b-lens (compound-hash-lens 'b third-lens
+                                       'a first-lens))
   (check-equal? (lens-view a-b-lens '(1 2 3))
                 (hash 'a 1 'b 3))
   (check-equal? (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))
