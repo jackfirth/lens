@@ -7,6 +7,7 @@
          "view-set.rkt"
          "sublist.rkt"
          "struct.rkt"
+         "arrow.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -16,4 +17,5 @@
                        "view-set.rkt"
                        "sublist.rkt"
                        "struct.rkt"
+                       "arrow.rkt"
                        ))

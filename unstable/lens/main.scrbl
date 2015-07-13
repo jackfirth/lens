@@ -16,3 +16,4 @@ this library being backwards-compatible.
 @include-section["syntax.scrbl"]
 @include-section["sublist.scrbl"]
 @include-section["struct.scrbl"]
+@include-section["arrow.scrbl"]
