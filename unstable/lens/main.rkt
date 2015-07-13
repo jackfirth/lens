@@ -6,6 +6,7 @@
          "hash.rkt"
          "view-set.rkt"
          "sublist.rkt"
+         "struct.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -14,4 +15,5 @@
                        "hash.rkt"
                        "view-set.rkt"
                        "sublist.rkt"
+                       "struct.rkt"
                        ))
