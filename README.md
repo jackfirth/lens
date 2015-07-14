@@ -1,6 +1,8 @@
 lens [![Build Status](https://travis-ci.org/jackfirth/lens.svg?branch=master)](https://travis-ci.org/jackfirth/lens) [![Coverage Status](https://coveralls.io/repos/jackfirth/lens/badge.svg)](https://coveralls.io/r/jackfirth/lens) [![Stories in Ready](https://badge.waffle.io/jackfirth/lens.png?label=ready&title=Ready)](https://waffle.io/jackfirth/lens) 
 ===================================
-[Documentation](http://pkg-build.racket-lang.org/doc/lens/index.html)
+Documentation: [`lens`](http://pkg-build.racket-lang.org/doc/lens/index.html) [`unstable/lens`](http://pkg-build.racket-lang.org/doc/unstable-lens/index.html)
+
+Latest Version: 1.2
 
 A Racket package for creating and composing pure functional lenses.
 
