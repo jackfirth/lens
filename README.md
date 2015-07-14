@@ -2,7 +2,7 @@ lens [![Build Status](https://travis-ci.org/jackfirth/lens.svg?branch=master)](h
 ===================================
 Documentation: [`lens`](http://pkg-build.racket-lang.org/doc/lens/index.html) [`unstable/lens`](http://pkg-build.racket-lang.org/doc/unstable-lens/index.html)
 
-Latest Version: 1.2
+Latest Version: `1.2`
 
 A Racket package for creating and composing pure functional lenses.
 
