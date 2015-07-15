@@ -11,7 +11,9 @@
 (provide
  (contract-out
   [lens-join/list (->* () #:rest (listof lens?) lens?)]
-  [lens-join/hash (->* () #:rest (listof2 any/c lens?) lens?)]))
+  [lens-join/hash (->* () #:rest (listof2 any/c lens?) lens?)]
+  [lens-join/vector (->* () #:rest (listof lens?) lens?)]
+  ))
 
 
 (define (zip xs ys)
@@ -71,3 +73,25 @@
                 (hash 'a 1 'b 3))
   (check-equal? (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))
                 '(100 2 200)))
+
+
+(define (lens-join/vector . lenses)
+  (lens-compose list->vector-lens (apply lens-join/list lenses)))
+
+(define (inverse-function-lens f f-inv)
+  (make-lens
+   (λ (tgt) (f tgt))
+   (λ (tgt v) (f-inv v))))
+
+(define list->vector-lens
+  (inverse-function-lens list->vector vector->list))
+
+(module+ test
+  (define vector-first-third-fifth-lens
+    (lens-join/vector first-lens
+                      third-lens
+                      fifth-lens))
+  (check-equal? (lens-view vector-first-third-fifth-lens '(a b c d e f))
+                #(a c e))
+  (check-equal? (lens-set vector-first-third-fifth-lens '(a b c d e f) #(1 2 3))
+                '(1 b 2 d 3 f)))
