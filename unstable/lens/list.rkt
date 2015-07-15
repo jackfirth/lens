@@ -1,7 +1,7 @@
 #lang racket
 
 (require lens
-         "compound.rkt")
+         "join.rkt")
 
 (module+ test
   (require rackunit))
@@ -21,7 +21,7 @@
 
 
 (define (list-refs-lens . indices)
-  (apply compound-list-lens (map list-ref-lens indices)))
+  (apply lens-join/list (map list-ref-lens indices)))
 
 (module+ test
   (define 1-5-6-lens (list-refs-lens 1 5 6))

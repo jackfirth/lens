@@ -10,14 +10,14 @@
 
 (provide
  (contract-out
-  [compound-list-lens (->* () #:rest (listof lens?) lens?)]
-  [compound-hash-lens (->* () #:rest (listof2 any/c lens?) lens?)]))
+  [lens-join/list (->* () #:rest (listof lens?) lens?)]
+  [lens-join/hash (->* () #:rest (listof2 any/c lens?) lens?)]))
 
 
 (define (zip xs ys)
   (append-map list xs ys))
 
-(define (compound-list-lens . lenses)
+(define (lens-join/list . lenses)
   (define (get target)
     (apply lens-view/list target lenses))
   (define (set target new-views)
@@ -27,16 +27,16 @@
 
 (module+ test
   (define first-third-fifth-lens
-    (compound-list-lens first-lens
-                        third-lens
-                        fifth-lens))
+    (lens-join/list first-lens
+                    third-lens
+                    fifth-lens))
   (check-equal? (lens-view first-third-fifth-lens '(a b c d e f))
                 '(a c e))
   (check-equal? (lens-set first-third-fifth-lens '(a b c d e f) '(1 2 3))
                 '(1 b 2 d 3 f)))
 (define first-first-lens
-  (compound-list-lens first-lens
-                      first-lens))
+  (lens-join/list first-lens
+                  first-lens))
 
 
 (define (value-list->hash keys vs)
@@ -55,9 +55,9 @@
                 '((a b c) (1 2 3) (FOO BAR BAZ))))
 
 
-(define (compound-hash-lens . keys/lenses)
+(define (lens-join/hash . keys/lenses)
   (match-define (list keys lenses) (split-slice 2 keys/lenses))
-  (define list-lens (apply compound-list-lens lenses))
+  (define list-lens (apply lens-join/list lenses))
   (define (get target)
     (value-list->hash keys (lens-view list-lens target)))
   (define (set target new-view-hash)
@@ -65,8 +65,8 @@
   (make-lens get set))
 
 (module+ test
-  (define a-b-lens (compound-hash-lens 'b third-lens
-                                       'a first-lens))
+  (define a-b-lens (lens-join/hash 'b third-lens
+                                   'a first-lens))
   (check-equal? (lens-view a-b-lens '(1 2 3))
                 (hash 'a 1 'b 3))
   (check-equal? (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))

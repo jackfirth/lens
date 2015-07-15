@@ -1,7 +1,7 @@
 #lang racket
 
 (require "syntax.rkt"
-         "compound.rkt"
+         "join.rkt"
          "list.rkt"
          "hash.rkt"
          "view-set.rkt"
@@ -11,7 +11,7 @@
          )
 
 (provide (all-from-out "syntax.rkt"
-                       "compound.rkt"
+                       "join.rkt"
                        "list.rkt"
                        "hash.rkt"
                        "view-set.rkt"
