@@ -13,6 +13,7 @@ this library being backwards-compatible.
 @include-section["join.scrbl"]
 @include-section["list.scrbl"]
 @include-section["hash.scrbl"]
+@include-section["string.scrbl"]
 @include-section["syntax.scrbl"]
 @include-section["sublist.scrbl"]
 @include-section["struct.scrbl"]
