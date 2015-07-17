@@ -10,6 +10,7 @@
          "struct.rkt"
          "arrow.rkt"
          "hash-pluck.rkt"
+         "stream.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -22,4 +23,5 @@
                        "struct.rkt"
                        "arrow.rkt"
                        "hash-pluck.rkt"
+                       "stream.rkt"
                        ))
