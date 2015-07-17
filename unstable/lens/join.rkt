@@ -13,6 +13,7 @@
   [lens-join/list (->* () #:rest (listof lens?) lens?)]
   [lens-join/hash (->* () #:rest (listof2 any/c lens?) lens?)]
   [lens-join/vector (->* () #:rest (listof lens?) lens?)]
+  [lens-join/string (->* () #:rest (listof lens?) lens?)]
   ))
 
 
@@ -95,3 +96,23 @@
                 #(a c e))
   (check-equal? (lens-set vector-first-third-fifth-lens '(a b c d e f) #(1 2 3))
                 '(1 b 2 d 3 f)))
+
+(define (lens-join/string . lenses)
+  (lens-compose list->string-lens (apply lens-join/list lenses)))
+
+(define (list->immutable-string lst)
+  (string->immutable-string (list->string lst)))
+
+(define list->string-lens
+  (inverse-function-lens list->immutable-string string->list))
+
+(module+ test
+  (define string-first-third-fifth-lens
+    (lens-join/string first-lens
+                      third-lens
+                      fifth-lens))
+  (check-equal? (lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f))
+                "ace")
+  (check-pred immutable? (lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f)))
+  (check-equal? (lens-set string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f) "ACE")
+                '(#\A #\b #\C #\d #\E #\f)))

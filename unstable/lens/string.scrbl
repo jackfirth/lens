@@ -1,0 +1,23 @@
+#lang scribble/manual
+
+@(require lens/doc-util/main)
+
+@title{String Lenses}
+
+@defproc[(string-ref-lens [i exact-nonnegative-integer?]) lens?]{
+Returns a lens for viewing the @racket[i]th character of a string.
+@lenses-unstable-examples[
+  (lens-view (string-ref-lens 2) "abcdef")
+  (lens-set (string-ref-lens 2) "abcdef" #\C)
+]}
+
+@defproc[(string-pluck-lens [i exact-nonnegative-integer?]) lens?]{
+Like @racket[list-refs-lens], but for strings.
+Equivalent to @racket[(lens-join/string (string-ref-lens i) ...)].
+@lenses-unstable-examples[
+  (define 1-5-6-lens (string-pluck-lens 1 5 6))
+  (check-equal? (lens-view 1-5-6-lens "abcdefg")
+                "bfg")
+  (check-equal? (lens-set 1-5-6-lens "abcdefg" "BFG")
+                "aBcdeFG")
+]}
