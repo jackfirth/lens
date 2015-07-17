@@ -18,3 +18,4 @@ this library being backwards-compatible.
 @include-section["struct.scrbl"]
 @include-section["arrow.scrbl"]
 @include-section["hash-pluck.scrbl"]
+@include-section["stream.scrbl"]
