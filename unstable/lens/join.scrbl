@@ -45,3 +45,15 @@
     (lens-view vector-first-third-fifth-lens '(a b c d e f))
     (lens-set vector-first-third-fifth-lens '(a b c d e f) #(1 2 3))
 ]}
+
+@defproc[(lens-join/string [lens lens?] ...) lens?]{
+  Like @racket[lens-join/list], except the view is a string, not a list.
+  Each @racket[lens] argument must return a @racket[char?] as a view.
+  @lenses-unstable-examples[
+    (define string-first-third-fifth-lens
+      (lens-join/string first-lens
+                        third-lens
+                        fifth-lens))
+    (lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f))
+    (lens-set string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f) "ACE")
+]}
