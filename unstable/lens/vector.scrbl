@@ -8,7 +8,7 @@
 Returns a lens that views an element of a vector.
 @lenses-unstable-examples[
   (lens-view (vector-ref-lens 2) #(a b c d))
-  (lens-set (vector-ref lens 2) #(a b c d) "sea")
+  (lens-set (vector-ref-lens 2) #(a b c d) "sea")
 ]}
 
 @defproc[(vector-ref-nested-lens [i exact-nonnegative-integer?] ...) lens?]{
@@ -24,8 +24,6 @@ Like @racket[list-refs-lens], but for vectors.
 Equivalent to @racket[(lens-join/vector (vector-ref-lens i) ...)].
 @lenses-unstable-examples[
   (define 1-5-6-lens (vector-pluck-lens 1 5 6))
-  (check-equal? (lens-view 1-5-6-lens #(a b c d e f g))
-                #(b f g))
-  (check-equal? (lens-set 1-5-6-lens #(a b c d e f g) #(1 2 3))
-                #(a 1 c d e 2 3))
+  (lens-view 1-5-6-lens #(a b c d e f g))
+  (lens-set 1-5-6-lens #(a b c d e f g) #(1 2 3))
 ]}
