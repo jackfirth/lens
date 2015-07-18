@@ -84,8 +84,11 @@
    (λ (tgt) (f tgt))
    (λ (tgt v) (f-inv v))))
 
+(define (list->immutable-vector lst)
+  (apply vector-immutable lst))
+
 (define list->vector-lens
-  (inverse-function-lens list->vector vector->list))
+  (inverse-function-lens list->immutable-vector vector->list))
 
 (module+ test
   (define vector-first-third-fifth-lens
@@ -94,6 +97,7 @@
                       fifth-lens))
   (check-equal? (lens-view vector-first-third-fifth-lens '(a b c d e f))
                 #(a c e))
+  (check-pred immutable? (lens-view vector-first-third-fifth-lens '(a b c d e f)))
   (check-equal? (lens-set vector-first-third-fifth-lens '(a b c d e f) #(1 2 3))
                 '(1 b 2 d 3 f)))
 
