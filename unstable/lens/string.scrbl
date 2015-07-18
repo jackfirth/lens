@@ -16,8 +16,6 @@ Like @racket[list-refs-lens], but for strings.
 Equivalent to @racket[(lens-join/string (string-ref-lens i) ...)].
 @lenses-unstable-examples[
   (define 1-5-6-lens (string-pluck-lens 1 5 6))
-  (check-equal? (lens-view 1-5-6-lens "abcdefg")
-                "bfg")
-  (check-equal? (lens-set 1-5-6-lens "abcdefg" "BFG")
-                "aBcdeFG")
+  (lens-view 1-5-6-lens "abcdefg")
+  (lens-set 1-5-6-lens "abcdefg" "BFG")
 ]}
