@@ -13,3 +13,4 @@ this library being backwards-compatible.
 @include-section["syntax.scrbl"]
 @include-section["sublist.scrbl"]
 @include-section["arrow.scrbl"]
+@include-section["isomorphism.scrbl"]
