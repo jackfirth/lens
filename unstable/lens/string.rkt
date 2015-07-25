@@ -1,15 +1,15 @@
 #lang racket/base
 
 (provide string-ref-lens
-         string-pluck-lens
-         )
+         string-pick-lens)
 
 (require fancy-app
          lens/base/main
-         "join.rkt"
-         )
+         "join.rkt")
+
 (module+ test
   (require rackunit))
+
 
 (define (string-ref-lens i)
   (make-lens
@@ -24,20 +24,17 @@
                        c
                        (string-ref s j))))))
 
-(define (string-pluck-lens . is)
+(module+ test
+  (check-equal? (lens-view (string-ref-lens 2) "abc") #\c)
+  (check-equal? (lens-set (string-ref-lens 0) "abc" #\A) "Abc"))
+
+
+(define (string-pick-lens . is)
   (apply lens-join/string (map string-ref-lens is)))
 
-
 (module+ test
-  (check-equal? (lens-view (string-ref-lens 0) "abc") #\a)
-  (check-equal? (lens-view (string-ref-lens 1) "abc") #\b)
-  (check-equal? (lens-view (string-ref-lens 2) "abc") #\c)
-  (check-equal? (lens-set (string-ref-lens 0) "abc" #\A) "Abc")
-  (check-equal? (lens-set (string-ref-lens 1) "abc" #\B) "aBc")
-  (check-equal? (lens-set (string-ref-lens 2) "abc" #\C) "abC")
-  (define 1-5-6-lens (string-pluck-lens 1 5 6))
+  (define 1-5-6-lens (string-pick-lens 1 5 6))
   (check-equal? (lens-view 1-5-6-lens "abcdefg")
                 "bfg")
   (check-equal? (lens-set 1-5-6-lens "abcdefg" "BFG")
-                "aBcdeFG")
-  )
+                "aBcdeFG"))
