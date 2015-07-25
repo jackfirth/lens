@@ -3,7 +3,7 @@
 (require unstable/sequence
          fancy-app
          "base.rkt"
-         "../list-pair-contract.rkt")
+         "../util/list-pair-contract.rkt")
 
 (module+ test
   (require rackunit))
