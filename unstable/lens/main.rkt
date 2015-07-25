@@ -10,7 +10,7 @@
          "sublist.rkt"
          "struct.rkt"
          "arrow.rkt"
-         "hash-pluck.rkt"
+         "hash-pick.rkt"
          "stream.rkt"
          )
 
@@ -24,6 +24,6 @@
                        "sublist.rkt"
                        "struct.rkt"
                        "arrow.rkt"
-                       "hash-pluck.rkt"
+                       "hash-pick.rkt"
                        "stream.rkt"
                        ))

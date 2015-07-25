@@ -19,5 +19,5 @@ this library being backwards-compatible.
 @include-section["sublist.scrbl"]
 @include-section["struct.scrbl"]
 @include-section["arrow.scrbl"]
-@include-section["hash-pluck.scrbl"]
+@include-section["hash-pick.scrbl"]
 @include-section["stream.scrbl"]
