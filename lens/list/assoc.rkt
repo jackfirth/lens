@@ -1,9 +1,14 @@
 #lang racket
 
-(provide
- (contract-out [assoc-lens (->* (any/c) (#:is-equal? (-> any/c any/c boolean?)) lens?)]
-               [assv-lens (-> any/c lens?)]
-               [assq-lens (-> any/c lens?)]))
+(provide (contract-out
+          [assoc-lens
+           (->* (any/c) (#:is-equal? (-> any/c any/c boolean?))
+                (lens/c (listof pair?) any/c))]
+          [assv-lens
+           (-> any/c (lens/c (listof pair?) any/c))]
+          [assq-lens
+           (-> any/c (lens/c (listof pair?) any/c))]
+          ))
 
 (require racket/list
          fancy-app
