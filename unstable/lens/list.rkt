@@ -8,8 +8,13 @@
 
 (provide
   (contract-out
-    [list-ref-nested-lens (->* () #:rest (listof exact-nonnegative-integer?) lens?)]
-    [list-refs-lens (->* () #:rest (listof exact-nonnegative-integer?) lens?)]))
+    [list-ref-nested-lens
+     (->* () #:rest (listof exact-nonnegative-integer?)
+          lens?)]
+    [list-refs-lens
+     (->* () #:rest (listof exact-nonnegative-integer?)
+          (lens/c list? list?))]
+    ))
 
 
 (define (list-ref-nested-lens . indices)
