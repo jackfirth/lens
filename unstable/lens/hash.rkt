@@ -2,11 +2,13 @@
 
 (provide
  (contract-out
-  [hash-ref-lens (-> any/c lens?)]
-  [hash-ref-nested-lens (->* () #:rest list? lens?)]))
+  [hash-ref-lens (-> any/c (lens/c immutable-hash? any/c))]
+  [hash-ref-nested-lens (->* () #:rest list? (lens/c immutable-hash? any/c))]))
 
 (require fancy-app
-         lens)
+         lens
+         lens/util/immutable
+         )
 
 (module+ test
   (require rackunit))

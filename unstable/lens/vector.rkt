@@ -1,11 +1,21 @@
 #lang racket/base
 
-(provide vector-ref-lens
-         vector-ref-nested-lens
-         vector-pick-lens)
+(require racket/contract/base)
+(provide (contract-out
+          [vector-ref-lens
+           (-> exact-nonnegative-integer?
+               (lens/c immutable-vector? any/c))]
+          [vector-ref-nested-lens
+           (->* [] #:rest (listof exact-nonnegative-integer?)
+                (lens/c immutable-vector? any/c))]
+          [vector-pick-lens
+           (->* [] #:rest (listof exact-nonnegative-integer?)
+                (lens/c immutable-vector? immutable-vector?))]
+          ))
 
 (require fancy-app
          lens/base/main
+         lens/util/immutable
          "arrow.rkt"
          "join.rkt")
 
@@ -19,12 +29,12 @@
    (vector-set _ i _)))
 
 (define (vector-set v i x)
-  (vector->immutable-vector
-   (build-vector (vector-length v)
-                 (λ (j)
-                   (if (= i j)
-                       x
-                       (vector-ref v j))))))
+  (build-immutable-vector
+   (vector-length v)
+   (λ (j)
+     (if (= i j)
+         x
+         (vector-ref v j)))))
 
 (module+ test
   (check-equal? (lens-view (vector-ref-lens 0) #(a b c)) 'a)

@@ -3,6 +3,7 @@
 (require fancy-app
          lens
          lens/util/list-pair-contract
+         lens/util/immutable
          unstable/sequence)
 
 (module+ test
@@ -10,10 +11,10 @@
 
 (provide
  (contract-out
-  [lens-join/list (->* () #:rest (listof lens?) lens?)]
-  [lens-join/hash (->* () #:rest (listof2 any/c lens?) lens?)]
-  [lens-join/vector (->* () #:rest (listof lens?) lens?)]
-  [lens-join/string (->* () #:rest (listof lens?) lens?)]
+  [lens-join/list (->* () #:rest (listof lens?) (lens/c any/c list?))]
+  [lens-join/hash (->* () #:rest (listof2 any/c lens?) (lens/c any/c immutable-hash?))]
+  [lens-join/vector (->* () #:rest (listof lens?) (lens/c any/c immutable-vector?))]
+  [lens-join/string (->* () #:rest (listof lens?) (lens/c any/c immutable-string?))]
   ))
 
 
@@ -84,9 +85,6 @@
    (λ (tgt) (f tgt))
    (λ (tgt v) (f-inv v))))
 
-(define (list->immutable-vector lst)
-  (apply vector-immutable lst))
-
 (define list->vector-lens
   (inverse-function-lens list->immutable-vector vector->list))
 
@@ -103,9 +101,6 @@
 
 (define (lens-join/string . lenses)
   (lens-compose list->string-lens (apply lens-join/list lenses)))
-
-(define (list->immutable-string lst)
-  (string->immutable-string (list->string lst)))
 
 (define list->string-lens
   (inverse-function-lens list->immutable-string string->list))
