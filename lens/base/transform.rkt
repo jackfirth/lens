@@ -1,7 +1,6 @@
 #lang racket
 
-(require unstable/sequence
-         "base.rkt"
+(require "base.rkt"
          "../util/list-pair-contract.rkt")
 
 (module+ test

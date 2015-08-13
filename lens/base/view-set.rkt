@@ -1,7 +1,6 @@
 #lang racket
 
-(require unstable/sequence
-         fancy-app
+(require fancy-app
          "base.rkt"
          "../util/list-pair-contract.rkt")
 
