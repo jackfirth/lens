@@ -2,8 +2,7 @@
 
 (require fancy-app
          lens
-         lens/util/list-pair-contract
-         unstable/sequence)
+         lens/util/list-pair-contract)
 
 (module+ test
   (require rackunit))
