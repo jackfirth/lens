@@ -9,6 +9,7 @@
 (define deps
   '("base"
     "rackunit-lib"
+    "unstable-lib"
     "fancy-app"
     "alexis-util"
     "scribble-lib"))
