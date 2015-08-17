@@ -10,6 +10,7 @@
            number->string-lens string->number-lens
            list->vector-lens vector->list-lens
            list->string-lens string->list-lens
+           hash->list-lens list->hash-lens
            ))
 
 (require racket/match
@@ -43,6 +44,8 @@
     (isomorphism-lenses list->vector vector->list))
   (define-values [list->string-lens string->list-lens]
     (isomorphism-lenses list->string string->list))
+  (define-values [hash->list-lens list->hash-lens]
+    (isomorphism-lenses hash->list make-immutable-hash))
   )
 
 (module+ test

@@ -49,6 +49,7 @@ example, are defined like this:
 @deflenses[[string->symbol-lens symbol->string-lens
             number->string-lens string->number-lens
             list->vector-lens vector->list-lens
-            list->string-lens string->list-lens]]{
+            list->string-lens string->list-lens
+            hash->list-lens list->hash-lens]]{
 Isomorphim lenses for @racket[string->symbol], @racket[number->string], and so on.
 }
