@@ -18,10 +18,10 @@
 
 
 (define-examples-form lenses-examples
-  lens racket/list racket/stream)
+  lens racket/list racket/vector racket/stream)
 
 (define-examples-form lenses-applicable-examples
-  lens/applicable racket/list racket/stream)
+  lens/applicable racket/list racket/vector racket/stream)
 
 (define-examples-form lenses-unstable-examples
-  lens unstable/lens racket/list racket/stream)
+  lens unstable/lens racket/list racket/vector racket/stream)
