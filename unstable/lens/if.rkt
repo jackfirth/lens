@@ -2,10 +2,11 @@
 
 (provide lens-if
          lens-cond
+         lens-match
          )
 
 (require lens/base/main
-         racket/function
+         racket/match
          (for-syntax racket/base
                      syntax/parse
                      ))
@@ -43,6 +44,19 @@
                   ...
                   [else (error 'lens-cond "expected ~a, given: ~v" '(or/c pred-expr ...) tgt)]))))]))
 
+(define-syntax lens-match
+  (syntax-parser
+    [(lens-cond [pat:expr lens-expr:expr] ...)
+     #'(make-lens
+        (λ (tgt)
+          (match tgt
+            [pat (lens-view lens-expr tgt)]
+            ...))
+        (λ (tgt nvw)
+          (match tgt
+            [pat (lens-set lens-expr tgt nvw)]
+            ...)))]))
+
 (module+ test
   (define if-lens (lens-if list? first-lens (vector-ref-lens 0)))
   (check-equal? (lens-view if-lens '(1 2 3)) 1)
@@ -58,4 +72,16 @@
   (check-equal? (lens-set cond-lens '(1 2 3) 'a) '(a 2 3))
   (check-equal? (lens-set cond-lens '#(1 2 3) 'a) '#(a 2 3))
   (check-equal? (lens-set cond-lens "123" #\a) "a23")
+  (define match-lens (lens-match [(list a) first-lens]
+                                 [(list a b) second-lens]
+                                 [(list a b c) third-lens]
+                                 [(list a ... b) (list-ref-lens (length a))]))
+  (check-equal? (lens-view match-lens '(1)) 1)
+  (check-equal? (lens-view match-lens '(1 2)) 2)
+  (check-equal? (lens-view match-lens '(1 2 3)) 3)
+  (check-equal? (lens-view match-lens '(1 2 3 4 5 6)) 6)
+  (check-equal? (lens-set match-lens '(1) 'a) '(a))
+  (check-equal? (lens-set match-lens '(1 2) 'a) '(1 a))
+  (check-equal? (lens-set match-lens '(1 2 3) 'a) '(1 2 a))
+  (check-equal? (lens-set match-lens '(1 2 3 4 5 6) 'a) '(1 2 3 4 5 a))
   )
