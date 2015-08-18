@@ -2,9 +2,9 @@
 
 (provide sublist-lens)
 
-(require lens/base/main
-         lens/list/main
-         )
+(require lens
+         lens/list/list-ref-take-drop)
+
 (module+ test
   (require rackunit))
 
