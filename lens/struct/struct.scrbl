@@ -1,13 +1,11 @@
 #lang scribble/manual
 
-@(require lens/doc-util/main)
-
-@title{Defining struct lenses automatically}
+@(require "../doc-util/main.rkt")
 
 @defmodule[unstable/lens/struct]
 
 @defform[(define-struct-lenses struct-id)]{
-Given a @racket[struct-id], defines lenses for the fields.
+Given a @racket[struct-id], defines a lens for each of its fields.
 @lenses-unstable-examples[
   (struct foo (a b c) #:transparent)
   (define-struct-lenses foo)

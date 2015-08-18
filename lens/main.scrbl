@@ -15,7 +15,8 @@ representation of getters and setters in object-oriented languages.
 source code: @url["https://github.com/jackfirth/lens"]
 
 @include-section["base/main.scrbl"]
+@include-section["compound/main.scrbl"]
 @include-section["list/main.scrbl"]
-@include-section["struct.scrbl"]
+@include-section["struct/main.scrbl"]
 @include-section["dict.scrbl"]
 @include-section["applicable.scrbl"]

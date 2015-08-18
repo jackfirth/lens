@@ -1,9 +1,7 @@
 #lang scribble/manual
 
-@(require "doc-util/main.rkt")
+@(require "../doc-util/main.rkt")
 
-
-@title{Struct lenses}
 
 @defform[(struct-lens struct-id field-id)]{
   Returns a lens for viewing the @racket[field-id] field of
