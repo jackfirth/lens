@@ -1,10 +1,15 @@
 #lang racket/base
 
-(provide mapper-lens
-         vector-mapper-lens
-         )
+(require racket/contract/base)
+(provide (contract-out
+          [mapper-lens
+           (-> lens? (lens/c list? list?))]
+          [vector-mapper-lens
+           (-> lens? (lens/c immutable-vector? immutable-vector?))]
+          ))
 
 (require lens/base/main
+         lens/util/immutable
          racket/vector
          fancy-app
          )
