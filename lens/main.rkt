@@ -6,8 +6,7 @@
   "struct.rkt"
   "dict.rkt"
   "hash.rkt"
-  "stream.rkt"
-  )
+  "stream.rkt")
 
 (provide
  (except-out
@@ -17,8 +16,7 @@
    "struct.rkt"
    "dict.rkt"
    "hash.rkt"
-   "stream.rkt"
-   )
+   "stream.rkt")
   focus-lens
   drop-lens
   take-lens
