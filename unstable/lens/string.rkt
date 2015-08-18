@@ -1,10 +1,18 @@
 #lang racket/base
 
-(provide string-ref-lens
-         string-pick-lens)
+(require racket/contract/base)
+(provide (contract-out
+          [string-ref-lens
+           (-> exact-nonnegative-integer?
+               (lens/c immutable-string? char?))]
+          [string-pick-lens
+           (->* [] #:rest (listof exact-nonnegative-integer?)
+                (lens/c immutable-string? immutable-string?))]
+          ))
 
 (require fancy-app
          lens/base/main
+         lens/util/immutable
          "join.rkt")
 
 (module+ test
@@ -17,12 +25,12 @@
    (string-set _ i _)))
 
 (define (string-set s i c)
-  (string->immutable-string
-   (build-string (string-length s)
-                 (λ (j)
-                   (if (= i j)
-                       c
-                       (string-ref s j))))))
+  (build-immutable-string
+   (string-length s)
+   (λ (j)
+     (if (= i j)
+         c
+         (string-ref s j)))))
 
 (module+ test
   (check-equal? (lens-view (string-ref-lens 2) "abc") #\c)

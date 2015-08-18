@@ -1,9 +1,14 @@
 #lang racket/base
 
-(provide hash-pick-lens)
+(require racket/contract/base)
+(provide (contract-out
+          [hash-pick-lens
+           (->* [] #:rest list? (lens/c immutable-hash? immutable-hash?))]
+          ))
 
 (require racket/list
          lens/base/main
+         lens/util/immutable
          "hash.rkt"
          "join.rkt")
 

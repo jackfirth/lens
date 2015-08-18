@@ -2,22 +2,29 @@
 
 (provide
  (contract-out
-  [list-ref-lens (-> exact-nonnegative-integer? lens?)]
-  [take-lens (-> exact-nonnegative-integer? lens?)]
-  [drop-lens (-> exact-nonnegative-integer? lens?)]
-  [first-lens lens?]
-  [second-lens lens?]
-  [third-lens lens?]
-  [fourth-lens lens?]
-  [fifth-lens lens?]
-  [sixth-lens lens?]
-  [seventh-lens lens?]
-  [eighth-lens lens?]
-  [ninth-lens lens?]
-  [tenth-lens lens?]))
+  [list-ref-lens
+   (->i ([i exact-nonnegative-integer?])
+        [lens (i) (lens/c (list*-length-at-least/c (add1 i)) any/c)])]
+  [take-lens
+   (->i ([i exact-nonnegative-integer?])
+        [lens (i) (lens/c (list*-length-at-least/c (add1 i)) any/c)])]
+  [drop-lens
+   (->i ([i exact-nonnegative-integer?])
+        [lens (i) (lens/c (list*-length-at-least/c (add1 i)) any/c)])]
+  [first-lens   (lens/c (list*-length-at-least/c 1) any/c)]
+  [second-lens  (lens/c (list*-length-at-least/c 2) any/c)]
+  [third-lens   (lens/c (list*-length-at-least/c 3) any/c)]
+  [fourth-lens  (lens/c (list*-length-at-least/c 4) any/c)]
+  [fifth-lens   (lens/c (list*-length-at-least/c 5) any/c)]
+  [sixth-lens   (lens/c (list*-length-at-least/c 6) any/c)]
+  [seventh-lens (lens/c (list*-length-at-least/c 7) any/c)]
+  [eighth-lens  (lens/c (list*-length-at-least/c 8) any/c)]
+  [ninth-lens   (lens/c (list*-length-at-least/c 9) any/c)]
+  [tenth-lens   (lens/c (list*-length-at-least/c 10) any/c)]))
 
 (require racket/list
          fancy-app
+         "../util/improper-list-length.rkt"
          "../base/main.rkt"
          "car-cdr.rkt")
 

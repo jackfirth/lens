@@ -12,7 +12,9 @@
                        [focus-lens (-> lens? any/c
                                        (values any/c (-> any/c any/c)))]
                        [use-applicable-lenses! (-> void?)]
-                       [lens? predicate/c]))
+                       [lens? predicate/c]
+                       [lens/c (contract? contract? . -> . contract?)]
+                       ))
 
 
 (define lenses-applicable? (make-parameter #f))
@@ -26,6 +28,9 @@
     (if (lenses-applicable?)
         ((lens-struct-get this) target)
         (error "cannot apply a non-applicable lens as a function"))))
+
+(define (lens/c target/c view/c)
+  (struct/c lens-struct (-> target/c view/c) (-> target/c view/c target/c)))
 
 (module+ test
   (require rackunit)
