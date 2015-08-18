@@ -7,7 +7,7 @@
 
 (require fancy-app
          "base/main.rkt"
-         "util/immutable")
+         "util/immutable.rkt")
 
 (module+ test
   (require rackunit))

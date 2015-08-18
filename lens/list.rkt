@@ -1,6 +1,7 @@
 #lang racket
 
-(require lens
+(require "base/main.rkt"
+         "list/main.rkt"
          "join.rkt")
 
 (module+ test

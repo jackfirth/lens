@@ -6,10 +6,10 @@
 
 (require racket/stream
          fancy-app
-         "base/main")
+         "base/main.rkt")
 
 (module+ test
-  (require rackunit "test-util/test-lens"))
+  (require rackunit "test-util/test-lens.rkt"))
 
 (define (stream-ref-lens i)
   (lens-compose stream-first-lens (stream-tail-lens i)))

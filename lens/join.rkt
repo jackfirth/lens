@@ -1,9 +1,10 @@
 #lang racket
 
 (require fancy-app
-         lens
-         lens/util/list-pair-contract
-         lens/util/immutable
+         "base/main.rkt"
+         "list/main.rkt"
+         "util/list-pair-contract.rkt"
+         "util/immutable.rkt"
          unstable/sequence)
 
 (module+ test

@@ -7,8 +7,8 @@
           ))
 
 (require racket/list
-         lens/base/main
-         lens/util/immutable
+         "base/main.rkt"
+         "util/immutable.rkt"
          "hash.rkt"
          "join.rkt")
 

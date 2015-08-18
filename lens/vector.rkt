@@ -14,9 +14,9 @@
           ))
 
 (require fancy-app
-         lens/base/main
-         lens/util/immutable
-         "arrow.rkt"
+         "base/main.rkt"
+         "list/main.rkt"
+         "util/immutable.rkt"
          "join.rkt")
 
 (module+ test
