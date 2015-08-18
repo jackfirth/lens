@@ -3,12 +3,12 @@
 (require
   "base/main.rkt"
   "compound/main.rkt"
+  "dict.rkt"
   "hash/main.rkt"
   "list/main.rkt"
-  "struct/main.rkt"
-  "dict.rkt"
   "stream.rkt"
   "string.rkt"
+  "struct/main.rkt"
   "vector/main.rkt")
 
 (provide
@@ -16,13 +16,13 @@
   (all-from-out
    "base/main.rkt"
    "compound/main.rkt"
+   "dict.rkt"
    "hash/main.rkt"
    "list/main.rkt"
-   "struct/main.rkt"
-   "vector/main.rkt"
-   "dict.rkt"
    "stream.rkt"
-   "string.rkt")
+   "string.rkt"
+   "struct/main.rkt"
+   "vector/main.rkt")
   focus-lens
   drop-lens
   take-lens

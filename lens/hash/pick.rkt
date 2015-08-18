@@ -6,7 +6,7 @@
          "../compound/join-hash.rkt"
          "../util/immutable.rkt"
          "../util/rest-contract.rkt"
-         "hash.rkt")
+         "ref.rkt")
 
 (module+ test
   (require rackunit))
