@@ -1,11 +1,9 @@
 #lang scribble/manual
 
-@(require lens/doc-util/main)
+@(require "doc-util/main.rkt")
 
 
 @title{Joining Lenses}
-
-@defmodule[unstable/lens/join]
 
 @defproc[(lens-join/list [lens lens?] ...) lens?]{
   Constructs a lens that combines the view of each
@@ -13,7 +11,7 @@
   be used to view and set a list of values in a single
   target. If any of the lenses share views, then when
   setting the later lenses override the earlier ones.
-  @lenses-unstable-examples[
+  @lenses-examples[
     (define first-third-fifth-lens
       (lens-join/list first-lens
                       third-lens
@@ -28,7 +26,7 @@
   as the hash keys. In the same manner as @racket[lens-join/list],
   if lenses share views later lenses take precedence when
   setting.
-  @lenses-unstable-examples[
+  @lenses-examples[
     (define a-b-lens (lens-join/hash 'a first-lens
                                      'b third-lens))
     (lens-view a-b-lens '(1 2 3))
@@ -37,7 +35,7 @@
 
 @defproc[(lens-join/vector [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a vector, not a list.
-  @lenses-unstable-examples[
+  @lenses-examples[
     (define vector-first-third-fifth-lens
       (lens-join/vector first-lens
                         third-lens
@@ -49,7 +47,7 @@
 @defproc[(lens-join/string [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a string, not a list.
   Each @racket[lens] argument must return a @racket[char?] as a view.
-  @lenses-unstable-examples[
+  @lenses-examples[
     (define string-first-third-fifth-lens
       (lens-join/string first-lens
                         third-lens

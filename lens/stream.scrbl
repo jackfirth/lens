@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require "doc-util/main")
+@(require "doc-util/main.rkt")
 
 
 @title{Stream Lenses}
