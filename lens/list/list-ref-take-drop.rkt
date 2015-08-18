@@ -26,6 +26,7 @@
          fancy-app
          "../util/improper-list-length.rkt"
          "../base/main.rkt"
+         "../compound/compose.rkt"
          "car-cdr.rkt")
 
 (module+ test

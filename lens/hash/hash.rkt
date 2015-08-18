@@ -1,16 +1,19 @@
-#lang racket
+#lang racket/base
+
+(require racket/contract
+         fancy-app
+         "../base/main.rkt"
+         "../compound/main.rkt"
+         "../util/immutable.rkt"
+         "../util/rest-contract.rkt")
+
+(module+ test
+  (require rackunit))
 
 (provide
  (contract-out
   [hash-ref-lens (-> any/c (lens/c immutable-hash? any/c))]
-  [hash-ref-nested-lens (->* () #:rest list? (lens/c immutable-hash? any/c))]))
-
-(require fancy-app
-         "base/main.rkt"
-         "util/immutable.rkt")
-
-(module+ test
-  (require rackunit))
+  [hash-ref-nested-lens (rest-> any/c (lens/c immutable-hash? any/c))]))
 
 
 (define (hash-ref-lens key)

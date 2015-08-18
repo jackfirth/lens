@@ -1,17 +1,18 @@
 #lang racket/base
 
-(provide struct-lens)
-
 (require racket/local
          syntax/parse/define
          alexis/util/struct
-         "base/main.rkt"
+         "../base/main.rkt"
          (for-syntax racket/base
                      syntax/parse
-                     racket/syntax
-                     ))
+                     racket/syntax))
+
 (module+ test
   (require rackunit fancy-app))
+
+(provide struct-lens)
+
 
 (define-simple-macro (struct-lens s:id fld:id)
   #:with s-fld      (format-id #'s "~a-~a" #'s #'fld #:source #'fld)

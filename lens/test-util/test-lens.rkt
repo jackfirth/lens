@@ -1,6 +1,7 @@
-#lang racket
+#lang racket/base
 
-(require rackunit
+(require racket/contract
+         rackunit
          fancy-app
          "../base/base.rkt"
          "../base/view-set.rkt")

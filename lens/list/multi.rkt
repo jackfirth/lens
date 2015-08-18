@@ -1,21 +1,18 @@
-#lang racket
+#lang racket/base
 
-(require "base/main.rkt"
-         "list/main.rkt"
-         "join.rkt")
+(require racket/contract
+         "../base/main.rkt"
+         "../compound/main.rkt"
+         "../util/rest-contract.rkt"
+         "list-ref-take-drop.rkt")
 
 (module+ test
   (require rackunit))
 
 (provide
-  (contract-out
-    [list-ref-nested-lens
-     (->* () #:rest (listof exact-nonnegative-integer?)
-          lens?)]
-    [list-refs-lens
-     (->* () #:rest (listof exact-nonnegative-integer?)
-          (lens/c list? list?))]
-    ))
+ (contract-out
+  [list-ref-nested-lens (rest-> exact-nonnegative-integer? lens?)]
+  [list-refs-lens (rest-> exact-nonnegative-integer? (lens/c list? list?))]))
 
 
 (define (list-ref-nested-lens . indices)

@@ -13,7 +13,7 @@
 (require fancy-app
          "base/main.rkt"
          "util/immutable.rkt"
-         "join.rkt")
+         "compound/main.rkt")
 
 (module+ test
   (require rackunit))

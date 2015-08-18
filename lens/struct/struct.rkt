@@ -1,8 +1,5 @@
 #lang racket/base
 
-(provide define-struct-lenses
-         struct/lens)
-
 (require syntax/parse/define
          lens/base/main
          alexis/util/struct
@@ -10,12 +7,15 @@
          (for-syntax racket/base
                      syntax/parse
                      racket/syntax
-                     racket/struct-info
-                     ))
+                     racket/struct-info))
+
 (module+ test
   (require rackunit
            fancy-app
-           lens/test-util/test-lens))
+           "../test-util/test-lens.rkt"))
+
+(provide define-struct-lenses
+         struct/lens)
 
 
 (define-for-syntax (get-struct-field-ids struct-info failure-context)
