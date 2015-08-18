@@ -6,9 +6,8 @@
   [hash-ref-nested-lens (->* () #:rest list? (lens/c immutable-hash? any/c))]))
 
 (require fancy-app
-         lens
-         lens/util/immutable
-         )
+         "base/main.rkt"
+         "util/immutable")
 
 (module+ test
   (require rackunit))

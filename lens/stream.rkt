@@ -2,15 +2,14 @@
 
 (provide stream-first-lens
          stream-rest-lens
-         stream-ref-lens
-         )
+         stream-ref-lens)
 
 (require racket/stream
          fancy-app
-         lens/base/main
-         )
+         "base/main")
+
 (module+ test
-  (require rackunit lens/test-util/test-lens))
+  (require rackunit "test-util/test-lens"))
 
 (define (stream-ref-lens i)
   (lens-compose stream-first-lens (stream-tail-lens i)))

@@ -5,6 +5,8 @@
   "list/main.rkt"
   "struct.rkt"
   "dict.rkt"
+  "hash.rkt"
+  "stream.rkt"
   )
 
 (provide
@@ -14,6 +16,8 @@
    "list/main.rkt"
    "struct.rkt"
    "dict.rkt"
+   "hash.rkt"
+   "stream.rkt"
    )
   focus-lens
   drop-lens
