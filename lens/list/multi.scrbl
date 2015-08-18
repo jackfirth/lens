@@ -1,9 +1,7 @@
 #lang scribble/manual
 
-@(require "doc-util/main.rkt")
+@(require "../doc-util/main.rkt")
 
-
-@title{Nested List Lenses}
 
 @defproc[(list-ref-nested-lens [index exact-nonnegative-integer?] ...) lens?]{
   Constructs a lens that views into a tree made from nested lists.
