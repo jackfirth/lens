@@ -3,13 +3,11 @@
 (require "base.rkt"
          "view-set.rkt"
          "transform.rkt"
-         "identity.rkt"
-         "compose.rkt")
+         "identity.rkt")
 
 (provide
  (all-from-out
   "base.rkt"
   "view-set.rkt"
   "transform.rkt"
-  "identity.rkt"
-  "compose.rkt"))
+  "identity.rkt"))

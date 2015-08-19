@@ -1,9 +1,12 @@
-#lang racket
+#lang racket/base
 
-(require syntax/parse/define
+(require racket/contract
+         syntax/parse/define
          "../base/main.rkt"
+         "../compound/main.rkt"
          "car-cdr.rkt"
-         (for-syntax racket/syntax))
+         (for-syntax racket/base
+                     racket/syntax))
 
 (module+ test
   (require rackunit))

@@ -8,28 +8,23 @@
                     racket/base
                     racket/list
                     racket/stream
-                    racket/contract
-                    )
+                    racket/contract)
          (for-syntax racket/base
                      syntax/parse
-                     racket/syntax
-                     ))
+                     racket/syntax))
 
 (provide (all-from-out
           syntax/parse/define
           "deflenses.rkt"
-          "lenses-examples.rkt"
-          )
+          "lenses-examples.rkt")
          (for-label (all-from-out
                      lens
                      unstable/lens
                      racket/base
                      racket/list
                      racket/stream
-                     racket/contract
-                     ))
+                     racket/contract))
          (for-syntax (all-from-out
                       racket/base
                       syntax/parse
-                      racket/syntax
-                      )))
+                      racket/syntax)))

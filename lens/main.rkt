@@ -1,20 +1,28 @@
-#lang racket
+#lang racket/base
 
 (require
   "base/main.rkt"
-  "list/main.rkt"
-  "struct.rkt"
+  "compound/main.rkt"
   "dict.rkt"
-  )
+  "hash/main.rkt"
+  "list/main.rkt"
+  "stream.rkt"
+  "string.rkt"
+  "struct/main.rkt"
+  "vector/main.rkt")
 
 (provide
  (except-out
   (all-from-out
    "base/main.rkt"
-   "list/main.rkt"
-   "struct.rkt"
+   "compound/main.rkt"
    "dict.rkt"
-   )
+   "hash/main.rkt"
+   "list/main.rkt"
+   "stream.rkt"
+   "string.rkt"
+   "struct/main.rkt"
+   "vector/main.rkt")
   focus-lens
   drop-lens
   take-lens

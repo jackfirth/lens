@@ -5,10 +5,10 @@
          lens-transform~>
          lens-view/thrush
          lens-set/thrush
-         lens-transform/thrush
-         )
+         lens-transform/thrush)
 
-(require lens/base/main)
+(require lens)
+
 (module+ test
   (require rackunit racket/list fancy-app))
 
@@ -38,5 +38,4 @@
   (check-equal? (lens-set~> '((1 2) 3) first-lens second-lens #:-> 'two)
                 '((1 two) 3))
   (check-equal? (lens-transform~> '((1 2) 3) first-lens second-lens #:-> (* 100 _))
-                '((1 200) 3))
-  )
+                '((1 200) 3)))
