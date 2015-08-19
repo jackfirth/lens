@@ -1,6 +1,7 @@
 #lang scribble/manual
 
-@(require "../doc-util/main.rkt")
+@(require "../doc-util/main.rkt"
+          "../doc-util/scribble-include-no-subsection.rkt")
 
 
 @title{List lenses}
@@ -31,3 +32,5 @@
     (lens-view (lens-compose second-lens fourth-lens)
                '((a 1) (b 2) (c 3) (d 4)))
 ]}
+
+@scribble-include/no-subsection["multi.scrbl"]
