@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@title{Lenses}
+@title[#:style '(toc)]{Lenses}
 
 @defmodule[lens]
 
@@ -13,6 +13,8 @@ representation of getters and setters in object-oriented languages.
         @author+email["Alex Knauth" "alexander@knauth.org"]]
 
 source code: @url["https://github.com/jackfirth/lens"]
+
+@local-table-of-contents[]
 
 @include-section["base/main.scrbl"]
 @include-section["compound/main.scrbl"]
