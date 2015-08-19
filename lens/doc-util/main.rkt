@@ -7,6 +7,7 @@
                     unstable/lens
                     racket/base
                     racket/list
+                    racket/vector
                     racket/stream
                     racket/contract)
          (for-syntax racket/base
@@ -22,6 +23,7 @@
                      unstable/lens
                      racket/base
                      racket/list
+                     racket/vector
                      racket/stream
                      racket/contract))
          (for-syntax (all-from-out

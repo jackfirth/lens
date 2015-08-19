@@ -5,6 +5,7 @@
          "sublist.rkt"
          "arrow.rkt"
          "isomorphism.rkt"
+         "mapper.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -12,4 +13,5 @@
                        "sublist.rkt"
                        "arrow.rkt"
                        "isomorphism.rkt"
+                       "mapper.rkt"
                        ))
