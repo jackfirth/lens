@@ -1,6 +1,8 @@
 #lang scribble/manual
 
+@(require "../doc-util/scribble-include-no-subsection.rkt")
+
 @title{Struct Lenses}
 
-@include-section["field.scrbl"]
-@include-section["struct.scrbl"]
+@scribble-include/no-subsection["field.scrbl"]
+@scribble-include/no-subsection["struct.scrbl"]
