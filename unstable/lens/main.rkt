@@ -6,6 +6,7 @@
          "arrow.rkt"
          "isomorphism.rkt"
          "mapper.rkt"
+         "string-split.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -14,4 +15,5 @@
                        "arrow.rkt"
                        "isomorphism.rkt"
                        "mapper.rkt"
+                       "string-split.rkt"
                        ))
