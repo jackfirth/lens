@@ -1,6 +1,7 @@
-#lang racket
+#lang racket/base
 
-(require "../base/main.rkt"
+(require racket/contract/base
+         "../base/main.rkt"
          "../compound/main.rkt"
          "../util/immutable.rkt"
          "../util/rest-contract.rkt"

@@ -1,9 +1,10 @@
-#lang racket
+#lang racket/base
 
 (require syntax/parse
          rackunit
          lens
-         (for-syntax racket/syntax
+         (for-syntax racket/base
+                     racket/syntax
                      syntax/stx
                      syntax/parse))
 

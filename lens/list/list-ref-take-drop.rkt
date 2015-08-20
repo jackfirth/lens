@@ -1,5 +1,6 @@
-#lang racket
+#lang racket/base
 
+(require racket/contract/base)
 (provide
  (contract-out
   [list-ref-lens

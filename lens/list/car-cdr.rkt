@@ -1,5 +1,6 @@
-#lang racket
+#lang racket/base
 
+(require racket/contract/base)
 (provide
  (contract-out [car-lens (lens/c pair? any/c)]
                [cdr-lens (lens/c pair? any/c)]))

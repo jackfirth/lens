@@ -1,6 +1,6 @@
-#lang racket
+#lang racket/base
 
-(require "base.rkt")
+(require racket/function racket/contract/base "base.rkt")
 
 (module+ test
   (require rackunit
