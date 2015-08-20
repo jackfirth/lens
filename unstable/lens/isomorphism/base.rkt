@@ -13,7 +13,7 @@
            ))
 
 (require racket/match
-         lens/base/main
+         lens/base/gen-lens
          )
 (module+ test
   (require rackunit (submod ".." data)))

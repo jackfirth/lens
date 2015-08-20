@@ -1,6 +1,10 @@
 #lang racket/base
 
-(require racket/function racket/contract/base "base.rkt")
+(require racket/function
+         racket/contract/base
+         "base.rkt"
+         unstable/lens/isomorphism/base
+         )
 
 (module+ test
   (require rackunit
@@ -9,11 +13,8 @@
 (provide
  (contract-out [identity-lens lens?]))
 
-
-(define (second-value _ v) v)
-
 (define identity-lens
-  (make-lens identity second-value))
+  (isomorphism-lens identity identity))
 
 
 (module+ test
