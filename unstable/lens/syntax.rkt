@@ -1,4 +1,4 @@
-#lang racket
+#lang racket/base
 
 (require "syntax/syntax.rkt"
          "syntax/syntax-keyword.rkt")

@@ -1,11 +1,14 @@
-#lang racket
+#lang racket/base
 
 (require unstable/sequence
+         racket/match
+         racket/contract/base
          "base.rkt"
          "../util/list-pair-contract.rkt")
 
 (module+ test
   (require rackunit
+           racket/list
            fancy-app))
 
 (provide

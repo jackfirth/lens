@@ -1,5 +1,6 @@
-#lang racket
+#lang racket/base
 
+(require racket/contract/base)
 (provide (contract-out
           [assoc-lens
            (->* (any/c) (#:is-equal? (-> any/c any/c boolean?))
@@ -10,8 +11,7 @@
            (-> any/c (lens/c (listof pair?) any/c))]
           ))
 
-(require racket/list
-         fancy-app
+(require fancy-app
          "../base/main.rkt")
 
 (module+ test

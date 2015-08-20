@@ -1,6 +1,7 @@
-#lang racket
+#lang racket/base
 
 (require lens
+         racket/contract/base
          fancy-app
          syntax/parse)
 
