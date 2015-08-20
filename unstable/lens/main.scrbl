@@ -16,3 +16,4 @@ this library being backwards-compatible.
 @include-section["isomorphism.scrbl"]
 @include-section["mapper.scrbl"]
 @include-section["string-split.scrbl"]
+@include-section["match.scrbl"]
