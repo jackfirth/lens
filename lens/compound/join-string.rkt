@@ -4,7 +4,7 @@
          "../base/main.rkt"
          "../util/immutable.rkt"
          "compose.rkt"
-         "inverse-function-lens.rkt"
+         unstable/lens/isomorphism/base
          "join-list.rkt")
 
 (module+ test
@@ -20,7 +20,7 @@
   (lens-compose list->string-lens (apply lens-join/list lenses)))
 
 (define list->string-lens
-  (inverse-function-lens list->immutable-string string->list))
+  (isomorphism-lens list->immutable-string string->list))
 
 (module+ test
   (define string-first-third-fifth-lens

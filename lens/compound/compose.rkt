@@ -2,8 +2,11 @@
 
 (require racket/contract
          racket/list
+         racket/match
          fancy-app
-         "../base/main.rkt")
+         "../base/main.rkt"
+         unstable/lens/isomorphism/base
+         )
 
 (module+ test
   (require rackunit))
@@ -22,8 +25,16 @@
   (make-lens get set))
 
 
-(define lens-compose
-  (compose (foldr lens-compose2 identity-lens _) list))
+(define (lens-compose . args)
+  (match args
+    [(list)
+     identity-lens]
+    [(list (isomorphism-lens fs invs) ...)
+     (isomorphism-lens
+      (apply compose1 fs)
+      (apply compose1 (reverse invs)))]
+    [_
+     (foldr lens-compose2 identity-lens args)]))
 
 
 (module+ test
