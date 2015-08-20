@@ -6,9 +6,11 @@
          (for-label lens
                     unstable/lens
                     racket/base
+                    racket/match
                     racket/list
                     racket/vector
                     racket/stream
+                    racket/set
                     racket/contract)
          (for-syntax racket/base
                      syntax/parse
@@ -22,9 +24,11 @@
                      lens
                      unstable/lens
                      racket/base
+                     racket/match
                      racket/list
                      racket/vector
                      racket/stream
+                     racket/set
                      racket/contract))
          (for-syntax (all-from-out
                       racket/base

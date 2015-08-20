@@ -18,3 +18,4 @@ this library being backwards-compatible.
 @include-section["mapper.scrbl"]
 @include-section["string-split.scrbl"]
 @include-section["match.scrbl"]
+@include-section["set-filterer.scrbl"]

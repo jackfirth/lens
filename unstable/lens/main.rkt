@@ -9,6 +9,7 @@
          "mapper.rkt"
          "string-split.rkt"
          "match.rkt"
+         "set-filterer.rkt"
          )
 
 (provide (all-from-out "syntax.rkt"
@@ -20,4 +21,5 @@
                        "mapper.rkt"
                        "string-split.rkt"
                        "match.rkt"
+                       "set-filterer.rkt"
                        ))
