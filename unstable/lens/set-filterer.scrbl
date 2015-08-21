@@ -11,4 +11,8 @@ Creates a lens that filters a set by the predicate @racket[pred].
 @lenses-unstable-examples[
   (lens-view (set-filterer-lens number?) (set 1 'a 2 'b 'c 3 'd 'e))
   (lens-set (set-filterer-lens number?) (set 1 'a 2 'b 'c 3 'd 'e) (set 4 5 6 7))
-]}
+]
+Lists are also sets, so @racket[set-filterer-lens] works for lists too, but it
+does not preserve ordering. It follows the lens laws only if you compare using
+@racket[set=?], not @racket[equal?].
+}
