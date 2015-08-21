@@ -15,7 +15,7 @@ provide
 
 
 (define identity-lens
-  (isomorphism-lens identity identity))
+  (make-isomorphism-lens identity identity))
 
 (module+ test
   (check-equal? (lens-view identity-lens 'foo) 'foo)

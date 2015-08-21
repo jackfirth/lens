@@ -1,26 +1,27 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(require racket/contract
-         "../base/main.rkt"
-         "../util/immutable.rkt"
-         "compose.rkt"
-         unstable/lens/isomorphism/base
-         "join-list.rkt")
+require racket/contract
+        unstable/lens/isomorphism/base
+        "../base/main.rkt"
+        "../util/immutable.rkt"
+        "../util/rest-contract.rkt"
+        "compose.rkt"
+        "join-list.rkt"
 
-(module+ test
-  (require rackunit
-           "../list/list-ref-take-drop.rkt"))
+module+ test
+  require rackunit
+          "../list/list-ref-take-drop.rkt"
 
-(provide
- (contract-out
-  [lens-join/string (->* () #:rest (listof lens?) (lens/c any/c immutable-string?))]))
+provide
+  contract-out
+    lens-join/string (rest-> (lens/c any/c char?) (lens/c any/c immutable-string?))
 
 
 (define (lens-join/string . lenses)
   (lens-compose list->string-lens (apply lens-join/list lenses)))
 
 (define list->string-lens
-  (isomorphism-lens list->immutable-string string->list))
+  (make-isomorphism-lens list->immutable-string string->list))
 
 (module+ test
   (define string-first-third-fifth-lens
