@@ -49,6 +49,7 @@
                 '#(a c e))
   (check-equal? (lens-set (vector-mapper-lens first-lens) '#((a b) (c d) (e f)) '#(1 2 3))
                 '#((1 b) (2 d) (3 f)))
-  (check-equal? (lens-transform (vector-mapper-lens first-lens) '#((a b) (c d) (e f)) (vector-map symbol->string _))
+  (check-equal? (lens-transform (vector-mapper-lens first-lens) '#((a b) (c d) (e f))
+                                (immutable-vector-map symbol->string _))
                 '#(("a" b) ("c" d) ("e" f)))
   )
