@@ -6,7 +6,7 @@
 
 @defmodule[unstable/lens/set-filterer]
 
-@defproc[(set-filterer-lens [pred (-> any/c any/c)]) lens?]{
+@defproc[(set-filterer-lens [pred (-> any/c any/c)]) (lens/c functional-set? functional-set?)]{
 Creates a lens that filters a set by the predicate @racket[pred].
 @lenses-unstable-examples[
   (lens-view (set-filterer-lens number?) (set 1 'a 2 'b 'c 3 'd 'e))

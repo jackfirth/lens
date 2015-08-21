@@ -1,9 +1,12 @@
 #lang racket/base
 
-(provide set-filterer-lens)
+(require racket/contract/base)
+(provide (contract-out
+          [set-filterer-lens
+           (-> predicate/c (lens/c functional-set? functional-set?))]
+          ))
 
 (require lens/base/main
-         racket/contract/base
          racket/list
          racket/set
          fancy-app
@@ -26,6 +29,10 @@
 (define (set-filter-not pred set)
   (for/fold ([set set]) ([elem (in-set set)] #:when (pred elem))
     (set-remove set elem)))
+
+(define (functional-set? st)
+  (and (generic-set? st)
+       (set-implements? st 'set-add 'set-remove)))
 
 (module+ test
   (check-equal? (lens-view (set-filterer-lens number?) '(1 a 2 b c 3 d e))
