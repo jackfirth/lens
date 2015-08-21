@@ -2,6 +2,7 @@
 
 (require "syntax.rkt"
          "view-set.rkt"
+         "struct-nested.rkt"
          "sublist.rkt"
          "arrow.rkt"
          "isomorphism.rkt"
@@ -12,6 +13,7 @@
 
 (provide (all-from-out "syntax.rkt"
                        "view-set.rkt"
+                       "struct-nested.rkt"
                        "sublist.rkt"
                        "arrow.rkt"
                        "isomorphism.rkt"

@@ -11,6 +11,7 @@ this library being backwards-compatible.
 
 @include-section["view-set.scrbl"]
 @include-section["syntax.scrbl"]
+@include-section["struct-nested.scrbl"]
 @include-section["sublist.scrbl"]
 @include-section["arrow.scrbl"]
 @include-section["isomorphism.scrbl"]
