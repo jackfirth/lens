@@ -1,31 +1,32 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(require racket/contract/base)
-(provide (contract-out
-          [reverse-lens
-           (lens/c list? list?)]
-          [last-lens
-           (lens/c list? any/c)]
-          ))
+require racket/contract/base
 
-(require lens/base/main
-         lens/list/main
-         lens/compound/main
-         "isomorphism/base.rkt"
-         )
+provide
+  contract-out
+    reverse-lens (lens/c list? list?)
+    last-lens (lens/c list? any/c)
 
-(module+ test
-  (require rackunit fancy-app))
+require lens/base/main
+        lens/list/main
+        lens/compound/main
+        "isomorphism/base.rkt"
+
+module+ test
+  require rackunit fancy-app
+
 
 (define reverse-lens
-  (isomorphism-lens reverse reverse))
+  (make-isomorphism-lens reverse reverse))
+
+module+ test
+  (check-equal? (lens-view reverse-lens '(1 2 3)) '(3 2 1))
+  (check-equal? (lens-transform reverse-lens '(1 2 3) (cons 4 _)) '(1 2 3 4))
+
 
 (define last-lens
   (lens-thrush reverse-lens first-lens))
 
-(module+ test
-  (check-equal? (lens-view reverse-lens '(1 2 3)) '(3 2 1))
-  (check-equal? (lens-transform reverse-lens '(1 2 3) (cons 4 _)) '(1 2 3 4))
+module+ test
   (check-equal? (lens-view last-lens '(1 2 3)) 3)
   (check-equal? (lens-set last-lens '(1 2 3) 'a) '(1 2 a))
-  )
