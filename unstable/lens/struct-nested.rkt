@@ -8,27 +8,42 @@
 (module+ test
   (require rackunit))
 
-(provide struct-nested-lens)
+(provide struct-nested-lens
+         struct-nested-lens*)
 
 
 (define-syntax struct-nested-lens
   (syntax-parser
+    [(_ [struct-id:id field-id:id] ...)
+     #'(lens-thrush (struct-lens struct-id field-id) ...)]))
+
+(define-syntax struct-nested-lens*
+  (syntax-parser
     [(_ struct-id:id field-id:id)
      #'(struct-lens struct-id field-id)]
-    [(_ struct-id:id [field-id:id field-struct-id:id] rest ...)
-     #'(lens-thrush (struct-lens struct-id field-id)
-                    (struct-nested-lens field-struct-id rest ...))]
-    [(_ struct-id:id field-and-field-struct-id:id rest ...)
-     #'(struct-nested-lens struct-id
-                           [field-and-field-struct-id field-and-field-struct-id]
-                           rest ...)]))
+    [(_ struct-id:id both0:id both:id ... field-id:id)
+     #'(lens-thrush (struct-lens struct-id both0)
+                    (struct-nested-lens* both0 both ... field-id))]))
 
 (module+ test
-  (struct a (b b2) #:prefab)
-  (struct b (b1 b2 b3) #:prefab)
-  (define a-b-b1-lens (struct-nested-lens a b b1))
-  (define a-b2-b3-lens (struct-nested-lens a [b2 b] b3))
-  (check-equal? (lens-view a-b-b1-lens (a (b 1 2 3) 'foo)) 1)
-  (check-equal? (lens-set a-b-b1-lens (a (b 1 2 3) 'foo) 10) (a (b 10 2 3) 'foo))
-  (check-equal? (lens-view a-b2-b3-lens (a 'foo (b 1 2 3))) 3)
-  (check-equal? (lens-set a-b2-b3-lens (a 'foo (b 1 2 3)) 10) (a 'foo (b 1 2 10))))
+  (struct game (player level) #:transparent)
+  (struct player (posn stats) #:transparent)
+  (struct posn (x y) #:transparent)
+  (struct combat-stats (health attack) #:transparent)
+  (define the-game (game (player (posn 0 0) (combat-stats 10 1)) 'foo-level))
+
+  (define game-player-health-lens
+    (struct-nested-lens [game player]
+                        [player stats]
+                        [combat-stats health]))
+  (check-equal? (lens-view game-player-health-lens the-game) 10)
+  (check-equal? (lens-set game-player-health-lens the-game 20)
+                (game (player (posn 0 0) (combat-stats 20 1)) 'foo-level))
+  
+  (define game-player-posn-x-lens
+    (struct-nested-lens* game player posn x))
+  (check-equal? (lens-view game-player-posn-x-lens the-game) 0)
+  (check-equal? (lens-set game-player-posn-x-lens the-game 3)
+                (game (player (posn 3 0) (combat-stats 10 1)) 'foo-level)))
+
+ 
