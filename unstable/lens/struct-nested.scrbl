@@ -41,7 +41,7 @@
 @defform[#:id struct-nested-lens*
          (struct-nested-lens* struct-id both-id ... field-id)]{
   Like @racket[struct-nested-lens], but for the case where each nested
-  field is named the same as it's struct type. For example, given the
+  field is named the same as its struct type. For example, given the
   game state defined in the examples for @racket[struct-nested-lens]:
   @struct-nested*-examples[
     (struct game (player level) #:transparent)
@@ -52,7 +52,7 @@
     the-game
   ]
 
-  Because each field is named the same as it's struct type, we can
+  Because each field is named the same as its struct type, we can
   create a lens for viewing the player's x coordinate more succinctly
   than with @racket[struct-nested-examples]:
   @struct-nested*-examples[
