@@ -31,8 +31,8 @@ provide
   (match args
     [(list)
      identity-lens]
-    [(list (isomorphism-lens fs invs) ...)
-     (isomorphism-lens
+    [(list (make-isomorphism-lens fs invs) ...)
+     (make-isomorphism-lens
       (apply compose1 fs)
       (apply compose1 (reverse invs)))]
     [_
