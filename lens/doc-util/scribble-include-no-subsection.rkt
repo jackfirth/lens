@@ -6,7 +6,8 @@
          racket/match
          scribble/core
          (for-syntax racket/base
-                     syntax/parse))
+                     syntax/parse
+                     ))
 
 ;; scribble-include/no-subsection requires that the module to be included:
 ;;  - has no title
