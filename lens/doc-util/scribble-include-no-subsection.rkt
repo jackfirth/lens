@@ -1,13 +1,13 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(provide scribble-include/no-subsection)
+provide scribble-include/no-subsection
 
-(require syntax/parse/define
-         racket/match
-         scribble/core
-         (for-syntax racket/base
-                     syntax/parse
-                     ))
+require syntax/parse/define
+        racket/match
+        scribble/core
+        for-syntax racket/base
+                   syntax/parse
+
 
 ;; scribble-include/no-subsection requires that the module to be included:
 ;;  - has no title

@@ -12,6 +12,7 @@
     "unstable-lib"
     "fancy-app"
     "alexis-util"
+    "sweet-exp"
     "scribble-lib"))
 
 
