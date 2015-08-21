@@ -15,4 +15,11 @@ Creates a lens that filters a set by the predicate @racket[pred].
 Lists are also sets, so @racket[set-filterer-lens] works for lists too, but it
 does not preserve ordering. It follows the lens laws only if you compare using
 @racket[set=?], not @racket[equal?].
-}
+@lenses-unstable-examples[
+  (lens-view (set-filterer-lens number?) '(a 1 2 3)) ; will be '(1 2 3)
+  (lens-set (set-filterer-lens number?) '(a 1 2 3) '(1 2 3)) ; will be '(3 2 1 a)
+  (code:comment "this breaks the lens laws according to equal?")
+  (equal? '(a 1 2 3) '(3 2 1 a))
+  (code:comment "but not according to set=?")
+  (set=? '(a 1 2 3) '(3 2 1 a))
+]}
