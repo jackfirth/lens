@@ -2,6 +2,8 @@
 
 (provide (all-defined-out))
 
+(require racket/vector)
+
 ;; The immutable? predicate only works for strings, byte-strings, vectors, hash-tables, and boxes.
 
 (define (immutable-string? v)
@@ -30,4 +32,7 @@
 
 (define (build-immutable-vector n f)
   (vector->immutable-vector (build-vector n f)))
+
+(define (immutable-vector-map f v)
+  (vector->immutable-vector (vector-map f v)))
 
