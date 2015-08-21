@@ -1,18 +1,20 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(require racket/contract
-         racket/list
-         racket/match
-         fancy-app
-         "../base/main.rkt"
-         unstable/lens/isomorphism/base
-         )
+require racket/contract
+        racket/list
+        racket/match
+        fancy-app
+        "../base/main.rkt"
+        "../util/rest-contract.rkt"
+        "identity.rkt"
+        unstable/lens/isomorphism/base
 
-(module+ test
-  (require rackunit))
+module+ test
+  require rackunit
 
-(provide
- (contract-out [lens-compose (->* () () #:rest (listof lens?) lens?)]))
+provide
+  contract-out
+    lens-compose (rest-> lens? lens?)
 
 
 (define (lens-compose2 sub-lens super-lens)
