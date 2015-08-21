@@ -31,13 +31,13 @@
             (examples #:eval the-eval datum (... (... ...)))))))))
 
 (define-examples-form lenses-examples
-  lens racket/list racket/vector racket/stream)
+  lens racket/list racket/vector racket/stream racket/set)
 
 (define-examples-form lenses-applicable-examples
-  lens/applicable racket/list racket/vector racket/stream)
+  lens/applicable racket/list racket/vector racket/stream racket/set)
 
 (define-examples-form lenses-unstable-examples
-  lens unstable/lens racket/list racket/vector racket/stream)
+  lens unstable/lens racket/list racket/vector racket/stream racket/set)
 
 (define-examples/persistance-syntax define-persistant-lenses-unstable-examples
-  lens unstable/lens racket/list racket/vector racket/stream)
+  lens unstable/lens racket/list racket/vector racket/stream racket/set)
