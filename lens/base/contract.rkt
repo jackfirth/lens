@@ -3,6 +3,7 @@
 (provide lens/c)
 
 (require racket/contract/base
+         unstable/contract
          "gen-lens.rkt"
          )
 (module+ test
@@ -13,10 +14,12 @@
            ))
 
 (define (lens/c target/c view/c)
-  (gen-lens/c
-   [lens-view (or/c #f [lens? target/c . -> . view/c])]
-   [lens-set (or/c #f [lens? target/c view/c . -> . target/c])]
-   [focus-lens (or/c #f [lens? target/c . -> . (values view/c [view/c . -> . target/c])])]))
+  (rename-contract
+   (gen-lens/c
+    [lens-view (or/c #f [lens? target/c . -> . view/c])]
+    [lens-set (or/c #f [lens? target/c view/c . -> . target/c])]
+    [focus-lens (or/c #f [lens? target/c . -> . (values view/c [view/c . -> . target/c])])])
+   `(lens/c ,(contract-name target/c) ,(contract-name view/c))))
 
 (module+ test
   (check-exn exn:fail:contract?
