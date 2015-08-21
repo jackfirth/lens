@@ -19,5 +19,6 @@ Creates a lens that maps @racket[lens] over a target vector with @racket[vector-
 @lenses-unstable-examples[
   (lens-view (vector-mapper-lens first-lens) '#((a b) (c d) (e f)))
   (lens-set (vector-mapper-lens first-lens) '#((a b) (c d) (e f)) '#(1 2 3))
-  (lens-transform (vector-mapper-lens first-lens) '#((a b) (c d) (e f)) (λ (xs) (vector-map symbol->string xs)))
+  (lens-transform (vector-mapper-lens first-lens) '#((a b) (c d) (e f))
+                  (λ (xs) (vector->immutable-vector (vector-map symbol->string xs))))
 ]}
