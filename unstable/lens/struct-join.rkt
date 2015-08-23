@@ -68,7 +68,12 @@ module+ test
                       #:c (hash-ref-lens 'c)
                       #:a (hash-ref-lens 'a)
                       #:b (hash-ref-lens 'b)))
-  (test-multi* ([foo-hash-lens #:in [foo-hash-lens1 foo-hash-lens2 foo-hash-lens3]])
+  (define foo-hash-lens4
+    (lens-join/struct foo
+                      (hash-ref-lens 'a)
+                      #:c (hash-ref-lens 'c)
+                      #:b (hash-ref-lens 'b)))
+  (test-multi* ([foo-hash-lens #:in [foo-hash-lens1 foo-hash-lens2 foo-hash-lens3 foo-hash-lens4]])
     (check-equal? (lens-view foo-hash-lens (hash 'a 1 'b 2 'c 3))
                   (foo 1 2 3))
     (check-equal? (lens-set foo-hash-lens (hash 'a 1 'b 2 'c 3) (foo 10 20 30))
