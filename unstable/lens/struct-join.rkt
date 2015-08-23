@@ -39,7 +39,7 @@ module+ test
   (lambda (stx)
     (syntax-parse stx
       [(lens-join/struct s:id flds:field-lenses)
-       #:with make/kw-form (syntax/loc stx (make/kw s flds.norm ...))
+       #:with make/kw-form #`(make/kw/derived #,stx s flds.norm ...)
        #:with [[lens-id/vw-id ...] ...] #'[[flds.lens-id flds.vw-id] ...]
        #`(local [(define flds.lens-id flds.lens-expr) ...]
            (make-lens
