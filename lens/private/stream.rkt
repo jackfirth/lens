@@ -1,16 +1,27 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(provide stream-first-lens
-         stream-rest-lens
-         stream-ref-lens)
+require racket/contract/base
 
-(require racket/stream
-         fancy-app
-         "base/main.rkt"
-         "compound/main.rkt")
+provide
+  contract-out
+    stream-first-lens (lens/c stream? any/c)
+    stream-rest-lens (lens/c stream? stream?)
+    stream-ref-lens (-> exact-nonnegative-integer? (lens/c stream? any/c))
 
-(module+ test
-  (require rackunit "test-util/test-lens.rkt"))
+require racket/stream
+        fancy-app
+        "base/main.rkt"
+        "compound/main.rkt"
+
+module+ test
+  require rackunit
+          "test-util/test-lens.rkt"
+
+
+module+ test
+  (define-check (check-stream-equal? stream1 stream2)
+    (equal? (stream->list stream1) (stream->list stream2)))
+
 
 (define (stream-ref-lens i)
   (lens-compose stream-first-lens (stream-tail-lens i)))
@@ -43,14 +54,22 @@
   (for/fold ([rst rst]) ([v (in-list rev-fst)])
     (stream-cons v rst)))
 
+module+ test
+  (check-equal? (lens-view stream-first-lens (stream 'a 'b 'c)) 'a)
+  (check-equal? (lens-view (stream-ref-lens 2) (stream 'a 'b 'c)) 'c)
+  (check-stream-equal? (lens-set stream-first-lens (stream 'a 'b 'c) 1)
+                       (stream 1 'b 'c))
+  (check-stream-equal? (lens-set (stream-ref-lens 2) (stream 'a 'b 'c) 1)
+                       (stream 'a 'b 1))
+
 (define (stream-ref-nested-lens . is)
   (apply lens-thrush (map stream-ref-lens is)))
 
-(module+ test
-  (check-view     stream-first-lens   (stream 'a 'b 'c) 'a)
-  (check-view     (stream-ref-lens 2) (stream 'a 'b 'c) 'c)
-  (check-set-view stream-first-lens   (stream 'a 'b 'c) (gensym))
-  (check-set-view (stream-ref-lens 2) (stream 'a 'b 'c) (gensym))
-  (check-set-set  stream-first-lens   (stream 'a 'b 'c) (gensym) (gensym))
-  (check-set-set  (stream-ref-lens 2) (stream 'a 'b 'c) (gensym) (gensym))
-  )
+module+ test
+  (check-equal? (lens-view (stream-ref-nested-lens 1 2 0)
+                           (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd))
+                'foo)
+  (check-stream-equal? (lens-set (stream-ref-nested-lens 1 2 0)
+                                 (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd)
+                                 'FOO)
+                       (stream 'a (stream 1 2 (stream 'FOO 'bar 'baz) 3 4) 'b 'c 'd))
