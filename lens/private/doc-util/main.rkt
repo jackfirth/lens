@@ -2,6 +2,7 @@
 
 (require syntax/parse/define
          "deflenses.rkt"
+         "include-sections.rkt"
          "lenses-examples.rkt"
          (for-label lens
                     unstable/lens
@@ -19,6 +20,7 @@
 (provide (all-from-out
           syntax/parse/define
           "deflenses.rkt"
+          "include-sections.rkt"
           "lenses-examples.rkt")
          (for-label (all-from-out
                      lens
