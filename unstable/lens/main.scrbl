@@ -19,3 +19,4 @@ this library being backwards-compatible.
 @include-section["string-split.scrbl"]
 @include-section["match.scrbl"]
 @include-section["set-filterer.scrbl"]
+@include-section["struct-join.scrbl"]
