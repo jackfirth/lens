@@ -11,6 +11,7 @@ require racket/contract
 
 module+ test
   require rackunit
+          racket/set
 
 provide
   contract-out
@@ -39,7 +40,7 @@ provide
      (foldr lens-compose2 identity-lens args)]))
 
 
-(module+ test
+module+ test
   (define (set-first l v)
     (list* v (rest l)))
   (define first-lens (make-lens first set-first))
@@ -49,4 +50,7 @@ provide
   (define test-alist '((a 1) (b 2) (c 3)))
   (define first-of-second-lens (lens-compose first-lens second-lens))
   (check-equal? (lens-view first-of-second-lens test-alist) 'b)
-  (check-equal? (lens-set first-of-second-lens test-alist 'B) '((a 1) (B 2) (c 3))))
+  (check-equal? (lens-set first-of-second-lens test-alist 'B) '((a 1) (B 2) (c 3)))
+  (check-eq? (lens-compose) identity-lens)
+  (check-pred isomorphism-lens? (lens-compose (make-isomorphism-lens set->list list->set)
+                                              (make-isomorphism-lens list->vector vector->list)))

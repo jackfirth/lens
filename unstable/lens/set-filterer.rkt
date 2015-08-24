@@ -1,26 +1,19 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(require racket/contract/base)
-(provide (contract-out
-          [set-filterer-lens
-           (-> predicate/c (lens/c functional-set? functional-set?))]
-          ))
+require racket/contract/base
 
-(require lens/private/base/main
-         racket/list
-         racket/set
-         fancy-app
-         )
-(module+ test
-  (require rackunit))
+provide
+  contract-out
+    set-filterer-lens (-> predicate/c (lens/c functional-set? functional-set?))
 
-(define (set-filterer-lens pred)
-  (make-lens
-   (set-filter pred _)
-   (λ (tgt nvw)
-     (unless (andmap pred (set->list nvw))
-       (error 'set-filterer-lens "expected (set/c ~a), given: ~v" (contract-name pred) nvw))
-     (set-union (set-filter-not pred tgt) nvw))))
+require lens/private/base/main
+        racket/set
+        racket/function
+        fancy-app
+
+module+ test
+  require rackunit
+
 
 (define (set-filter pred set)
   (for/fold ([set set]) ([elem (in-set set)] #:unless (pred elem))
@@ -30,11 +23,24 @@
   (for/fold ([set set]) ([elem (in-set set)] #:when (pred elem))
     (set-remove set elem)))
 
-(define (functional-set? st)
-  (and (generic-set? st)
-       (set-implements? st 'set-add 'set-remove)))
+(define (andmap-set pred set)
+  (andmap pred (set->list set)))
 
-(module+ test
+
+(define (check-set-filterer-lens-view pred new-view-to-check)
+  (unless (andmap-set pred new-view-to-check)
+    (raise-argument-error 'set-filterer-lens
+                          (format "(set/c ~a)" (contract-name pred))
+                          new-view-to-check)))
+
+(define (set-filterer-lens pred)
+  (define (insert-filtered-items target new-view)
+    (check-set-filterer-lens-view pred new-view)
+    (set-union (set-filter-not pred target) new-view))
+  (make-lens (set-filter pred _)
+             insert-filtered-items))
+
+module+ test
   (check-equal? (lens-view (set-filterer-lens number?) '(1 a 2 b c 3 d e))
                 '(1 2 3))
   (check-equal? (lens-set (set-filterer-lens number?) '(1 a 2 b c 3 d e) '(4 5 6 7))
@@ -43,4 +49,16 @@
                 (set 1 2 3))
   (check-equal? (lens-set (set-filterer-lens number?) (set 1 'a 2 'b 'c 3 'd 'e) (set 4 5 6 7))
                 (set 4 5 6 7 'a 'b 'c 'd 'e))
-  )
+  (check-exn exn:fail:contract?
+             (thunk (lens-set (set-filterer-lens number?) (set 1) (set 'a))))
+
+
+(define (functional-set? st)
+  (and (generic-set? st)
+       (set-implements? st 'set-add 'set-remove)
+       (not (set-mutable? st))))
+
+module+ test
+  (check-true (functional-set? (set 1 2 3)))
+  (check-true (functional-set? '(1 2 3)))
+  (check-false (functional-set? (mutable-set 1 2 3)))
