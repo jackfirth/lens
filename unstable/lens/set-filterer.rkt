@@ -55,7 +55,8 @@ module+ test
 
 (define (functional-set? st)
   (and (generic-set? st)
-       (set-implements? st 'set-add 'set-remove)))
+       (set-implements? st 'set-add 'set-remove)
+       (not (set-mutable? st))))
 
 module+ test
   (check-true (functional-set? (set 1 2 3)))
