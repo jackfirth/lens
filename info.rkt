@@ -14,6 +14,7 @@
     "fancy-app"
     "alexis-util"
     "sweet-exp"
+    "kw-make-struct"
     "scribble-lib"))
 
 
