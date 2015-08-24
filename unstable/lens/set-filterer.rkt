@@ -8,6 +8,7 @@ provide
 
 require lens/private/base/main
         racket/set
+        racket/function
         fancy-app
 
 module+ test
@@ -48,6 +49,8 @@ module+ test
                 (set 1 2 3))
   (check-equal? (lens-set (set-filterer-lens number?) (set 1 'a 2 'b 'c 3 'd 'e) (set 4 5 6 7))
                 (set 4 5 6 7 'a 'b 'c 'd 'e))
+  (check-exn exn:fail:contract?
+             (thunk (lens-set (set-filterer-lens number?) (set 1) (set 'a))))
 
 
 (define (functional-set? st)
