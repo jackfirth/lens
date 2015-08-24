@@ -8,13 +8,13 @@
            (-> lens? (lens/c immutable-vector? immutable-vector?))]
           ))
 
-(require lens/base/main
-         lens/util/immutable
+(require lens/private/base/main
+         lens/private/util/immutable
          racket/vector
          fancy-app
          )
 (module+ test
-  (require rackunit lens/list/main))
+  (require rackunit lens/private/list/main))
 
 (define (mapper-lens lens)
   (make-lens

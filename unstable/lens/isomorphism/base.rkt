@@ -1,3 +1,4 @@
+
 #lang sweet-exp racket/base
 
 provide isomorphism-lens?
@@ -6,7 +7,7 @@ provide isomorphism-lens?
                    [isomorphism-lenses make-isomorphism-lenses]
 
 require racket/match
-        lens/base/gen-lens
+        lens/private/base/gen-lens
 
 
 (struct isomorphism-lens (f inv) #:transparent

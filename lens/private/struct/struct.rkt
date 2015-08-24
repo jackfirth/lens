@@ -1,8 +1,8 @@
 #lang racket/base
 
 (require syntax/parse/define
-         lens/base/main
          alexis/util/struct
+         "../base/main.rkt"
          (submod alexis/util/struct get-struct-accessors)
          (for-syntax racket/base
                      syntax/parse

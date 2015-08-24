@@ -6,7 +6,7 @@
            (-> predicate/c (lens/c functional-set? functional-set?))]
           ))
 
-(require lens/base/main
+(require lens/private/base/main
          racket/list
          racket/set
          fancy-app

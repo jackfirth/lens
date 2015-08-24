@@ -5,10 +5,10 @@
 (require racket/match
          racket/local
          syntax/parse/define
-         lens/base/main
+         lens/private/base/main
          )
 (module+ test
-  (require rackunit lens/test-util/test-lens))
+  (require rackunit lens/private/test-util/test-lens))
 
 (define-simple-macro (match-lens a:id pat:expr replacement:expr)
   (local [(define (get target)
