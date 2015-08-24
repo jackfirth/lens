@@ -10,6 +10,7 @@
   '("base"
     "rackunit-lib"
     "unstable-lib"
+    "unstable-contract-lib"
     "fancy-app"
     "alexis-util"
     "sweet-exp"
