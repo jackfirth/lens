@@ -1,5 +1,7 @@
 #lang scribble/manual
 
+@(require lens/private/doc-util/main)
+
 @title{Unstable Lenses}
 
 @defmodule[unstable/lens]
@@ -9,14 +11,17 @@ This library provides additional features for the
 may change in future releases. Do not depend on
 this library being backwards-compatible.
 
-@include-section["view-set.scrbl"]
-@include-section["syntax.scrbl"]
-@include-section["struct-nested.scrbl"]
-@include-section["sublist.scrbl"]
-@include-section["arrow.scrbl"]
-@include-section["isomorphism.scrbl"]
-@include-section["mapper.scrbl"]
-@include-section["string-split.scrbl"]
-@include-section["match.scrbl"]
-@include-section["set-filterer.scrbl"]
-@include-section["struct-join.scrbl"]
+@(include-sections
+  "arrow.scrbl"
+  "isomorphism.scrbl"
+  "mapper.scrbl"
+  "match.scrbl"
+  "set-filterer.scrbl"
+  "string-split.scrbl"
+  "struct-join.scrbl"
+  "struct-nested.scrbl"
+  "sublist.scrbl"
+  "syntax.scrbl"
+  "view-set.scrbl"
+  )
+
