@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require "doc-util/main.rkt")
+@(require "private/doc-util/main.rkt")
 
 
 @title{Applicable lenses}

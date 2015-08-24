@@ -9,7 +9,7 @@ provide string->symbol-lens
         list->string-lens
         string->list-lens
 
-require lens/base/main
+require lens/private/base/main
         "base.rkt"
 
 module+ test

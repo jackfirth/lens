@@ -5,13 +5,13 @@
          lens-match
          )
 
-(require lens/base/main
+(require lens/private/base/main
          racket/match
          (for-syntax racket/base
                      syntax/parse
                      ))
 (module+ test
-  (require rackunit lens/list/main lens/vector/main lens/string))
+  (require rackunit lens/private/list/main lens/private/vector/main lens/private/string))
 
 (define (lens-if pred lens1 lens2)
   (make-lens

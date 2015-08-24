@@ -7,9 +7,9 @@ provide
     reverse-lens (lens/c list? list?)
     last-lens (lens/c list? any/c)
 
-require lens/base/main
-        lens/list/main
-        lens/compound/main
+require lens/private/base/main
+        lens/private/list/main
+        lens/private/compound/main
         "isomorphism/base.rkt"
 
 module+ test

@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require lens/doc-util/main)
+@(require "../doc-util/main.rkt")
 
 @title{Lens Contracts}
 

@@ -3,7 +3,7 @@
 (provide sublist-lens)
 
 (require lens
-         lens/list/list-ref-take-drop)
+         lens/private/list/list-ref-take-drop)
 
 (module+ test
   (require rackunit))

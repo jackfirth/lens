@@ -9,8 +9,8 @@
 
 (require racket/match
          racket/string
-         lens/base/main
-         lens/util/immutable
+         lens/private/base/main
+         lens/private/util/immutable
          )
 (module+ test
   (require rackunit))

@@ -12,6 +12,7 @@ require
 provide
   all-from-out
     "compose.rkt"
+    "identity.rkt"
     "join-hash.rkt"
     "join-list.rkt"
     "join-string.rkt"

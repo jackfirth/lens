@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require lens/doc-util/main)
+@(require lens/private/doc-util/main)
 
 @title{lens-view/thrush, lens-set/thrush, and lens-transform/thrush}
 
