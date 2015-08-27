@@ -1,43 +1,21 @@
-#lang racket
+#lang sweet-exp racket
 
-(provide lenses-examples
-         lenses-applicable-examples
-         lenses-unstable-examples
-         define-persistant-lenses-unstable-examples)
+provide lens-examples
+        lens-applicable-examples
+        lens-unstable-examples
+        persistent-lens-unstable-examples
 
-(require scribble/eval
-         racket/splicing)
+require scribble-example
 
 
-(define-syntax-rule (define-examples-form id require-spec ...)
-  (begin
-    (define (eval-factory)
-      (define base-eval (make-base-eval))
-      (base-eval '(require require-spec)) ...
-      base-eval)
-    (define-syntax-rule (id datum (... ...))
-      (examples #:eval (eval-factory) datum (... ...)))))
-
-(define-syntax-rule (define-examples/persistance-syntax id require-spec ...)
-  (begin
-    (define (eval-factory)
-      (define base-eval (make-base-eval))
-      (base-eval '(require require-spec)) ...
-      base-eval)
-    (define-syntax-rule (id examples-id)
-      (begin
-        (splicing-let ([the-eval (eval-factory)])
-          (define-syntax-rule (examples-id datum (... (... ...)))
-            (examples #:eval the-eval datum (... (... ...)))))))))
-
-(define-examples-form lenses-examples
+(define-examples-form lens-examples
   lens racket/list racket/vector racket/stream racket/set)
 
-(define-examples-form lenses-applicable-examples
+(define-examples-form lens-applicable-examples
   lens/applicable racket/list racket/vector racket/stream racket/set)
 
-(define-examples-form lenses-unstable-examples
+(define-examples-form lens-unstable-examples
   lens unstable/lens racket/list racket/vector racket/stream racket/set)
 
-(define-examples/persistance-syntax define-persistant-lenses-unstable-examples
+(define-persistent-examples-form persistent-lens-unstable-examples
   lens unstable/lens racket/list racket/vector racket/stream racket/set)

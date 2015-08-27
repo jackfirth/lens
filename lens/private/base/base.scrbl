@@ -16,7 +16,7 @@
   @racket[view/c]. The getter must accept a target and return the
   lens's view. The setter must accept a target and a new view, and
   return a new target with its view replaced with the new view.
-  @lenses-examples[
+  @lens-examples[
     (define (set-first lst v)
       (list* v (rest lst)))
     (set-first '(1 2 3) 'a)
@@ -33,7 +33,7 @@
   the target's view to the new view. The context is conceptually
   a function representing the "hole" formed by abstracting the view
   of the target.
-  @lenses-examples[
+  @lens-examples[
     (let-lens (view context) first-lens '(1 2 3)
       (printf "View is ~a\n" view)
       (context 'a))

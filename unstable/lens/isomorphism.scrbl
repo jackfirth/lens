@@ -17,7 +17,7 @@ So for instance a @racket[symbol->string-lens] could be defined with:
   (define symbol->string-lens
     (make-isomorphism-lens symbol->string string->symbol))
 ]
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (lens-view symbol->string-lens 'something)
   (lens-transform symbol->string-lens 'something (λ (s) (string-append "make-" s)))
 ]}

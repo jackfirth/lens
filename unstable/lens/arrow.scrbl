@@ -16,7 +16,7 @@ switched, so that the @racket[target] comes first and the
 @racket[(lens-view (lens-thrush lens ...) target)], but can be more		
 efficient.
 The function @racket[lens-view~>] is provided as a shorter version.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (lens-view/thrush '(a b ((c d) e f) g) third-lens first-lens second-lens)
   (lens-view~> '(a b ((c d) e f) g) third-lens first-lens second-lens)
 ]}
@@ -28,7 +28,7 @@ which again are combined into a nested lens.
 @racket[(lens-set/thrush target lens ... #:-> new-view)] is equivalent
 to @racket[(lens-set (lens-thrush lens ...) target new-view)], and
 @racket[lens-set~>] is the shorter version.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (lens-set/thrush '(a b ((c d) e f) g) third-lens first-lens second-lens #:-> "sea")
   (lens-set~> '(a b ((c d) e f) g) third-lens first-lens second-lens #:-> "sea")
 ]}
@@ -45,7 +45,7 @@ just like @racket[lens-set/thrush].
 equivalent to
 @racket[(lens-transform (lens-thrush lens ...) target transformer)],
 and @racket[lens-transform~>] is the shorter verison.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (lens-transform/thrush '(a b ((c d) e f) g) third-lens first-lens second-lens #:-> symbol->string)
   (lens-transform~> '(a b ((c d) e f) g) third-lens first-lens second-lens #:-> symbol->string)
 ]}

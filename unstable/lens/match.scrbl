@@ -10,7 +10,7 @@ Creates a lens for viewing the @racket[id] within the @racket[pattern].
 The @racket[replacement] expression should be an expression such that
 @racket[(match target [pattern replacement])] produces a value equivalent to
 @racket[target], and should use @racket[id] as the view.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (define car-lens (match-lens a (cons a b) (cons a b)))
   (define cdr-lens (match-lens b (cons a b) (cons a b)))
   (define third-lens (match-lens c (list a b c d ...) (list* a b c d)))

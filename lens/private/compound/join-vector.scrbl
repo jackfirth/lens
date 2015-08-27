@@ -5,7 +5,7 @@
 
 @defproc[(lens-join/vector [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a vector, not a list.
-  @lenses-examples[
+  @lens-examples[
     (define vector-first-third-fifth-lens
       (lens-join/vector first-lens
                         third-lens
