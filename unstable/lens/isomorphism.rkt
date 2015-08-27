@@ -1,10 +1,3 @@
-#lang sweet-exp racket/base
-
-require
-  "isomorphism/base.rkt"
-  "isomorphism/data.rkt"
-
-provide
-  all-from-out
-    "isomorphism/base.rkt"
-    "isomorphism/data.rkt"
+#lang reprovide
+"isomorphism/base.rkt"
+"isomorphism/data.rkt"

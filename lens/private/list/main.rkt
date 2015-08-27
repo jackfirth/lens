@@ -1,14 +1,6 @@
-#lang racket/base
-
-(require "car-cdr.rkt"
-         "list-ref-take-drop.rkt"
-         "cadr-etc.rkt"
-         "multi.rkt"
-         "assoc.rkt")
-
-(provide (all-from-out
-          "car-cdr.rkt"
-          "list-ref-take-drop.rkt"
-          "cadr-etc.rkt"
-          "multi.rkt"
-          "assoc.rkt"))
+#lang reprovide
+"car-cdr.rkt"
+"list-ref-take-drop.rkt"
+"cadr-etc.rkt"
+"multi.rkt"
+"assoc.rkt"

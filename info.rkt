@@ -15,6 +15,7 @@
     "alexis-util"
     "sweet-exp"
     "kw-make-struct"
+    "reprovide-lang"
     "scribble-lib"))
 
 
