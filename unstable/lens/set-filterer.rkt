@@ -7,6 +7,7 @@ provide
     set-filterer-lens (-> predicate/c (lens/c functional-set? functional-set?))
 
 require lens/private/base/main
+        lens/private/util/functional-set
         racket/set
         racket/function
         fancy-app
@@ -51,14 +52,3 @@ module+ test
                 (set 4 5 6 7 'a 'b 'c 'd 'e))
   (check-exn exn:fail:contract?
              (thunk (lens-set (set-filterer-lens number?) (set 1) (set 'a))))
-
-
-(define (functional-set? st)
-  (and (generic-set? st)
-       (set-implements? st 'set-add 'set-remove)
-       (not (set-mutable? st))))
-
-module+ test
-  (check-true (functional-set? (set 1 2 3)))
-  (check-true (functional-set? '(1 2 3)))
-  (check-false (functional-set? (mutable-set 1 2 3)))
