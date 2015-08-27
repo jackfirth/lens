@@ -23,6 +23,7 @@
   '("cover"
     "rackunit-lib"
     "racket-doc"
+    "jack-scribble-example"
     "doc-coverage"))
 
 

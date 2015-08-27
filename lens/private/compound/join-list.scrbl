@@ -8,7 +8,7 @@
   be used to view and set a list of values in a single
   target. If any of the lenses share views, then when
   setting the later lenses override the earlier ones.
-  @lenses-examples[
+  @lens-examples[
     (define first-third-fifth-lens
       (lens-join/list first-lens
                       third-lens

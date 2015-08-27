@@ -6,7 +6,7 @@
 @defproc[(lens-join/string [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a string, not a list.
   Each @racket[lens] argument must return a @racket[char?] as a view.
-  @lenses-examples[
+  @lens-examples[
     (define string-first-third-fifth-lens
       (lens-join/string first-lens
                         third-lens

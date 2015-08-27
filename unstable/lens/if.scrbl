@@ -13,7 +13,7 @@
 Creates a lens that uses @racket[lens1] when the target satisfies
 @racket[pred], and uses @racket[lens2] when the target doesn't satisfy
 @racket[pred].
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (define if-lens (lens-if list? first-lens (vector-ref-lens 0)))
   (lens-view if-lens '(1 2 3))
   (lens-view if-lens '#(1 2 3))
@@ -27,7 +27,7 @@ Creates a lens that uses @racket[lens1] when the target satisfies
 Like @racket[lens-if], but based on @racket[cond] instead of
 @racket[if]. It creates a lens that uses the first lens if the target matches the first
 predicate, the second lens if the target matches the second predicate, and so on.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (define cond-lens (lens-cond [list? first-lens]
                                [vector? (vector-ref-lens 0)]
                                [string? (string-ref-lens 0)]))
@@ -45,7 +45,7 @@ matching the target against each @racket[pat] with @racket[match].
 It creates a lens that uses the first lens if the target matches the
 first @racket[pat], the second lens if it matches the second
 @racket[pat], and so on.
-@lenses-unstable-examples[
+@lens-unstable-examples[
   (define lens (lens-match [(list a) first-lens]
                            [(list a b) second-lens]))
   (lens-view lens '(1))

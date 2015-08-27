@@ -10,7 +10,7 @@
   lens's target is viewed through. Each successive lens "zooms in"
   to a more detailed view. When called with no arguments, @racket[lens-compose]
   produces the identity lens.
-  @lenses-examples[
+  @lens-examples[
     (define first-of-second-lens (lens-compose first-lens second-lens))
     (lens-view first-of-second-lens '((1 a) (2 b) (3 c)))
     (lens-set first-of-second-lens '((1 a) (2 b) (3 c)) 200)
@@ -22,7 +22,7 @@
   @racket[(lens-compose lens identity-lens)] and
   @racket[(lens-compose identity-lens lens)] are equivalent to
   @racket[lens].
-  @lenses-examples[
+  @lens-examples[
     (lens-view identity-lens 4)
     (lens-set identity-lens 4 'a)
 ]}

@@ -7,7 +7,7 @@
 @deflenses[(car-lens cdr-lens)]{
   Lenses for examining the @racket[car] and @racket[cdr] of
   a pair.
-  @lenses-examples[
+  @lens-examples[
     (lens-view car-lens '(a . b))
     (lens-view cdr-lens '(a . b))
 ]}
@@ -33,7 +33,7 @@
   ddaa ddad ddda dddd)]{
     Lenses for accessing nested pairs. Each lens's view is the
     equivalently named pair-accessor function.
-    @lenses-examples[
+    @lens-examples[
       (cdaddr '(9 8 (6 5 4 3 2 1) 7))
       (lens-view cdaddr-lens '(9 8 (6 5 4 3 2 1) 7))
       (lens-transform cdaddr-lens '(9 8 (6 5 4 3 2 1) 7) list->vector)

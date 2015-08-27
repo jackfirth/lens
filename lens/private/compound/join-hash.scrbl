@@ -9,7 +9,7 @@
   as the hash keys. In the same manner as @racket[lens-join/list],
   if lenses share views later lenses take precedence when
   setting.
-  @lenses-examples[
+  @lens-examples[
     (define a-b-lens (lens-join/hash 'a first-lens
                                      'b third-lens))
     (lens-view a-b-lens '(1 2 3))

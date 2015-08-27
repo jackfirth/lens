@@ -10,7 +10,7 @@
          lens?]{
   Returns a lens for viewing the @racket[n]th item of a list,
   with indexing starting from zero.
-  @lenses-examples[
+  @lens-examples[
     (lens-view (list-ref-lens 3) '(a b c d e f g h))
     (lens-set (list-ref-lens 1) '(a b c d e f g h) 'FOO)
 ]}
@@ -27,7 +27,7 @@
             tenth-lens)]{
   Lenses for examiniming specific items of lists. Shorthands
   for the common use cases of @racket[list-ref-lens].
-  @lenses-examples[
+  @lens-examples[
     (lens-view third-lens '(a b c d))
     (lens-view (lens-compose second-lens fourth-lens)
                '((a 1) (b 2) (c 3) (d 4)))

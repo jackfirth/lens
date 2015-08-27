@@ -6,7 +6,7 @@
 
 @defmodule[unstable/lens/struct-nested]
 
-@(define-persistant-lenses-unstable-examples struct-nested-examples)
+@(persistent-lens-unstable-examples struct-nested-examples)
 
 @defform[#:id struct-nested-lens
          (struct-nested-lens [struct-id field-id] ...)]{
@@ -36,7 +36,7 @@
     (lens-set game-player-health-lens the-game 20)
 ]}
 
-@(define-persistant-lenses-unstable-examples struct-nested*-examples)
+@(persistent-lens-unstable-examples struct-nested*-examples)
 
 @defform[#:id struct-nested-lens*
          (struct-nested-lens* struct-id both-id ... field-id)]{

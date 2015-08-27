@@ -11,7 +11,7 @@
   Specifically, for a given association list the returned
   lens examines the second value of the first pair that
   has a key that is @racket[key-equal?] to @racket[key].
-  @lenses-examples[
+  @lens-examples[
     (define assoc-a-lens (assoc-lens 'a))
     (define some-assoc-list '((a . 1) (b . 2) (c . 3)))
     (lens-view assoc-a-lens some-assoc-list)
@@ -21,7 +21,7 @@
   The @racket[key-equal?] procedure is useful for
   datatypes that have their own definition of
   equality, such as strings.
-  @lenses-examples[
+  @lens-examples[
     (define assoc-foo-lens (assoc-lens "foo" #:is-equal? string=?))
     (lens-view assoc-foo-lens '(("bar" . 1) ("foo" . 2) ("baz" . 3)))
 ]}
