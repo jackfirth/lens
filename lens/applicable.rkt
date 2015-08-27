@@ -1,9 +1,9 @@
 #lang racket/base
 
-(provide (all-from-out "main.rkt"))
+(require reprovide/reprovide)
+(reprovide "main.rkt")
 
-(require "main.rkt"
-         (only-in "private/base/base.rkt" use-applicable-lenses!))
+(require (only-in "private/base/base.rkt" use-applicable-lenses!))
 
 (module+ test
   (require rackunit))

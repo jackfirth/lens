@@ -1,6 +1,6 @@
 #lang racket/base
-(require (except-in "gen-lens.rkt" gen-lens/c) "make-lens.rkt" "contract.rkt")
-(provide (all-from-out "gen-lens.rkt" "make-lens.rkt" "contract.rkt"))
+(require reprovide/reprovide)
+(reprovide (except-in "gen-lens.rkt" gen-lens/c) "make-lens.rkt" "contract.rkt")
 (module+ test
   (require rackunit racket/list)
   (define (set-first l v)
