@@ -2,6 +2,7 @@
 require lens/private/util/reprovide
 reprovide
   "arrow.rkt"
+  "if.rkt"
   "isomorphism.rkt"
   "mapper.rkt"
   "match.rkt"

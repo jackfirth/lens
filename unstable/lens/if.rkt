@@ -46,7 +46,7 @@
 
 (define-syntax lens-match
   (syntax-parser
-    [(lens-cond [pat:expr lens-expr:expr] ...)
+    [(lens-match [pat:expr lens-expr:expr] ...)
      #'(make-lens
         (λ (tgt)
           (match tgt
