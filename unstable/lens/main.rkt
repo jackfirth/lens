@@ -5,6 +5,7 @@
 "mapper.rkt"
 "match.rkt"
 "set-filterer.rkt"
+"set-member.rkt"
 "string-split.rkt"
 "struct-join.rkt"
 "struct-nested.rkt"

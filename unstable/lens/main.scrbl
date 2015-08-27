@@ -18,6 +18,7 @@ this library being backwards-compatible.
   "mapper.scrbl"
   "match.scrbl"
   "set-filterer.scrbl"
+  "set-member.scrbl"
   "string-split.scrbl"
   "struct-join.scrbl"
   "struct-nested.scrbl"
