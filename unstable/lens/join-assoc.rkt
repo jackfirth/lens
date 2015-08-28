@@ -5,21 +5,20 @@ provide lens-join/assoc
 require lens/private/base/main
         lens/private/compound/join-list
         lens/private/list/assoc
+        lens/private/util/alternating-list
         racket/match
         unstable/sequence
 module+ test
   require rackunit lens/private/list/main
 
 (define (lens-join/assoc . ks/lenses)
-  (match-define (list (list keys lenses) ...)
-    (for/list ([k/lens (in-slice 2 ks/lenses)])
-      k/lens))
+  (define-values [keys lenses]
+    (alternating-list->keys+values ks/lenses))
   (define key-lenses (map assoc-lens keys))
   (define list-lens (apply lens-join/list lenses))
   (make-lens
    (λ (tgt)
-     (for/list ([k (in-list keys)] [lens (in-list lenses)])
-       (cons k (lens-view lens tgt))))
+     (keys+values->assoc-list keys (lens-view list-lens tgt)))
    (λ (tgt nvw)
      (lens-set list-lens tgt (apply lens-view/list nvw key-lenses)))))
 

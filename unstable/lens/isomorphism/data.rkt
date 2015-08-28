@@ -10,6 +10,7 @@ provide string->symbol-lens
         string->list-lens
 
 require lens/private/base/main
+        lens/private/util/alternating-list
         "base.rkt"
 
 module+ test
@@ -24,6 +25,8 @@ module+ test
   (make-isomorphism-lenses list->vector vector->list))
 (define-values [list->string-lens string->list-lens]
   (make-isomorphism-lenses list->string string->list))
+(define-values [alternating->assoc-list-lens assoc->alternating-list-lens]
+  (make-isomorphism-lenses alternating->assoc-list assoc->alternating-list))
 
 
 (module+ test
