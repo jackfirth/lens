@@ -12,6 +12,8 @@ A lens is a value that can be used to focus on a small subpiece of some larger s
 1
 > (lens-set first-lens '(1 2 3) 'a)
 '(a 2 3)
+> (lens-transform first-lens '(1 2 3) number->string)
+'("1" 2 3)
 > (define first-of-b-key-lens (lens-compose first-lens (hash-ref-lens 'b)))
 > (define a-hash (hash 'a '(1 2 3) 'b '(10 20 30) 'c '(100 200 300)))
 > (lens-view first-of-b-key-lens a-hash)
