@@ -13,6 +13,7 @@ this library being backwards-compatible.
 
 @(include-sections
   "arrow.scrbl"
+  "dict-nested.scrbl"
   "if.scrbl"
   "isomorphism.scrbl"
   "mapper.scrbl"

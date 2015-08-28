@@ -1,5 +1,6 @@
 #lang reprovide
 "arrow.rkt"
+"dict-nested.rkt"
 "if.rkt"
 "isomorphism.rkt"
 "mapper.rkt"
