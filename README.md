@@ -5,7 +5,20 @@ A Racket package for creating and composing pure functional lenses.
 `raco pkg install lens`
 `(require lens)`
 
-A lens is a value that can be used to focus on a small subpiece of some larger structure. Given a lens and a value of that larger structure, two values can be dervied: a *view* value, which is the subpiece, and a *context* function, which accepts a new view value and returns a new structure with the old view replaced by the new view. Think of them as composable, pure functional getters and setters. Examples can be found in the documentation.
+A lens is a value that can be used to focus on a small subpiece of some larger structure. Given a lens and a value of that larger structure, two values can be dervied: a *view* value, which is the subpiece, and a *context* function, which accepts a new view value and returns a new structure with the old view replaced by the new view. Think of them as composable, pure functional getters and setters. See the full documentation for more detail.
+
+```racket
+> (lens-view first-lens '(1 2 3))
+1
+> (lens-set first-lens '(1 2 3) 'a)
+'(a 2 3)
+> (define first-of-b-key-lens (lens-compose first-lens (hash-ref-lens 'b)))
+> (define a-hash (hash 'a '(1 2 3) 'b '(10 20 30) 'c '(100 200 300)))
+> (lens-view first-of-b-key-lens a-hash)
+10
+> (lens-set first-of-b-key-lens a-hash 'foo)
+#hash((a . (1 2 3)) (b . (foo 20 30)) (c . (100 200 300)))
+```
 
 #### Contributions
 
