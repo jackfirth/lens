@@ -16,6 +16,7 @@ this library being backwards-compatible.
   "dict-nested.scrbl"
   "if.scrbl"
   "isomorphism.scrbl"
+  "join-assoc.scrbl"
   "mapper.scrbl"
   "match.scrbl"
   "set-filterer.scrbl"
