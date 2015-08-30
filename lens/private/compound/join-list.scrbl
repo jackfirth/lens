@@ -2,7 +2,7 @@
 
 @(require "../doc-util/main.rkt")
 
-@defproc[(lens-join/list [lens (lens/c target/c item/c)] ...) (lens/c target/c (listof item/c))]{
+@defproc[(lens-join/list [lens lens?] ...) lens?]{
   Constructs a lens that combines the view of each
   @racket[lens] into a list of views. This lens can
   be used to view and set a list of values in a single

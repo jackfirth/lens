@@ -3,8 +3,7 @@
 @(require "../doc-util/main.rkt")
 
 
-@defproc[(lens-join/hash [key key/c] [lens (lens/c target/c value/c)] ... ...)
-         (lens/c target/c (hash/c key/c value/c #:immutable #t))]{
+@defproc[(lens-join/hash [key any/c] [lens lens?] ... ...) lens?]{
   Constructs a lens that combines the view of each
   @racket[lens] into a hash of views with @racket[key]s
   as the hash keys. In the same manner as @racket[lens-join/list],

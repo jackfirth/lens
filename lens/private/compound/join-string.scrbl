@@ -3,7 +3,7 @@
 @(require "../doc-util/main.rkt")
 
 
-@defproc[(lens-join/string [lens (lens/c target/c char?)] ...) (lens/c target/c immutable-string?)]{
+@defproc[(lens-join/string [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a string, not a list.
   Each @racket[lens] argument must return a @racket[char?] as a view.
   @lens-examples[

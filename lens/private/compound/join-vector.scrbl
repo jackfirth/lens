@@ -3,8 +3,7 @@
 @(require "../doc-util/main.rkt")
 
 
-@defproc[(lens-join/vector [lens (lens/c target/c item/c)] ...)
-         (lens/c target/c (vector-immutableof item/c))]{
+@defproc[(lens-join/vector [lens lens?] ...) lens?]{
   Like @racket[lens-join/list], except the view is a vector, not a list.
   @lens-examples[
     (define vector-first-third-fifth-lens
