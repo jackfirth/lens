@@ -3,6 +3,7 @@ syntax/parse/define
 "deflenses.rkt"
 "include-sections.rkt"
 "lenses-examples.rkt"
+"stability-notice.rkt"
 for-label
   lens
   unstable/lens
