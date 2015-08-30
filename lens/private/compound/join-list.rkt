@@ -4,6 +4,7 @@ require racket/list
         racket/contract
         "../base/main.rkt"
         "../util/alternating-list.rkt"
+        "../util/rest-contract.rkt"
 
 module+ test
   require rackunit
@@ -11,7 +12,7 @@ module+ test
 
 provide
   contract-out
-    lens-join/list (->* () #:rest (listof lens?) (lens/c any/c list?))
+    lens-join/list (rest-> lens? (lens/c any/c list?))
 
 
 (define (lens-join/list . lenses)
