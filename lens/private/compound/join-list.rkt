@@ -1,26 +1,25 @@
-#lang racket/base
+#lang sweet-exp racket/base
 
-(require racket/list
-         racket/contract
-         "../base/main.rkt")
+require racket/list
+        racket/contract
+        "../base/main.rkt"
+        "../util/alternating-list.rkt"
+        "../util/rest-contract.rkt"
 
-(module+ test
-  (require rackunit
-           "../list/list-ref-take-drop.rkt"))
+module+ test
+  require rackunit
+          "../list/list-ref-take-drop.rkt"
 
-(provide
- (contract-out
-  [lens-join/list (->* () #:rest (listof lens?) (lens/c any/c list?))]))
+provide
+  contract-out
+    lens-join/list (rest-> lens? (lens/c any/c list?))
 
-
-(define (zip xs ys)
-  (append-map list xs ys))
 
 (define (lens-join/list . lenses)
   (define (get target)
     (apply lens-view/list target lenses))
   (define (set target new-views)
-    (apply lens-set/list target (zip lenses new-views)))
+    (apply lens-set/list target (keys+values->alternating-list lenses new-views)))
   (make-lens get set))
 
 

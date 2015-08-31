@@ -3,6 +3,7 @@
 "dict-nested.rkt"
 "if.rkt"
 "isomorphism.rkt"
+"join-assoc.rkt"
 "mapper.rkt"
 "match.rkt"
 "set-filterer.rkt"
