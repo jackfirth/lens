@@ -1,10 +1,13 @@
 #lang sweet-exp racket/base
 
 provide transformer-lens
+        transformer-lens*
 
 require fancy-app
         lens/private/base/main
+        lens/private/compound/thrush
         racket/match
+        unstable/sequence
         "isomorphism/base.rkt"
 module+ test
   require lens/private/list/main
@@ -38,6 +41,11 @@ module+ test
        (lens-transform lens nvw transformer))
      (make-lens get set)]))
 
+(define (transformer-lens* . lenses/transformers)
+  (apply lens-thrush
+         (for/list ([args (in-slice 2 lenses/transformers)])
+           (apply transformer-lens args))))
+
 module+ test
   (define first-sym->str
     (transformer-lens first-lens symbol->string-lens))
@@ -51,18 +59,18 @@ module+ test
                 '(z bee sea))
   (check-equal? (lens-view first-sym->str (lens-set first-sym->str '(a b c) '("z" bee sea)))
                 '("z" bee sea))
-  (define trans-second-first
-    (transformer-lens second-lens first-lens))
-  (check-equal? (lens-view trans-second-first '(1 (2 3) 4))
-                '(1 2 4))
-  (check-equal? (lens-set trans-second-first '(1 (2 3) 4) '(1 2 4))
-                '(1 (2 3) 4))
-  (check-equal? (lens-set trans-second-first '(1 (2 3) 4) '(1 b 4))
-                '(1 (b 3) 4))
-  (check-equal? (lens-set trans-second-first '(1 (2 3) 4) '(a b c))
-                '(a (b 3) c))
-  (check-equal? (lens-view trans-second-first
-                           (lens-set trans-second-first '(1 (2 3) 4) '(a b c)))
+  (define trans-second-first/third-second
+    (transformer-lens* second-lens first-lens third-lens second-lens))
+  (check-equal? (lens-view trans-second-first/third-second '(1 (2 3) (4 5)))
+                '(1 2 5))
+  (check-equal? (lens-set trans-second-first/third-second '(1 (2 3) (4 5)) '(1 2 5))
+                '(1 (2 3) (4 5)))
+  (check-equal? (lens-set trans-second-first/third-second '(1 (2 3) (4 5)) '(1 b 5))
+                '(1 (b 3) (4 5)))
+  (check-equal? (lens-set trans-second-first/third-second '(1 (2 3) (4 5)) '(a b c))
+                '(a (b 3) (4 c)))
+  (check-equal? (lens-view trans-second-first/third-second
+                           (lens-set trans-second-first/third-second '(1 (2 3) (4 5)) '(a b c)))
                 '(a b c))
   (define (rekey-alist-lens key->new-key-lens)
     (mapper-lens (transformer-lens car-lens key->new-key-lens)))
@@ -75,5 +83,18 @@ module+ test
   (check-equal? (lens-set (rekey-alist-lens symbol->string-lens)
                           '((a . 1) (b . 2) (c . 3))
                           '(("one" . 10) ("two" . 200) ("three" . 3000)))
+                '((one . 10) (two . 200) (three . 3000)))
+  (define (rek+v-alist-lens key->new-key-lens value->new-value-lens)
+    (mapper-lens (transformer-lens* car-lens key->new-key-lens cdr-lens value->new-value-lens)))
+  (check-equal? (lens-view (rek+v-alist-lens symbol->string-lens number->string-lens)
+                           '((a . 1) (b . 2) (c . 3)))
+                '(("a" . "1") ("b" . "2") ("c" . "3")))
+  (check-equal? (lens-set (rek+v-alist-lens symbol->string-lens number->string-lens)
+                          '((a . 1) (b . 2) (c . 3))
+                          '(("a" . "10") ("b" . "200") ("c" . "3000")))
+                '((a . 10) (b . 200) (c . 3000)))
+  (check-equal? (lens-set (rek+v-alist-lens symbol->string-lens number->string-lens)
+                          '((a . 1) (b . 2) (c . 3))
+                          '(("one" . "10") ("two" . "200") ("three" . "3000")))
                 '((one . 10) (two . 200) (three . 3000)))
 

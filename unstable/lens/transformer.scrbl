@@ -24,3 +24,18 @@ is equivalent to:
   (lens-view first-sym->str (lens-set first-sym->str '(a b c) '("z" bee sea)))
 ]}
 
+@defproc[(transformer-lens* [lens lens?] [transform-lens lens?] ... ...) lens?]{
+A multi-arg version of @racket[transformer-lens], analogous to
+@racket[lens-transform/list]. It is equivalent to
+@racket[(lens-thrush (transformer-lens lens transform-lens) ...)].
+@lens-unstable-examples[
+  (define first-sym->str/second-num->str
+    (transformer-lens* first-lens symbol->string-lens second-lens number->string-lens))
+  (lens-view first-sym->str/second-num->str '(a 2 c))
+  (lens-set first-sym->str/second-num->str '(a 2 c) '("a" "2" c))
+  (lens-set first-sym->str/second-num->str '(a 2 c) '("z" "3" c))
+  (lens-set first-sym->str/second-num->str '(a 2 c) '("z" "3" sea))
+  (lens-view first-sym->str/second-num->str
+             (lens-set first-sym->str/second-num->str '(a 2 c) '("z" "3" sea)))
+]}
+
