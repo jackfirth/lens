@@ -4,6 +4,7 @@
 "if.rkt"
 "isomorphism.rkt"
 "join-assoc.rkt"
+"lazy.rkt"
 "mapper.rkt"
 "match.rkt"
 "set-filterer.rkt"
