@@ -46,6 +46,16 @@ example, are defined like this:
     (make-isomorphism-lenses string->symbol symbol->string))
 ]}
 
+@defproc[(isomorphism-compose [lens isomorphism-lens?] ...) isomorphism-lens?]{
+Like @racket[lens-compose], but works only on isomorphism lenses, and returns an
+isomorphism lens.
+}
+
+@defproc[(isomorphism-thrush [lens isomorphism-lens?] ...) isomorphism-lens?]{
+Like @racket[lens-thrush], but works only on isomorphism lenses, and returns an
+isomorphism lens.
+}
+
 @deflenses[[string->symbol-lens symbol->string-lens
             number->string-lens string->number-lens
             list->vector-lens vector->list-lens

@@ -7,7 +7,6 @@ require racket/contract
         "../base/main.rkt"
         "../util/rest-contract.rkt"
         "identity.rkt"
-        unstable/lens/isomorphism/base
 
 module+ test
   require rackunit
@@ -29,15 +28,7 @@ provide
 
 
 (define (lens-compose . args)
-  (match args
-    [(list)
-     identity-lens]
-    [(list (make-isomorphism-lens fs invs) ...)
-     (make-isomorphism-lens
-      (apply compose1 fs)
-      (apply compose1 (reverse invs)))]
-    [_
-     (foldr lens-compose2 identity-lens args)]))
+  (foldr lens-compose2 identity-lens args))
 
 
 module+ test
@@ -52,5 +43,3 @@ module+ test
   (check-equal? (lens-view first-of-second-lens test-alist) 'b)
   (check-equal? (lens-set first-of-second-lens test-alist 'B) '((a 1) (B 2) (c 3)))
   (check-eq? (lens-compose) identity-lens)
-  (check-pred isomorphism-lens? (lens-compose (make-isomorphism-lens set->list list->set)
-                                              (make-isomorphism-lens list->vector vector->list)))
