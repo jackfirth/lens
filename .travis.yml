@@ -5,15 +5,20 @@ env:
     - RACKET_DIR=~/racket
   matrix:
     - RACKET_VERSION=6.1.1
+      VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/6.1.1/catalog/"
     - RACKET_VERSION=6.2
+      VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/6.2/catalog/"
     - RACKET_VERSION=HEAD
+      VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/6.2/catalog/"
 
 before_install:
   - git clone https://github.com/greghendershott/travis-racket.git ../travis-racket
   - cat ../travis-racket/install-racket.sh | bash
   - export PATH="${RACKET_DIR}/bin:${PATH}"
 
-install: raco pkg install --deps search-auto $TRAVIS_BUILD_DIR # install dependencies
+install:
+ - raco pkg config --set catalogs $VERSION_SPECIFIC_CATALOG http://pkgs.racket-lang.org http://planet-compats.racket-lang.org
+ - raco pkg install --deps search-auto $TRAVIS_BUILD_DIR # install dependencies
 
 script:
  - raco test $TRAVIS_BUILD_DIR # run tests. you wrote tests, right?
