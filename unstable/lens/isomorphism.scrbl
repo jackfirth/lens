@@ -48,12 +48,12 @@ example, are defined like this:
 
 @defproc[(isomorphism-compose [lens isomorphism-lens?] ...) isomorphism-lens?]{
 Like @racket[lens-compose], but works only on isomorphism lenses, and returns an
-isomorphism lens.
+isomorphism lens. It is also more efficient than @racket[lens-compose].
 }
 
 @defproc[(isomorphism-thrush [lens isomorphism-lens?] ...) isomorphism-lens?]{
 Like @racket[lens-thrush], but works only on isomorphism lenses, and returns an
-isomorphism lens.
+isomorphism lens. It is also more efficient than @racket[lens-thrush].
 }
 
 @deflenses[[string->symbol-lens symbol->string-lens
