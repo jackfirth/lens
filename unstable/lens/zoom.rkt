@@ -1,11 +1,15 @@
 #lang sweet-exp racket/base
 
-provide lens-zoom
-        lens-zoom*
+require racket/contract/base
+provide
+  contract-out
+    lens-zoom (-> lens? lens? lens?)
+    lens-zoom* (->* [] #:rest (listof2 lens? lens?) lens?)
 
 require fancy-app
         lens/private/base/main
         lens/private/compound/thrush
+        lens/private/util/list-pair-contract
         racket/match
         unstable/sequence
         "isomorphism/base.rkt"
