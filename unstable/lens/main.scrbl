@@ -26,7 +26,7 @@ this library being backwards-compatible.
   "struct-nested.scrbl"
   "sublist.scrbl"
   "syntax.scrbl"
-  "transformer.scrbl"
   "view-set.scrbl"
+  "zoom.scrbl"
   )
 
