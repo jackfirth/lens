@@ -14,3 +14,4 @@
 "sublist.rkt"
 "syntax.rkt"
 "view-set.rkt"
+"zoom.rkt"

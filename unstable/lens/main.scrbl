@@ -27,5 +27,6 @@ this library being backwards-compatible.
   "sublist.scrbl"
   "syntax.scrbl"
   "view-set.scrbl"
+  "zoom.scrbl"
   )
 
