@@ -20,7 +20,10 @@ module+ test
 
 module+ test
   (define-check (check-stream-equal? stream1 stream2)
-    (equal? (stream->list stream1) (stream->list stream2)))
+    (let ([list1 (stream->list stream1)] [list2 (stream->list stream2)])
+      (with-check-info
+       (['actual-list list1] ['expected-list list2])
+       (check-equal? list1 list2))))
 
 
 (define (stream-ref-lens i)
@@ -55,8 +58,8 @@ module+ test
     (stream-cons v rst)))
 
 module+ test
-  (check-equal? (lens-view stream-first-lens (stream 'a 'b 'c)) 'a)
-  (check-equal? (lens-view (stream-ref-lens 2) (stream 'a 'b 'c)) 'c)
+  (check-lens-view stream-first-lens (stream 'a 'b 'c) 'a)
+  (check-lens-view (stream-ref-lens 2) (stream 'a 'b 'c) 'c)
   (check-stream-equal? (lens-set stream-first-lens (stream 'a 'b 'c) 1)
                        (stream 1 'b 'c))
   (check-stream-equal? (lens-set (stream-ref-lens 2) (stream 'a 'b 'c) 1)
@@ -66,10 +69,9 @@ module+ test
   (apply lens-thrush (map stream-ref-lens is)))
 
 module+ test
-  (check-equal? (lens-view (stream-ref-nested-lens 1 2 0)
-                           (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd))
-                'foo)
-  (check-stream-equal? (lens-set (stream-ref-nested-lens 1 2 0)
-                                 (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd)
-                                 'FOO)
-                       (stream 'a (stream 1 2 (stream 'FOO 'bar 'baz) 3 4) 'b 'c 'd))
+  (check-lens-view (stream-ref-nested-lens 1 2 0)
+                   (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd)
+                   'foo)
+  (check-lens-set-view (stream-ref-nested-lens 1 2 0)
+                       (stream 'a (stream 1 2 (stream 'foo 'bar 'baz) 3 4) 'b 'c 'd)
+                       'FOO)
