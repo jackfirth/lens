@@ -57,6 +57,6 @@
 
 (module+ test
   (struct/lens foo (a b c d) #:transparent)
-  (check-view foo-b-lens (foo 1 2 3 4) 2)
-  (check-set foo-c-lens (foo 1 2 3 4) 'a (foo 1 2 'a 4))
+  (check-lens-view foo-b-lens (foo 1 2 3 4) 2)
+  (check-lens-set foo-c-lens (foo 1 2 3 4) 'a (foo 1 2 'a 4))
   (test-lens-laws foo-a-lens (foo 1 2 3 4) 'a 'b))

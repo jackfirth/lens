@@ -9,7 +9,7 @@
          "ref.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit "../test-util/test-lens.rkt"))
 
 (provide
  (contract-out
@@ -24,7 +24,7 @@
          (append-map hash-ref-lens-and-key ks)))
 
 (module+ test
-  (check-equal? (lens-view (hash-pick-lens 'a 'c) (hash 'a 1 'b 2 'c 3))
-                (hash 'a 1 'c 3))
-  (check-equal? (lens-set (hash-pick-lens 'a 'c) (hash 'a 1 'b 2 'c 3) (hash 'a 4 'c 5))
-                (hash 'a 4 'b 2 'c 5)))
+  (check-lens-view (hash-pick-lens 'a 'c) (hash 'a 1 'b 2 'c 3)
+                   (hash 'a 1 'c 3))
+  (check-lens-set (hash-pick-lens 'a 'c) (hash 'a 1 'b 2 'c 3) (hash 'a 4 'c 5)
+                  (hash 'a 4 'b 2 'c 5)))

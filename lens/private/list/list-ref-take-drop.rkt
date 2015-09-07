@@ -31,7 +31,7 @@
          "car-cdr.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit "../test-util/test-lens.rkt"))
 
 
 (define (set-take n lst new-head)
@@ -53,8 +53,8 @@
 
 (module+ test
   (define take2-lens (take-lens 2))
-  (check-equal? (lens-view take2-lens '(1 2 3 4 5)) '(1 2))
-  (check-equal? (lens-set take2-lens '(1 2 3 4 5) '(a b)) '(a b 3 4 5)))
+  (check-lens-view take2-lens '(1 2 3 4 5) '(1 2))
+  (check-lens-set take2-lens '(1 2 3 4 5) '(a b) '(a b 3 4 5)))
 
 
 (define (drop-lens n)
@@ -62,8 +62,8 @@
 
 (module+ test
   (define drop2-lens (drop-lens 2))
-  (check-equal? (lens-view drop2-lens '(1 2 3 4 5)) '(3 4 5))
-  (check-equal? (lens-set drop2-lens '(1 2 3 4 5) '(a b c)) '(1 2 a b c)))
+  (check-lens-view drop2-lens '(1 2 3 4 5) '(3 4 5))
+  (check-lens-set drop2-lens '(1 2 3 4 5) '(a b c) '(1 2 a b c)))
 
 
 (define (list-ref-lens i)
@@ -82,13 +82,13 @@
 
 
 (module+ test
-  (check-eqv? (lens-view first-lens  '(1 2 3 4 5)) 1)
-  (check-eqv? (lens-view second-lens '(1 2 3 4 5)) 2)
-  (check-eqv? (lens-view third-lens  '(1 2 3 4 5)) 3)
-  (check-eqv? (lens-view fourth-lens '(1 2 3 4 5)) 4)
-  (check-eqv? (lens-view fifth-lens  '(1 2 3 4 5)) 5)
-  (check-equal? (lens-set first-lens  '(1 2 3 4 5) 'a) '(a 2 3 4 5))
-  (check-equal? (lens-set second-lens '(1 2 3 4 5) 'a) '(1 a 3 4 5))
-  (check-equal? (lens-set third-lens  '(1 2 3 4 5) 'a) '(1 2 a 4 5))
-  (check-equal? (lens-set fourth-lens '(1 2 3 4 5) 'a) '(1 2 3 a 5))
-  (check-equal? (lens-set fifth-lens  '(1 2 3 4 5) 'a) '(1 2 3 4 a)))
+  (check-lens-view first-lens  '(1 2 3 4 5) 1)
+  (check-lens-view second-lens '(1 2 3 4 5) 2)
+  (check-lens-view third-lens  '(1 2 3 4 5) 3)
+  (check-lens-view fourth-lens '(1 2 3 4 5) 4)
+  (check-lens-view fifth-lens  '(1 2 3 4 5) 5)
+  (check-lens-set first-lens  '(1 2 3 4 5) 'a '(a 2 3 4 5))
+  (check-lens-set second-lens '(1 2 3 4 5) 'a '(1 a 3 4 5))
+  (check-lens-set third-lens  '(1 2 3 4 5) 'a '(1 2 a 4 5))
+  (check-lens-set fourth-lens '(1 2 3 4 5) 'a '(1 2 3 a 5))
+  (check-lens-set fifth-lens  '(1 2 3 4 5) 'a '(1 2 3 4 a)))

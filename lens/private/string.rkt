@@ -16,7 +16,7 @@
          "compound/main.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit "test-util/test-lens.rkt"))
 
 
 (define (string-ref-lens i)
@@ -33,8 +33,8 @@
          (string-ref s j)))))
 
 (module+ test
-  (check-equal? (lens-view (string-ref-lens 2) "abc") #\c)
-  (check-equal? (lens-set (string-ref-lens 0) "abc" #\A) "Abc"))
+  (check-lens-view (string-ref-lens 2) "abc" #\c)
+  (check-lens-set (string-ref-lens 0) "abc" #\A "Abc"))
 
 
 (define (string-pick-lens . is)
@@ -42,7 +42,7 @@
 
 (module+ test
   (define 1-5-6-lens (string-pick-lens 1 5 6))
-  (check-equal? (lens-view 1-5-6-lens "abcdefg")
-                "bfg")
-  (check-equal? (lens-set 1-5-6-lens "abcdefg" "BFG")
-                "aBcdeFG"))
+  (check-lens-view 1-5-6-lens "abcdefg"
+                   "bfg")
+  (check-lens-set 1-5-6-lens "abcdefg" "BFG"
+                  "aBcdeFG"))

@@ -7,7 +7,7 @@
          "list-ref-take-drop.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit "../test-util/test-lens.rkt"))
 
 (provide
  (contract-out
@@ -28,7 +28,7 @@
 
 (module+ test
   (define 1-5-6-lens (list-refs-lens 1 5 6))
-  (check-equal? (lens-view 1-5-6-lens '(a b c d e f g))
-                '(b f g))
-  (check-equal? (lens-set 1-5-6-lens '(a b c d e f g) '(1 2 3))
-                '(a 1 c d e 2 3)))
+  (check-lens-view 1-5-6-lens '(a b c d e f g)
+                   '(b f g))
+  (check-lens-set 1-5-6-lens '(a b c d e f g) '(1 2 3)
+                  '(a 1 c d e 2 3)))

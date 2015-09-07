@@ -11,6 +11,7 @@ require racket/contract
 module+ test
   require rackunit
           racket/set
+          "../test-util/test-lens.rkt"
 
 provide
   contract-out
@@ -40,6 +41,6 @@ module+ test
   (define second-lens (make-lens second set-second))
   (define test-alist '((a 1) (b 2) (c 3)))
   (define first-of-second-lens (lens-compose first-lens second-lens))
-  (check-equal? (lens-view first-of-second-lens test-alist) 'b)
-  (check-equal? (lens-set first-of-second-lens test-alist 'B) '((a 1) (B 2) (c 3)))
+  (check-lens-view first-of-second-lens test-alist 'b)
+  (check-lens-set first-of-second-lens test-alist 'B '((a 1) (B 2) (c 3)))
   (check-eq? (lens-compose) identity-lens)

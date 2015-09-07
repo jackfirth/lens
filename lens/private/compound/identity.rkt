@@ -8,6 +8,7 @@ require racket/function
 module+ test
   require rackunit
           "../base/main.rkt"
+          "../test-util/test-lens.rkt"
 
 provide
   contract-out
@@ -18,5 +19,5 @@ provide
   (make-isomorphism-lens identity identity))
 
 (module+ test
-  (check-equal? (lens-view identity-lens 'foo) 'foo)
-  (check-equal? (lens-set identity-lens 'foo 'bar) 'bar))
+  (check-lens-view identity-lens 'foo 'foo)
+  (check-lens-set identity-lens 'foo 'bar 'bar))
