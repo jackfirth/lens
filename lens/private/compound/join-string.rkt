@@ -11,6 +11,7 @@ require racket/contract
 module+ test
   require rackunit
           "../list/list-ref-take-drop.rkt"
+          "../test-util/test-lens.rkt"
 
 provide
   contract-out
@@ -28,8 +29,8 @@ provide
     (lens-join/string first-lens
                       third-lens
                       fifth-lens))
-  (check-equal? (lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f))
-                "ace")
+  (check-lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f)
+                   "ace")
   (check-pred immutable? (lens-view string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f)))
-  (check-equal? (lens-set string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f) "ACE")
-                '(#\A #\b #\C #\d #\E #\f)))
+  (check-lens-set string-first-third-fifth-lens '(#\a #\b #\c #\d #\e #\f) "ACE"
+                  '(#\A #\b #\C #\d #\E #\f)))

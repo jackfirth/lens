@@ -15,7 +15,7 @@
          "../base/main.rkt")
 
 (module+ test
-  (require rackunit)
+  (require rackunit "../test-util/test-lens.rkt")
   (define assoc-list '((a . 1) (b . 2) (c . 3))))
 
 
@@ -45,9 +45,9 @@
 
 (module+ test
   (define assoc-b-lens (assoc-lens 'b))
-  (check-equal? (lens-view assoc-b-lens assoc-list) 2)
-  (check-equal? (lens-set assoc-b-lens assoc-list 200)
-                '((a . 1) (b . 200) (c . 3))))
+  (check-lens-view assoc-b-lens assoc-list 2)
+  (check-lens-set assoc-b-lens assoc-list 200
+                  '((a . 1) (b . 200) (c . 3))))
 
 
 (define (assv-lens assv-key)
@@ -56,9 +56,9 @@
 (module+ test
   (define assv-2-lens (assv-lens 2))
   (define assv-list '((1 . a) (2 . b) (3 . c)))
-  (check-eq? (lens-view assv-2-lens assv-list) 'b)
-  (check-equal? (lens-set assv-2-lens assv-list 'FOO)
-                '((1 . a) (2 . FOO) (3 . c))))
+  (check-lens-view assv-2-lens assv-list 'b)
+  (check-lens-set assv-2-lens assv-list 'FOO
+                  '((1 . a) (2 . FOO) (3 . c))))
 
 
 (define (assq-lens assq-key)
@@ -67,7 +67,7 @@
 (module+ test
   (define assq-a-lens (assq-lens 'a))
   (define assq-list '((a . 1) (b . 2) (c . 3)))
-  (check-eqv? (lens-view assq-a-lens assq-list) 1)
-  (check-equal? (lens-set assq-a-lens assq-list 100)
-                '((a . 100) (b . 2) (c . 3))))
+  (check-lens-view assq-a-lens assq-list 1)
+  (check-lens-set assq-a-lens assq-list 100
+                  '((a . 100) (b . 2) (c . 3))))
 

@@ -6,7 +6,7 @@
          "../util/immutable.rkt")
 
 (module+ test
-  (require rackunit))
+  (require rackunit "../test-util/test-lens.rkt"))
 
 (provide
  (contract-out
@@ -28,5 +28,5 @@
          (vector-ref v j)))))
 
 (module+ test
-  (check-equal? (lens-view (vector-ref-lens 0) #(a b c)) 'a)
-  (check-equal? (lens-set (vector-ref-lens 2) #(a b c) "C") #(a b "C")))
+  (check-lens-view (vector-ref-lens 0) #(a b c) 'a)
+  (check-lens-set (vector-ref-lens 2) #(a b c) "C" #(a b "C")))

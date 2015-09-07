@@ -12,7 +12,8 @@
 
 (module+ test
   (require rackunit
-           "../list/list-ref-take-drop.rkt"))
+           "../list/list-ref-take-drop.rkt"
+           "../test-util/test-lens.rkt"))
 
 (provide
  (contract-out
@@ -34,8 +35,8 @@
 (module+ test
   (define a-b-lens (lens-join/hash 'b third-lens
                                    'a first-lens))
-  (check-equal? (lens-view a-b-lens '(1 2 3))
-                (hash 'a 1 'b 3))
-  (check-equal? (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))
-                '(100 2 200)))
+  (check-lens-view a-b-lens '(1 2 3)
+                   (hash 'a 1 'b 3))
+  (check-lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200)
+                  '(100 2 200)))
 

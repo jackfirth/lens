@@ -8,7 +8,8 @@
 
 (module+ test
   (require rackunit
-           "../list/list-ref-take-drop.rkt"))
+           "../list/list-ref-take-drop.rkt"
+           "../test-util/test-lens.rkt"))
 
 (provide
  (contract-out [lens-thrush (->* () () #:rest (listof lens?) lens?)]))
@@ -26,5 +27,5 @@
   (define second-lens (make-lens second set-second))
   (define test-alist '((a 1) (b 2) (c 3)))
   (define first-of-second-lens (lens-thrush second-lens first-lens))
-  (check-equal? (lens-view first-of-second-lens test-alist) 'b)
-  (check-equal? (lens-set first-of-second-lens test-alist 'B) '((a 1) (B 2) (c 3))))
+  (check-lens-view first-of-second-lens test-alist 'b)
+  (check-lens-set first-of-second-lens test-alist 'B '((a 1) (B 2) (c 3))))

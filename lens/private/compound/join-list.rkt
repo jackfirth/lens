@@ -9,6 +9,7 @@ require racket/list
 module+ test
   require rackunit
           "../list/list-ref-take-drop.rkt"
+          "../test-util/test-lens.rkt"
 
 provide
   contract-out
@@ -28,7 +29,7 @@ provide
     (lens-join/list first-lens
                     third-lens
                     fifth-lens))
-  (check-equal? (lens-view first-third-fifth-lens '(a b c d e f))
-                '(a c e))
-  (check-equal? (lens-set first-third-fifth-lens '(a b c d e f) '(1 2 3))
-                '(1 b 2 d 3 f)))
+  (check-lens-view first-third-fifth-lens '(a b c d e f)
+                   '(a c e))
+  (check-lens-set first-third-fifth-lens '(a b c d e f) '(1 2 3)
+                  '(1 b 2 d 3 f)))
