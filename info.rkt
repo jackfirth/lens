@@ -7,10 +7,9 @@
 
 
 (define deps
-  '("base"
+  '(("base" #:version "6.2.900.15")
     "rackunit-lib"
     "unstable-lib"
-    "unstable-contract-lib"
     "fancy-app"
     "alexis-util"
     "sweet-exp"
