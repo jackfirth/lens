@@ -3,7 +3,6 @@
 (provide lens/c)
 
 (require racket/contract/base
-         unstable/contract
          "gen-lens.rkt"
          )
 (module+ test
