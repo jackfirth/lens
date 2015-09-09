@@ -3,7 +3,7 @@
 require racket/contract/base
 provide
   contract-out
-    lens-rename (-> lens? symbol? lens?)
+    lens-rename (-> lens? any/c lens?)
 
 require racket/generic
         racket/match
