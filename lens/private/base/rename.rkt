@@ -24,7 +24,7 @@ module+ test
      (focus (renamed-lens-lens this) target))]
   #:methods gen:custom-write
   [(define (write-proc this out mode)
-     (fprintf out "#<lens:~a>" (renamed-lens-name this)))])
+     (fprintf out "#<lens ~a>" (renamed-lens-name this)))])
 
 (define (lens-rename lens name)
   (match lens
@@ -40,4 +40,4 @@ module+ test
   (let-lens (view-first setter-first) first-lens '(1 2 3 4 5)
     (check-eqv? view-first 1)
     (check-equal? (setter-first 'a) '(a 2 3 4 5)))
-  (check-equal? (format "~v" first-lens) "#<lens:first-lens>")
+  (check-equal? (format "~v" first-lens) "#<lens first-lens>")
