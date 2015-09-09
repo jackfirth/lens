@@ -3,6 +3,7 @@
 (require racket/contract
          syntax/parse/define
          "../base/main.rkt"
+         "../base/rename.rkt"
          "../compound/main.rkt"
          "car-cdr.rkt"
          (for-syntax racket/base
@@ -45,7 +46,7 @@
 
 (define-simple-macro (define-c_r-lens id:id)
   #:with c_r-lens (c_r-lens-id #'id)
-  (define c_r-lens (c_r->lens 'id)))
+  (define c_r-lens (lens-rename (c_r->lens 'id) 'c_r-lens)))
 
 (define-simple-macro (define-c_r-lenses id:id ...)
   (begin (define-c_r-lens id) ...))

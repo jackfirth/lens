@@ -5,7 +5,7 @@
  (contract-out [car-lens (lens/c pair? any/c)]
                [cdr-lens (lens/c pair? any/c)]))
 
-(require "../base/main.rkt")
+(require "../base/main.rkt" "../base/rename.rkt")
 
 (module+ test
   (require rackunit
@@ -18,8 +18,8 @@
 (define (set-cdr pair v)
   (cons (car pair) v))
 
-(define car-lens (make-lens car set-car))
-(define cdr-lens (make-lens cdr set-cdr))
+(define car-lens (lens-rename (make-lens car set-car) 'car-lens))
+(define cdr-lens (lens-rename (make-lens cdr set-cdr) 'cdr-lens))
 
 (module+ test
   (check-lens-view car-lens '(1 . 2) 1)

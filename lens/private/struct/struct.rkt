@@ -3,6 +3,7 @@
 (require syntax/parse/define
          alexis/util/struct
          "../base/main.rkt"
+         "../base/rename.rkt"
          (submod alexis/util/struct get-struct-accessors)
          (for-syntax racket/base
                      syntax/parse
@@ -46,7 +47,7 @@
              (s-fld-lens ...)] (struct-get-set-lens-ids #'s)
      #'(begin
          (define-struct-updaters s)
-         (define s-fld-lens (make-lens s-fld s-fld-set))
+         (define s-fld-lens (lens-rename (make-lens s-fld s-fld-set) 's-fld-lens))
          ...)]))
 
 
