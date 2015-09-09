@@ -14,6 +14,7 @@ this library being backwards-compatible.
 @(include-sections
   "arrow.scrbl"
   "dict-nested.scrbl"
+  "hash-filterer.scrbl"
   "if.scrbl"
   "isomorphism.scrbl"
   "join-assoc.scrbl"
