@@ -3,6 +3,7 @@
 require racket/list
         racket/contract
         "../base/main.rkt"
+        "../base/rename.rkt"
         "../util/alternating-list.rkt"
         "../util/rest-contract.rkt"
 
@@ -21,7 +22,7 @@ provide
     (apply lens-view/list target lenses))
   (define (set target new-views)
     (apply lens-set/list target (keys+values->alternating-list lenses new-views)))
-  (make-lens get set))
+  (lens-rename (make-lens get set) `(lens-join/list ...)))
 
 
 (module+ test

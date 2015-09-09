@@ -5,6 +5,7 @@ require racket/contract
         racket/match
         fancy-app
         "../base/main.rkt"
+        "../base/rename.rkt"
         "../util/rest-contract.rkt"
         "identity.rkt"
 
@@ -25,7 +26,7 @@ provide
     (define sub-view (lens-view super-lens target))
     (define new-sub-view (lens-set sub-lens sub-view new-view))
     (lens-set super-lens target new-sub-view))
-  (make-lens get set))
+  (lens-rename (make-lens get set) 'composed))
 
 
 (define (lens-compose . args)

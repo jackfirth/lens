@@ -50,7 +50,9 @@
 
 
 (define (take-lens n)
-  (make-lens (take _ n) (set-take n _ _)))
+  (lens-rename
+   (make-lens (take _ n) (set-take n _ _))
+   `(take-lens ,n)))
 
 (module+ test
   (define take2-lens (take-lens 2))
@@ -59,7 +61,9 @@
 
 
 (define (drop-lens n)
-  (make-lens (drop _ n) (set-drop n _ _)))
+  (lens-rename
+   (make-lens (drop _ n) (set-drop n _ _))
+   `(drop-lens ,n)))
 
 (module+ test
   (define drop2-lens (drop-lens 2))
@@ -68,7 +72,9 @@
 
 
 (define (list-ref-lens i)
-  (lens-compose car-lens (drop-lens i)))
+  (lens-rename
+   (lens-compose car-lens (drop-lens i))
+   `(list-ref-lens ,i)))
 
 (define first-lens   (lens-rename (list-ref-lens 0) 'first-lens))
 (define second-lens  (lens-rename (list-ref-lens 1) 'second-lens))
