@@ -32,9 +32,9 @@ module+ test
    (hash-filter keep? _)
    (λ (tgt nvw)
      (unless (hash-andmap keep? nvw)
-       (error 'hash-filterer-lens-setter
-              "expected a hash where all key-value pairs pass ~v, given: ~v"
-              keep? nvw))
+       (raise-argument-error 'hash-filterer-lens-setter
+                             (format "a hash where all key-value pairs pass ~v" keep?)
+                             nvw))
      (hash-union (hash-filter-not keep? tgt) nvw))))
 
 (define (hash-filterer-lens/key keep?)
@@ -56,5 +56,5 @@ module+ test
                    (hash 1 1.0 3 3))
   (check-lens-set (hash-filterer-lens =) (hash 1 1.0 2 45 3 3) (hash 4 4.0 5.0 5)
                   (hash 2 45 4 4.0 5.0 5))
-  (check-exn exn:fail?
+  (check-exn exn:fail:contract?
              (thunk (lens-set (hash-filterer-lens/key symbol?) (hash 'a 1) (hash "d" 4))))
