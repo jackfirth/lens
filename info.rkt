@@ -7,7 +7,8 @@
 
 
 (define deps
-  '("base"
+  '("jack-scribble-example"
+    "base"
     "rackunit-lib"
     "unstable-lib"
     "unstable-contract-lib"
