@@ -45,7 +45,7 @@ Lenses can also be joined together to form compound lenses that view many things
 Lenses can also be extended to operate on some new data structure:
 
 ```racket
-> (define first-of-each-lens (mapper-lens first-lens))
+> (define first-of-each-lens (map-lens first-lens))
 > (lens-view first-of-each-lens '((1 2) (3 4) (5 6)))
 '(1 3 5)
 > (lens-set first-of-each-lens '((1 2) (3 4) (5 6)) '(a b c))

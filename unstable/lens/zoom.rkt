@@ -17,7 +17,7 @@ module+ test
   require lens/private/list/main
           rackunit
           "isomorphism/data.rkt"
-          "mapper.rkt"
+          "map.rkt"
 
 ;; lens-zoom : (Lens (Outer Inner) Inner) (Lens A B) -> (Lens (Outer A) (Outer B))
 (define (lens-zoom zoom-lens transformer-lens)
@@ -77,7 +77,7 @@ module+ test
                            (lens-set trans-second-first/third-second '(1 (2 3) (4 5)) '(a b c)))
                 '(a b c))
   (define (rekey-alist-lens key->new-key-lens)
-    (mapper-lens (lens-zoom car-lens key->new-key-lens)))
+    (map-lens (lens-zoom car-lens key->new-key-lens)))
   (check-equal? (lens-view (rekey-alist-lens symbol->string-lens) '((a . 1) (b . 2) (c . 3)))
                 '(("a" . 1) ("b" . 2) ("c" . 3)))
   (check-equal? (lens-set (rekey-alist-lens symbol->string-lens)
@@ -89,7 +89,7 @@ module+ test
                           '(("one" . 10) ("two" . 200) ("three" . 3000)))
                 '((one . 10) (two . 200) (three . 3000)))
   (define (rek+v-alist-lens key->new-key-lens value->new-value-lens)
-    (mapper-lens (lens-zoom* car-lens key->new-key-lens cdr-lens value->new-value-lens)))
+    (map-lens (lens-zoom* car-lens key->new-key-lens cdr-lens value->new-value-lens)))
   (check-equal? (lens-view (rek+v-alist-lens symbol->string-lens number->string-lens)
                            '((a . 1) (b . 2) (c . 3)))
                 '(("a" . "1") ("b" . "2") ("c" . "3")))

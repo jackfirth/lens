@@ -19,7 +19,7 @@ this library being backwards-compatible.
   "isomorphism.scrbl"
   "join-assoc.scrbl"
   "lazy.scrbl"
-  "mapper.scrbl"
+  "map.scrbl"
   "match.scrbl"
   "set-filterer.scrbl"
   "set-member.scrbl"

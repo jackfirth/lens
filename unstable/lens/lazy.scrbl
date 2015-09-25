@@ -21,13 +21,13 @@ and set the target.
 Creates a potentially recursive lens, where @racket[lens-expr] can refer to
 @racket[rec-id] as a lazy version of itself.
 @lens-unstable-examples[
-  (define (tree-mapper-lens item-lens)
+  (define (tree-map-lens item-lens)
     (rec-lens the-tree-lens
-      (lens-cond [list? (mapper-lens the-tree-lens)]
+      (lens-cond [list? (map-lens the-tree-lens)]
                  [else item-lens])))
-  (lens-view (tree-mapper-lens symbol->string-lens) '(a (b (() c)) (d)))
-  (lens-set (tree-mapper-lens symbol->string-lens)
-                          '(a (b (() c)) (d))
-                          '("hay" ("bee" (() "sea")) ("deep")))
+  (lens-view (tree-map-lens symbol->string-lens) '(a (b (() c)) (d)))
+  (lens-set (tree-map-lens symbol->string-lens)
+            '(a (b (() c)) (d))
+            '("hay" ("bee" (() "sea")) ("deep")))
 ]}
 
