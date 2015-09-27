@@ -54,6 +54,22 @@ Lenses can also be extended to operate on some new data structure:
 
 See [the documentation](http://pkg-build.racket-lang.org/doc/lens/index.html) for a full API reference
 
+#### So when would I want to use lenses?
+
+Lenses are most effective when you're dealing with the "giant ball of state" problem. When you
+have a large amount of state you need to pass around between code written in a functional
+style, it's difficult to update and manage it due to the lack of mutation "magically" updating
+your entire object graph when a function changes a small part of it. Lenses allow code to
+break down and manipulate portions of this state, simplifying interactions and updates.
+
+In particular, consider using lenses if you find yourself doing any of the following:
+
+- Using a giant complex piece of state that most pieces of code only care about a small part of
+- Writing `struct-copy` a lot
+- Converting some hairy data structure into another one, manipulating it, then turning it back
+- Wishing you could treat data X as if it were a Y, i.e. "I wish this struct was a list so I could `map` over it easily"
+- Creating structs that have nested struct instances inside them.
+
 #### Contributions
 
 This project uses Github issues organized by a [Waffle board](https://waffle.io/jackfirth/lens) to track what's being worked on. Check the board to see if there's any features, bugs, etc. that interest you, or create a new Github issue to inquire about something you'd like to see changed.
