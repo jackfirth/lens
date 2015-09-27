@@ -19,15 +19,24 @@
   (lens-view lens target)
   (lens-set lens target x)
   (focus-lens lens target)
+  #:defined-predicate lens-implements?
   #:fallbacks
   [(define/generic gen-lens-view lens-view)
    (define/generic gen-lens-set lens-set)
+   (define/generic gen-focus-lens focus-lens)
    (define (lens-view lens target)
-     (let-lens (view _) lens target view))
+     (unless (lens-implements? lens 'focus-lens)
+       (error 'lens-view "not implemented for ~v" lens))
+     (let-values ([(view _) (gen-focus-lens lens target)])
+       view))
    (define (lens-set lens target x)
-     (let-lens (_ setter) lens target
+     (unless (lens-implements? lens 'focus-lens)
+       (error 'lens-set "not implemented for ~v" lens))
+     (let-values ([(_ setter) (gen-focus-lens lens target)])
        (setter x)))
    (define (focus-lens lens target)
+     (unless (lens-implements? lens 'lens-view 'lens-set)
+       (error 'focus-lens "not implemented for ~v" lens))
      (values (gen-lens-view lens target)
              (gen-lens-set lens target _)))]
   #:derive-property prop:procedure
