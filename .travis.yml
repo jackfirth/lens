@@ -1,4 +1,4 @@
-langauge: c
+language: c
 sudo: false
 env:
   global:
