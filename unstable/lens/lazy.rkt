@@ -5,7 +5,7 @@ provide lazy-lens
 
 require fancy-app lens/private/base/main racket/promise
 module+ test
-  require rackunit "if.rkt" "isomorphism/data.rkt" "mapper.rkt"
+  require rackunit "if.rkt" "isomorphism/data.rkt" "map.rkt"
 
 (define-syntax-rule (lazy-lens expr)
   (let ([p (delay expr)])
@@ -16,13 +16,13 @@ module+ test
     name))
 
 module+ test
-  (define (tree-mapper-lens item-lens)
+  (define (tree-map-lens item-lens)
     (rec-lens the-tree-lens
-      (lens-cond [list? (mapper-lens the-tree-lens)]
+      (lens-cond [list? (map-lens the-tree-lens)]
                  [else item-lens])))
-  (check-equal? (lens-view (tree-mapper-lens symbol->string-lens) '(a (b (() c)) (d)))
+  (check-equal? (lens-view (tree-map-lens symbol->string-lens) '(a (b (() c)) (d)))
                 '("a" ("b" (() "c")) ("d")))
-  (check-equal? (lens-set (tree-mapper-lens symbol->string-lens)
+  (check-equal? (lens-set (tree-map-lens symbol->string-lens)
                           '(a (b (() c)) (d))
                           '("hay" ("bee" (() "sea")) ("deep")))
                 '(hay (bee (() sea)) (deep)))

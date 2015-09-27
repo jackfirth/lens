@@ -6,7 +6,7 @@
 "isomorphism.rkt"
 "join-assoc.rkt"
 "lazy.rkt"
-"mapper.rkt"
+"map.rkt"
 "match.rkt"
 "set-filterer.rkt"
 "set-member.rkt"
