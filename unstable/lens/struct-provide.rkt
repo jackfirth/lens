@@ -1,5 +1,4 @@
 #lang sweet-exp reprovide
-"field.rkt"
-except-in "struct.rkt"
+only-in lens/private/struct/struct
   struct-lenses-out
   struct+lenses-out
