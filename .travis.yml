@@ -13,7 +13,7 @@ env:
 matrix:
   allow_failures:
     - env: RACKET_VERSION=HEAD
-      env: VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/6.2/catalog/"
+           VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/6.2/catalog/"
 
 before_install:
   - git clone https://github.com/greghendershott/travis-racket.git ../travis-racket
