@@ -5,6 +5,8 @@ A Racket package for creating and composing pure functional lenses.
 `raco pkg install lens`
 `(require lens)`
 
+### What on earth are lenses?
+
 A lens is a value that can be used to focus on a small subpiece of some larger structure. A lens splits some data structure into two pieces - a *view*, which is some small isolated component of the data structure, and a *context*, which is everything else. The context can have a new view placed into it. This makes a lens act like a pure functional getter and setter:
 
 ```racket
