@@ -13,6 +13,7 @@
 "string-split.rkt"
 "struct-join.rkt"
 "struct-nested.rkt"
+"struct-provide.rkt"
 "sublist.rkt"
 "syntax.rkt"
 "view-set.rkt"

@@ -2,6 +2,7 @@
 
 (require syntax/parse/define
          alexis/util/struct
+         racket/provide-syntax
          "../base/main.rkt"
          (submod alexis/util/struct get-struct-accessors)
          (for-syntax racket/base
@@ -15,7 +16,9 @@
            "../test-util/test-lens.rkt"))
 
 (provide define-struct-lenses
-         struct/lens)
+         struct/lens
+         struct-lenses-out
+         struct+lenses-out)
 
 
 (define-for-syntax (get-struct-field-ids struct-info failure-context)
@@ -54,6 +57,18 @@
   (begin
     (struct s (field-spec ...) option ...)
     (define-struct-lenses s)))
+
+(define-provide-syntax struct-lenses-out
+  (syntax-parser
+    [(struct-lenses-out struct-type:id)
+     #:do [(define field-ids (get-struct-id-field-ids #'struct-type))]
+     #:with [lens-id ...] (map-format-id #'struct-type "~a-lens" field-ids)
+     #'(combine-out lens-id ...)]))
+
+(define-provide-syntax struct+lenses-out
+  (syntax-parser
+    [(struct+lenses-out struct-type:id)
+     #'(combine-out (struct-out struct-type) (struct-lenses-out struct-type))]))
 
 (module+ test
   (struct/lens foo (a b c d) #:transparent)
