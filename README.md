@@ -16,7 +16,7 @@ A lens is a value that can be used to focus on a small subpiece of some larger s
 '(a 2 3)
 ```
 
-Lenses are first class values and pure functional, so they can be abstracted over and functions that operate on lenses can be created. For instance, given a lens it's view can be "updated":
+Lenses are first class values and pure functional, so they can be abstracted over and functions that operate on lenses can be created. For instance, given a lens its view can be "updated":
 
 ```racket
 > (lens-transform first-lens '(1 2 3) number->string)
