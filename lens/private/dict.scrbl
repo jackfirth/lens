@@ -3,7 +3,9 @@
 @(require "doc-util/main.rkt")
 
 
-@title{Dict lenses}
+@title[#:tag "dict-reference"]{Dict lenses}
+
+@see-guide-note["dict-guide"]{dictionary lenses}
 
 @defproc[(dict-ref-lens [key any/c]) lens?]{
   Returns a lens for viewing the value mapped to @racket[key] in a dict.

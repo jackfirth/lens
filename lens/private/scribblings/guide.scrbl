@@ -10,3 +10,4 @@ features this library provides; for a complete API reference, see @secref{lens-r
 @local-table-of-contents[]
 
 @include-section["guide/introduction.scrbl"]
+@include-section["guide/built-in.scrbl"]

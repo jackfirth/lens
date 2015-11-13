@@ -2,7 +2,7 @@
 
 @(require "../doc-util/scribble-include-no-subsection.rkt")
 
-@title{Vector lenses}
+@title[#:tag "vectors-reference"]{Vector lenses}
 
 @scribble-include/no-subsection["ref.scrbl"]
 @scribble-include/no-subsection["nested.scrbl"]

@@ -5,7 +5,7 @@
          (only-in scribble/core style)
          setup/collects)
 
-(provide other-reference-note)
+(provide other-reference-note see-guide-note see-reference-note)
 
 (define css-resource
   (make-css-addition
@@ -23,3 +23,11 @@
 
 (define (other-reference-note . pre-content)
   (margin-note (flexible-container finger (apply flexible-element pre-content))))
+
+(define (see-guide-note tag . pre-content)
+  @other-reference-note{
+    @seclink[tag]{The Lens Guide} has additional examples of @|pre-content|.})
+
+(define (see-reference-note tag . pre-content)
+  @other-reference-note{
+    @seclink[tag]{The Lens Reference} has additional information on @|pre-content|.})

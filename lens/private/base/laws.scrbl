@@ -2,7 +2,7 @@
 
 @(require "../doc-util/main.rkt")
 
-@title{Lens Laws}
+@title[#:tag "laws"]{Lens Laws}
 
 While @racket[make-lens] allows lenses to be constructed
 from arbitrary getters and setters, these getters and setters

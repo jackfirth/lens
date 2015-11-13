@@ -16,6 +16,7 @@ for-label
   racket/stream
   racket/set
   racket/contract
+  racket/function
 for-syntax
   racket/base
   syntax/parse
