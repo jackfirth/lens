@@ -22,7 +22,8 @@
 
 
 (define build-deps
-  '("cover"
+  '("at-exp-lib"
+    "cover"
     "rackunit-lib"
     "racket-doc"
     "jack-scribble-example"
