@@ -1,3 +1,4 @@
+
 #lang scribble/manual
 
 @(require scribble/eval
@@ -33,8 +34,8 @@ produces a new lens given an index to look up. Abbreviation lenses such as @rack
   (lens-transform (list-ref-lens 3) (range 10) sub1)
   (lens-transform third-lens (range 10) sub1))
 
-Using @racket[list-ref-lens], it is possible to create a lens that performs indexed lookups for nested
-lists:
+This is useful, but it only works for flat lists. However, using lens composition, it is possible to
+create a lens that performs indexed lookups for nested lists using only @racket[list-ref-lens]:
 
 @(lens-interaction
   (define (2d-list-ref-lens x y)
@@ -57,7 +58,7 @@ This can also be generalized to @emph{n}-dimensional lists:
             'z))
 
 This function is actually provided by @racketmodname[lens] under the name
-@racket[list-ref-nested-lens], but it's easy to implement yourself.
+@racket[list-ref-nested-lens], but the above example demonstrates that it's really a derived concept.
 
 @subsection{Fetching multiple list values at once}
 

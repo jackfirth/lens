@@ -16,7 +16,7 @@
 
 Sometimes the existing set of lenses isn't enough. Perhaps you have a particularly unique data
 structure, and you want to create a lens for it. Perhaps you just want to provide lenses for your
-custom data structures, and struct lenses aren't good enough. In that case, it's always possible to
+custom data structures, and struct lenses are insufficient. In that case, it's always possible to
 fall back on the primitive lens constructor, @racket[make-lens].
 
 The @racket[make-lens] constructor is simple---it creates a new lens from a getter function and a

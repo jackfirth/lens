@@ -20,14 +20,14 @@ of these structures by their keys are provided.
 
 Racket hash tables are simple key-value associations, and as a result, they only have one primitive
 lens constructor, @racket[hash-ref-lens]. Given a key, it produces a lens which views the value
-associated with the lens:
+associated with the key:
 
 @(lens-interaction
   (lens-transform (hash-ref-lens 'a) (hash 'a "Hello")
                   (λ (s) (string-append s ", world!"))))
 
 Note that @racket[hash-ref-lens]'s signature differs from that of @racket[hash-ref] in an important
-way: it does not accept a "failure result" if the key is missing from the hash. Instead, the lens
+way: it does not accept a “failure result” if the key is missing from the hash. Instead, the lens
 always throws an error:
 
 @(lens-interaction
@@ -56,7 +56,7 @@ define our own hash lens that accepts a default value:
     (make-lens (λ (h)   (hash-ref h key failure-result))
                (λ (h v) (hash-set h key v)))))
 
-With this custom, "naughty" lens, we can actually perform the example from above:
+With this custom, “naughty” lens, we can actually perform the example from above:
 
 @(interaction #:eval ref-default-eval
   (let ([l (hash-ref-lens/default 'not-a-key "default")]

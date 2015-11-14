@@ -8,19 +8,19 @@
 @title[#:tag "lens-intro"]{Introduction to Lenses}
 
 The @racketmodname[lens] library defines @lens-tech{lenses}, tools for extracting values from
-potentially-nested data structures. Lenses are mostly useful when writing in a functional style, such
-as the style employed by @emph{How to Design Programs}, in which data structures are immutable and
+potentially-nested data structures. Lenses are most useful when writing in a functional style, such as
+the style employed by @italic{How to Design Programs}, in which data structures are immutable and
 side-effects are kept to a minimum.
 
 @section{What are lenses?}
 
-A @deftech[#:key "lens" #:normalize? #f]{lens} is a value that composes getter and setter functions to
-produce a bidirectional view into a data structure. This definition is intentionally broad---lenses
+A @deftech[#:key "lens" #:normalize? #f]{lens} is a value that composes a getter and a setter function
+to produce a bidirectional view into a data structure. This definition is intentionally broad---lenses
 are a very general concept, and they can be applied to almost any kind of value that encapsulates
 data. To make the concept more concrete, consider one of Racket's most primitive datatypes, the
 @tech[#:doc '(lib "scribblings/guide/guide.scrbl")]{pair}. Pairs are constructed from two values using
-@racket[cons]: the first value is retrieved using @racket[car], and the second is retrieved using
-@racket[cdr].
+the @racket[cons] function; the first value can then be retrieved using @racket[car], and the second
+can be retrieved using @racket[cdr].
 
 @(interaction
   (define p (cons 1 2))
@@ -28,11 +28,11 @@ data. To make the concept more concrete, consider one of Racket's most primitive
   (car p)
   (cdr p))
 
-With these three primitives, it's very easy to create new pairs and extract values from existing
-pairs. However, it's a little bit harder to update a single field from an existing pair. In a
-traditional Scheme, this could be accomplished by using @racket[set-car!] or @racket[set-cdr!], but
-these @emph{mutate} the original pair. To remain functional, we want to produce an @emph{entirely new}
-pair with one of the fields updated.
+With these three primitives, it's very easy to create new pairs and subsequently extract values from
+them. However, it's a little bit harder to update a single field in an existing pair. In a traditional
+Scheme, this could be accomplished by using @racket[set-car!] or @racket[set-cdr!], but these
+@emph{mutate} the original pair. To remain functional, we want to produce an @emph{entirely new} pair
+with one of the fields updated.
 
 Fortunately, this is quite easy to implement in Racket:
 
@@ -50,8 +50,8 @@ Fortunately, this is quite easy to implement in Racket:
 
 This means that each field now has a pair of getters and setters: @racket[car]/@racket[set-car] and
 @racket[cdr]/@racket[set-cdr]. A lens just wraps up each of these pairs of functions into a single
-value, so instead of having four functions, we would just have @racket[car-lens] and
-@racket[cdr-lens]. And in fact, using the functions we've just written, we can implement these lenses
+value, so instead of having four functions, we would just have two lenses: @racket[car-lens] and
+@racket[cdr-lens]. In fact, using the functions we've just written, we can implement these lenses
 ourselves.
 
 @(interaction #:eval introduction-eval
@@ -65,21 +65,25 @@ To use a lens's getter function, use @racket[lens-view]. To use the setter funct
   (lens-view car-lens (cons 1 2))
   (lens-set car-lens (cons 1 2) 'x))
 
-This, of course, isn't very useful, since we could just use the functions on their own. One thing we
-do get when using lenses is @racket[lens-transform]. This allows you to provide a procedure which will
-update the “view” based on its existing value. For example, we could increment one element in a pair:
+This, of course, isn't very useful, since we could just use the functions on their own. One extra
+thing we @emph{do} get for free when using lenses is @racket[lens-transform]. This allows you to
+provide a procedure which will update the “view” based on its existing value. For example, we could
+increment one element in a pair:
 
 @(interaction #:eval introduction-eval
   (lens-transform cdr-lens (cons 1 2) add1))
 
+While that's kind of cool, it still probably isn't enough to justify using lenses instead of just
+using functions.
+
 @section[#:style 'quiet]{Why use lenses?}
 
-So far, lenses just seem like a way to group getters and setters, and as we've seen, that's all they
-really are. However, on their own, this wouldn't be very useful. Using @racket[(car _p)] is a lot
-easier than using @racket[(lens-view car-lens _p)].
+So far, lenses just seem like a way to group getters and setters, and as we've seen, that's really all
+they are. However, on their own, this wouldn't be very useful. Using @racket[(car _p)] is a lot easier
+than using @racket[(lens-view car-lens _p)].
 
 Using plain functions starts to get a lot harder, though, once you start nesting data structures. For
-example, consider a tree structure with pairs nested inside of pairs:
+example, consider a tree constructed by nesting pairs inside of pairs:
 
 @(interaction #:eval introduction-eval
   (define tree (cons (cons 'a 'b)
@@ -113,8 +117,8 @@ than that. How can we solve it?
 @other-reference-note{For more ways to construct compound lenses, see @secref{composing-lenses}.}
 
 In order to solve this problem, we can use @emph{lens composition}, which is similar to function
-composition but extended to lenses. Just as we can create a compound getter with the expression
-@racket[(compose cdr car)], we can create a compound lens with the expression
+composition but extended to lenses. Just as we can create a compound getter function with the
+expression @racket[(compose cdr car)], we can create a compound lens with the expression
 @racket[(lens-compose cdr-lens car-lens)]. With this, we produce an entirely new lens that can be used
 with @racket[lens-view], @racket[lens-set], and @racket[lens-transform], all of which do what you
 would expect:
@@ -125,7 +129,7 @@ would expect:
   (lens-set cdar-lens tree 'x)
   (lens-transform cdar-lens tree symbol->string))
 
-Now it may begin to crystallize why lenses are useful: they make it possible to not just get at but
-to actually functionally update and transform values within deeply-nested data structures. Since they
-are composable, it is easy to create lenses that can traverse any set of structures with nothing but
-a small set of primitives. This library provides those primitives.
+Now the reason lenses are useful may begin to crystallize: they make it possible to not just get at
+but to actually functionally update and transform values within deeply-nested data structures. Since
+they are composable, it is easy to create lenses that can traverse any set of structures with nothing
+but a small set of primitives. This library provides those primitives.
