@@ -14,7 +14,7 @@
 Many Racket data structures hold @emph{ordered} or @emph{sequential} values. Lenses for accessing
 elements of these structures by index are provided.
 
-@section[#:tag "pair-list-guide"]{Pairs and Lists}
+@section[#:tag "pair-list-guide" #:style 'quiet]{Pairs and Lists}
 
 @see-reference-note["pair-list-reference"]{pair and list lenses}
 

@@ -72,7 +72,7 @@ update the “view” based on its existing value. For example, we could increme
 @(interaction #:eval introduction-eval
   (lens-transform cdr-lens (cons 1 2) add1))
 
-@section{Why use lenses?}
+@section[#:style 'quiet]{Why use lenses?}
 
 So far, lenses just seem like a way to group getters and setters, and as we've seen, that's all they
 really are. However, on their own, this wouldn't be very useful. Using @racket[(car _p)] is a lot
