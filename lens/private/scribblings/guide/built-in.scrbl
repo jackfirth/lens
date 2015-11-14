@@ -1,15 +1,8 @@
 #lang scribble/manual
 
-@(require scribble/eval
-          "../../doc-util/main.rkt")
+@(require "../../doc-util/main.rkt")
 
-@(define make-lens-eval
-   (make-eval-factory '(racket/base lens)))
-
-@(define-syntax-rule (lens-interaction expr ...)
-   (interaction #:eval (make-lens-eval) expr ...))
-
-@title[#:tag "builtin-lenses" #:style 'toc]{Lenses on Built-In Datatypes}
+@title[#:tag "built-in-lenses" #:style 'toc]{Lenses on Built-In Datatypes}
 
 This library provides @lens-tech{lenses} for most built-in Racket datatypes. In general the name of
 each lens corresponds to the name of its accessor function, with @racket[-lens] appended to the end.

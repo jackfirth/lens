@@ -11,3 +11,4 @@ features this library provides; for a complete API reference, see @secref{lens-r
 
 @include-section["guide/introduction.scrbl"]
 @include-section["guide/built-in.scrbl"]
+@include-section["guide/user-defined.scrbl"]
