@@ -3,7 +3,9 @@
 @(require "doc-util/main.rkt")
 
 
-@title{Stream Lenses}
+@title[#:tag "streams-reference"]{Stream Lenses}
+
+@see-guide-note["streams-guide"]{stream lenses}
 
 @defthing[stream-first-lens lens?]{
 A lens for viewing the first element of a stream.

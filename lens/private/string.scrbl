@@ -2,7 +2,7 @@
 
 @(require "doc-util/main.rkt")
 
-@title{String Lenses}
+@title[#:tag "strings-reference"]{String Lenses}
 
 @defproc[(string-ref-lens [i exact-nonnegative-integer?]) lens?]{
 Returns a lens for viewing the @racket[i]th character of a string.

@@ -2,7 +2,9 @@
 syntax/parse/define
 "deflenses.rkt"
 "include-sections.rkt"
+"lens-tech.rkt"
 "lenses-examples.rkt"
+"other-reference.rkt"
 "stability-notice.rkt"
 for-label
   lens
@@ -14,6 +16,7 @@ for-label
   racket/stream
   racket/set
   racket/contract
+  racket/function
 for-syntax
   racket/base
   syntax/parse

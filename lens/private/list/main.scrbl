@@ -1,6 +1,10 @@
 #lang scribble/manual
 
-@title{Pair and List Lenses}
+@(require "../doc-util/main.rkt")
+
+@title[#:tag "pair-list-reference"]{Pair and List Lenses}
+
+@see-guide-note["pair-list-guide"]{pair and list lenses}
 
 @include-section["car-cdr.scrbl"]
 @include-section["list-ref-take-drop.scrbl"]

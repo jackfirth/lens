@@ -2,7 +2,7 @@
 
 @(require "../doc-util/main.rkt")
 
-@title{Pair lenses}
+@title[#:tag "pair-lenses"]{Pair lenses}
 
 @deflenses[(car-lens cdr-lens)]{
   Lenses for examining the @racket[car] and @racket[cdr] of

@@ -1,8 +1,11 @@
 #lang scribble/manual
 
-@(require "../doc-util/scribble-include-no-subsection.rkt")
+@(require "../doc-util/main.rkt"
+          "../doc-util/scribble-include-no-subsection.rkt")
 
-@title{Hash Lenses}
+@title[#:tag "hash-reference"]{Hash Lenses}
+
+@see-guide-note["hash-guide"]{hash lenses}
 
 @scribble-include/no-subsection["ref.scrbl"]
 @scribble-include/no-subsection["nested.scrbl"]
