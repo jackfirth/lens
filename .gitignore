@@ -1,4 +1,5 @@
 **/compiled/*
+doc/
 **/*.bak
 **/*.html
 **/*.js
