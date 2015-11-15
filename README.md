@@ -72,6 +72,8 @@ In particular, consider using lenses if you find yourself doing any of the follo
 - Wishing you could treat data X as if it were a Y, i.e. "I wish this struct was a list so I could `map` over it easily"
 - Creating structs that have nested struct instances inside them.
 
+For a more in depth introduction, see [The Lens Guide](http://pkg-build.racket-lang.org/doc/lens/lens-guide.html). For detailed API documentation, see [The Lens Reference](http://pkg-build.racket-lang.org/doc/lens/lens-reference.html).
+
 #### Contributions
 
 This project uses Github issues organized by a [Waffle board](https://waffle.io/jackfirth/lens) to track what's being worked on. Check the board to see if there's any features, bugs, etc. that interest you, or create a new Github issue to inquire about something you'd like to see changed.
