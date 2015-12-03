@@ -13,6 +13,7 @@ this library being backwards-compatible.
 
 @(include-sections
   "arrow.scrbl"
+  "define-nested.scrbl"
   "dict-nested.scrbl"
   "hash-filterer.scrbl"
   "if.scrbl"

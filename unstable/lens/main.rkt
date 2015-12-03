@@ -1,5 +1,6 @@
 #lang reprovide
 "arrow.rkt"
+"define-nested.rkt"
 "dict-nested.rkt"
 "hash-filterer.rkt"
 "if.rkt"
