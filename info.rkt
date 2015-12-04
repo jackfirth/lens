@@ -34,4 +34,5 @@
     "lens/private/doc-util"
     "lens/private/test-util"
     "lens/private/util"
-    "lens/private"))
+    "lens/private"
+    "lens/main.rkt"))
