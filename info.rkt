@@ -36,4 +36,4 @@
     "lens/private/util"
     "lens/private"
     "lens/main.rkt"
-    "unstable/lens"))
+    "unstable/lens/struct-provide"))
