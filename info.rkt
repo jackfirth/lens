@@ -34,7 +34,6 @@
     "lens/private/doc-util"
     "lens/private/test-util"
     "lens/private/util"
-    "lens/private"
     "lens/main.rkt"
     "unstable/lens/struct-provide.rkt"
     "unstable/lens/syntax.rkt"))
