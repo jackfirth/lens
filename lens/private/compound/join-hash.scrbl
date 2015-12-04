@@ -10,8 +10,9 @@
   if lenses share views later lenses take precedence when
   setting.
   @lens-examples[
-    (define a-b-lens (lens-join/hash 'a first-lens
-                                     'b third-lens))
-    (lens-view a-b-lens '(1 2 3))
-    (lens-set a-b-lens '(1 2 3) (hash 'a 100 'b 200))
+    (define first-third-hash-lens
+      (lens-join/hash 'first first-lens
+                      'third third-lens))
+    (lens-view first-third-hash-lens '(1 2 3))
+    (lens-set first-third-hash-lens '(1 2 3) (hash 'first 100 'third 200))
 ]}
