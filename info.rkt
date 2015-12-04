@@ -35,4 +35,5 @@
     "lens/private/test-util"
     "lens/private/util"
     "lens/private"
-    "lens/main.rkt"))
+    "lens/main.rkt"
+    "unstable/lens"))
