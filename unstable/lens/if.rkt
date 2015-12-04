@@ -38,11 +38,16 @@
           (λ (tgt)
             (cond [(pred tgt) (lens-view lens tgt)]
                   ...
-                  [else (error 'lens-cond "expected ~a, given: ~v" '(or/c pred-expr ...) tgt)]))
+                  [else (raise-lens-cond-error tgt 'pred-expr ...)]))
           (λ (tgt nvw)
             (cond [(pred tgt) (lens-set lens tgt nvw)]
                   ...
-                  [else (error 'lens-cond "expected ~a, given: ~v" '(or/c pred-expr ...) tgt)]))))]))
+                  [else (raise-lens-cond-error tgt 'pred-expr ...)]))))]))
+
+(define (raise-lens-cond-error tgt . pred-expr-syms)
+  (raise-arguments-error 'lens-cond "no matching clause for target"
+                         "target" tgt
+                         "expected" `(or/c ,@pred-expr-syms)))
 
 (define-syntax lens-match
   (syntax-parser

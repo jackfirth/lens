@@ -26,7 +26,8 @@ Creates a lens that uses @racket[lens1] when the target satisfies
            (lens-cond [pred-expr lens-expr] ...)]]{
 Like @racket[lens-if], but based on @racket[cond] instead of
 @racket[if]. It creates a lens that uses the first lens if the target matches the first
-predicate, the second lens if the target matches the second predicate, and so on.
+predicate, the second lens if the target matches the second predicate, and so on. If the
+target matches none of the predicates, an error is raised.
 @lens-unstable-examples[
   (define cond-lens (lens-cond [list? first-lens]
                                [vector? (vector-ref-lens 0)]
@@ -37,6 +38,7 @@ predicate, the second lens if the target matches the second predicate, and so on
   (lens-set cond-lens '(1 2 3) 'a)
   (lens-set cond-lens '#(1 2 3) 'a)
   (lens-set cond-lens "123" #\a)
+  (lens-view cond-lens 'none-of-the-above)
 ]}
 
 @defform[(lens-match [pat lens-expr] ...)]{
