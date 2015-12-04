@@ -28,6 +28,6 @@
     "jack-scribble-example"
     "doc-coverage"))
 
-(define test-omit-paths
+(define cover-omit-paths
   '(#rx".*\\.scrbl"
     "info.rkt"))
