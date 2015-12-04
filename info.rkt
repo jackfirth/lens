@@ -30,11 +30,10 @@
 
 (define cover-omit-paths
   '(#rx".*\\.scrbl"
+    "main.rkt"
     "info.rkt"
     "lens/private/doc-util"
     "lens/private/test-util"
     "lens/private/util"
-    "lens/private/base/main.rkt"
-    "lens/main.rkt"
     "unstable/lens/struct-provide.rkt"
     "unstable/lens/syntax.rkt"))
