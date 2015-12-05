@@ -1,17 +1,25 @@
 #lang sweet-exp racket/base
 
+require
+  for-syntax racket/contract/base
+             racket/base
+
 provide define-struct-lenses
         struct/lens
         struct-lenses-out
         struct+lenses-out
+
+begin-for-syntax
+  provide
+    contract-out
+      struct struct-lens-info ([field-lens-ids (listof identifier?)])
 
 require syntax/parse/define
         alexis/util/struct
         racket/provide-syntax
         submod alexis/util/struct get-struct-accessors
         "../base/main.rkt"
-        for-syntax racket/base
-                   syntax/parse
+        for-syntax syntax/parse
                    racket/syntax
                    racket/struct-info
 
