@@ -2,7 +2,8 @@
 
 (provide id-append)
 
-(require racket/syntax
+(require racket/list
+         racket/syntax
          syntax/srcloc)
 
 ;; orig : Syntax -> Syntax
@@ -28,8 +29,26 @@
 (define (empty-id ctxt)
   (datum->syntax ctxt '||))
 
+(define appended-id-prop (gensym 'appended-id))
+
 ;; id-append : #:context Syntax Identifier ... -> (values Identifier Sub-Range-Binder-Prop)
+;; a wrapper around id-append* that keeps track of identifiers that
+;; are themselves appended from other identifiers
 (define (id-append #:context ctxt . ids)
+  (define ids*
+    (append*
+     (for/list ([id (in-list ids)])
+       ;; appended : (U #false (Listof Id))
+       (define appended (syntax-property id appended-id-prop))
+       (cond [appended appended]
+             [else (list id)]))))
+  (define-values [id sub-range-binders]
+    (apply id-append* #:context ctxt ids*))
+  (values (syntax-property id appended-id-prop ids*)
+          sub-range-binders))
+
+;; id-append* : #:context Syntax Identifier ... -> (values Identifier Sub-Range-Binder-Prop)
+(define (id-append* #:context ctxt . ids)
   ;; binder-procs : (Listof Binder-Proc)
   (define-values [id n binder-procs]
     (for/fold ([id1 (empty-id ctxt)] [n 0] [binder-procs '()])
@@ -40,5 +59,7 @@
   (define id* (orig id))
   (values id*
           (get-sub-range-binders id* binder-procs)))
+
+
       
 
