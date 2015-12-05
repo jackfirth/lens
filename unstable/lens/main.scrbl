@@ -29,6 +29,7 @@ this library being backwards-compatible.
   "struct-nested.scrbl"
   "struct-provide.scrbl"
   "sublist.scrbl"
+  "substring.scrbl"
   "syntax.scrbl"
   "view-set.scrbl"
   "zoom.scrbl"
