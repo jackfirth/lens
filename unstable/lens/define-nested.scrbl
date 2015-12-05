@@ -24,9 +24,9 @@ as @racket[(lens-thrush top-middle-lens middle-x-lens)] and
 Clauses can be nested within other clauses as well:
 
 @lens-unstable-examples[
-  (struct/lens game (player1 player2))
-  (struct/lens player (position score))
-  (struct/lens position (x y))
+  (struct/lens game (player1 player2) #:transparent)
+  (struct/lens player (position score) #:transparent)
+  (struct/lens position (x y) #:transparent)
   (define-nested-lenses [game-player1 game-player1-lens]
     [score player-score-lens]
     [position player-position-lens
