@@ -15,6 +15,13 @@ Lenses that convert between structs and lists.
   (lens-set (struct->list-lens foo) (foo 1 2 3) '(4 5 6))
   (lens-view (list->struct-lens foo) '(1 2 3))
   (lens-set (list->struct-lens foo) '(1 2 3) (foo 4 5 6))
+]
+
+For structs that inherit from other structs, it puts the inherited
+fields first, so that it matches the arguments to the constructor:
+
+@lens-unstable-examples[
+  (struct foo (a b c) #:transparent)
   (struct bar foo (d e))
   (lens-view (struct->list-lens bar) (bar 1 2 3 4 5))
   (lens-set (struct->list-lens bar) (bar 1 2 3 4 5) '(6 7 8 9 10))
