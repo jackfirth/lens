@@ -4,8 +4,6 @@
 
 @title{Lenses for nested data}
 
-@defmodule[unstable/lens/define-nested]
-
 @defform[(define-nested-lenses [base-id base-lens-expr] clause ...)
          #:grammar ([clause [sub-id sub-lens-expr]])]{
 A shorthand for defining composed lenses for nested data structures.

@@ -4,8 +4,6 @@
 
 @title{Lenses that transform subpieces}
 
-@defmodule[unstable/lens/zoom]
-
 @defproc[(lens-zoom [zoom-lens lens?] [transform-lens lens?]) lens?]{
 Creates a lens that transforms the subpiece of the target that @racket[zoom-lens]
 views with @racket[transform-lens].

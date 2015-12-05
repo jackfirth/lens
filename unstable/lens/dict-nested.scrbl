@@ -4,8 +4,6 @@
 
 @title{Lenses for nested dictionaries}
 
-@defmodule[unstable/lens/dict-nested]
-
 @defproc[(dict-ref-nested-lens [k any/c] ...) (lens/c functional-dict? any/c)]{
 Similar to @racket[hash-ref-nested-lens], but for dicts.
 @lens-unstable-examples[

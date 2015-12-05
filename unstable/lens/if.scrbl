@@ -4,8 +4,6 @@
 
 @title{Conditional Lenses}
 
-@defmodule[unstable/lens/if]
-
 @defproc[(lens-if [pred (-> target/c any/c)]
                   [lens1 (lens/c target/c view/c)]
                   [lens2 (lens/c target/c view/c)])

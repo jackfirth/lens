@@ -4,8 +4,6 @@
 
 @title{Isomorphisms}
 
-@defmodule[unstable/lens/isomorphism]
-
 @defproc[(make-isomorphism-lens [f (a/c . -> . b/c)] [inv (b/c . -> . a/c)]) lens?]{
 Creates a lens for an isomorphism. The @racket[f] argument should be a function
 with an inverse, and the @racket[inv] argument should be its inverse.

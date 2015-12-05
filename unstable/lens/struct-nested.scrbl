@@ -4,8 +4,6 @@
 
 @title{Nested struct lenses}
 
-@defmodule[unstable/lens/struct-nested]
-
 @(persistent-lens-unstable-examples struct-nested-examples)
 
 @defform[#:id struct-nested-lens
