@@ -21,48 +21,54 @@ begin-for-syntax
   (define -lens (update-source-location (datum->syntax #f '-lens)
                                         #:span 5))
   ;; helper syntax-class for define-nested-lenses
-  (define-syntax-class (clause base-id)
-    [pattern [suffix-id:id suffix-lens-expr:expr]
-             #:do [(define-values [base-suffix-lens-id sub-range-binders]
+  (define-syntax-class (clause base-id base-lens-tmp)
+    #:attributes (def)
+    [pattern [suffix-id:id suffix-lens-expr:expr
+               unchecked-clause ...]
+             #:with base-lens:id base-lens-tmp
+             #:do [(define-values [base-suffix-id base-suffix-sub-range]
                      (id-append #:context base-id
-                                base-id -- #'suffix-id -lens))]
-             #:with [base-suffix-lens ...]
-             (list base-suffix-lens-id)
-             #:with [suffix-lens ...]
-             (list #'suffix-lens-expr)
-             #:attr sub-range-binders
-             sub-range-binders])
+                                base-id -- #'suffix-id))
+                   (define-values [base-suffix-lens-id base-suffix-lens-sub-range]
+                     (id-append #:context base-id
+                                base-suffix-id -lens))]
+             #:with base-suffix
+             base-suffix-id
+             #:with base-suffix-lens
+             base-suffix-lens-id
+             #:with [(~var clause (clause #'base-suffix #'base-suffix-lens)) ...]
+             #'[unchecked-clause ...]
+             #:with def
+             (with-sub-range-binders
+              #'(begin
+                  (define base-suffix-lens
+                    (lens-thrush base-lens suffix-lens-expr))
+                  clause.def
+                  ...)
+              base-suffix-lens-sub-range)])
 
 
 (define-syntax define-nested-lenses
   (syntax-parser
     [(define-nested-lenses [base:id base-lens-expr:expr]
-       (~var clause (clause #'base))
+       (~parse base-lens:id (generate-temporary #'base))
+       (~var clause (clause #'base #'base-lens))
        ...)
-     #:with base-lens:id (generate-temporary #'base)
-     #:with [def ...]
-     (for/list ([base-suffix-lens-ids (in-list (syntax->list #'[[clause.base-suffix-lens] ... ...]))]
-                [suffix-lens-exprs (in-list (syntax->list #'[[clause.suffix-lens ...] ...]))]
-                [sub-range-binders-prop (in-list (attribute clause.sub-range-binders))])
-       (define/syntax-parse [base-suffix-lens ...] base-suffix-lens-ids)
-       (define/syntax-parse [suffix-lens ...] suffix-lens-exprs)
-       (with-sub-range-binders
-        #`(begin
-            (define base-suffix-lens
-              (lens-thrush base-lens suffix-lens))
-            ...)
-        sub-range-binders-prop))
      #'(begin
          (define base-lens base-lens-expr)
-         def
+         clause.def
          ...)]))
 
 module+ test
   (define-nested-lenses [first first-lens]
     [first first-lens]
     [second second-lens]
-    [third third-lens])
+    [third third-lens
+      [first first-lens]
+      [second second-lens]])
   (check-equal? (lens-view first-first-lens '((a b c d) e)) 'a)
   (check-equal? (lens-view first-second-lens '((a b c d) e)) 'b)
   (check-equal? (lens-view first-third-lens '((a b c d) e)) 'c)
+  (check-equal? (lens-view first-third-first-lens '((a b (c d) e) f)) 'c)
+  (check-equal? (lens-view first-third-second-lens '((a b (c d) e) f)) 'd)
 
