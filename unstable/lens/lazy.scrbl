@@ -4,8 +4,6 @@
 
 @title{Lazy lenses and recursive lenses}
 
-@defmodule[unstable/lens/lazy]
-
 @defform[(lazy-lens lens-expr)]{
 Creates a lazy lens that lazily evaluates @racket[lens-expr] and uses it to view
 and set the target.
@@ -30,4 +28,3 @@ Creates a potentially recursive lens, where @racket[lens-expr] can refer to
             '(a (b (() c)) (d))
             '("hay" ("bee" (() "sea")) ("deep")))
 ]}
-

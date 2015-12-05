@@ -5,8 +5,6 @@
 
 @title{Syntax Lenses}
 
-@defmodule[unstable/lens/syntax]
-
 @defform[(syntax-lens target-id structure)]{
   Constructs a lens that parses a syntax object and returns
   a piece of that syntax object as determined by where

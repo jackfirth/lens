@@ -4,8 +4,6 @@
 
 @title{Joining lenses with an association list}
 
-@defmodule[unstable/lens/join-assoc]
-
 @defproc[(lens-join/assoc [key key/c] [lens (lens/c target/c value/c)] ... ...)
          (lens/c target/c (listof (cons/c key/c value/c)))]{
 Like @racket[lens-join/hash], except joins the keys and values into an

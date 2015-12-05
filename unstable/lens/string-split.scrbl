@@ -4,8 +4,6 @@
 
 @title{Splitting Strings}
 
-@defmodule[unstable/lens/string-split]
-
 @defproc[(string-split-lens [sep (or/c string? char? regexp?)]) lens?]{
 Creates a lens that splits a string into multiple pieces like
 @racket[regexp-split] or @racket[string-split].

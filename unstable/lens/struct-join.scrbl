@@ -4,14 +4,12 @@
 
 @title{Joining lenses with structs}
 
-@defmodule[unstable/lens/struct-join]
-
 @defform[(lens-join/struct struct-id field-lens ...)
          #:grammar ([field-lens (code:line lens-expr)
                                 (code:line field-keyword lens-expr)])]{
 Like @racket[lens-join/list], except that the views of the given
 lenses are put in an instance of the @racket[struct-id] struct instead
-of in a list. 
+of in a list.
 @lens-unstable-examples[
   (struct foo (a b) #:transparent)
   (define lens (lens-join/struct foo first-lens third-lens))

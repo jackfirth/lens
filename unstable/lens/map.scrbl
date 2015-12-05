@@ -4,8 +4,6 @@
 
 @title{Lenses that map over lists and vectors}
 
-@defmodule[unstable/lens/map]
-
 @defproc[(map-lens [lens lens?]) lens?]{
 Creates a lens that maps @racket[lens] over a target list.
 @lens-unstable-examples[
