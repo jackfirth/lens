@@ -26,6 +26,7 @@ this library being backwards-compatible.
   "set-member.scrbl"
   "string-split.scrbl"
   "struct-join.scrbl"
+  "struct-list.scrbl"
   "struct-nested.scrbl"
   "struct-provide.scrbl"
   "sublist.scrbl"

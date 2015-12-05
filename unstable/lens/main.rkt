@@ -13,6 +13,7 @@
 "set-member.rkt"
 "string-split.rkt"
 "struct-join.rkt"
+"struct-list.rkt"
 "struct-nested.rkt"
 "struct-provide.rkt"
 "sublist.rkt"
