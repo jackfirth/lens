@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require racket/contract/base)
+(require racket/function racket/contract/base unstable/contract)
 
 (provide
  (contract-out
@@ -36,9 +36,9 @@
                  (substring str end)))
 
 (module+ test
-  (check-equal? (set-substring "kitten" 0 4 "KITT") "KITTen")
-  (check-equal? (set-substring "kitten" 2 6 "ller") "killer")
-  (check-equal? (set-substring "kitten" 2 4 "ss") "kissen"))
+  (check-equal? (set-substring "mitten" 0 4 "MITT") "MITTen")
+  (check-equal? (set-substring "mitten" 2 4 "ZZ") "miZZen")
+  (check-equal? (set-substring "mitten" 2 6 "LLER") "miLLER"))
 
 (define (substring-lens start end)
   (define (substring-lens-getter str)
@@ -49,5 +49,17 @@
 
 (module+ test
   (check-pred lens? (substring-lens 2 4))
-  (check-equal? (lens-view (substring-lens 2 4) "kitten") "tt")
-  (check-equal? (lens-set (substring-lens 2 4) "kitten" "TT") "kiTTen"))
+  (check-equal? (lens-view (substring-lens 2 4) "mitten") "tt")
+  (check-equal? (lens-set (substring-lens 2 4) "mitten" "TT") "miTTen"))
+
+(module+ test
+  (require (submod ".."))
+  (check-exn exn:fail:contract?
+             (thunk (substring-lens -1 5)))  ; Improper substring boundaries
+  (check-exn exn:fail:contract?
+             (thunk (lens-set (substring-lens 2 4) "kitten" "c")))  ; Replacement string is too short
+  (check-exn exn:fail:contract?
+             (thunk (lens-set (substring-lens 2 4) "kitten" "cat")))  ; Replacement string is too long
+  (check-not-exn
+             (thunk (lens-set (substring-lens 2 4) "kitten" "ca")))  ; Replacement string is just right!
+  )
