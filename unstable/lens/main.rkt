@@ -17,6 +17,7 @@
 "struct-nested.rkt"
 "struct-provide.rkt"
 "sublist.rkt"
+"substring.rkt"
 "syntax.rkt"
 "view-set.rkt"
 "zoom.rkt"
