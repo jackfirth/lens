@@ -4,6 +4,7 @@
          syntax/parse/define
          alexis/util/struct
          "../base/main.rkt"
+         "../base/rename.rkt"
          (for-syntax racket/base
                      syntax/parse
                      racket/syntax))
@@ -17,8 +18,9 @@
 (define-simple-macro (struct-lens s:id fld:id)
   #:with s-fld      (format-id #'s "~a-~a" #'s #'fld #:source #'fld)
   #:with s-fld-set  (format-id #'s "~a-~a-set" #'s #'fld #:source #'fld)
+  #:with s-fld-lens (format-id #'s "~a-~a-lens" #'s #'fld #:source #'fld)
   (local [(define-struct-updaters s)]
-    (make-lens s-fld s-fld-set)))
+    (lens-rename (make-lens s-fld s-fld-set) 's-fld-lens)))
 
 (module+ test
   (struct foo (a b c) #:transparent)

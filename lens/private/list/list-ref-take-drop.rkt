@@ -27,6 +27,7 @@
          fancy-app
          "../util/improper-list-length.rkt"
          "../base/main.rkt"
+         "../base/rename.rkt"
          "../compound/compose.rkt"
          "car-cdr.rkt")
 
@@ -49,7 +50,9 @@
 
 
 (define (take-lens n)
-  (make-lens (take _ n) (set-take n _ _)))
+  (lens-rename
+   (make-lens (take _ n) (set-take n _ _))
+   `(take-lens ,n)))
 
 (module+ test
   (define take2-lens (take-lens 2))
@@ -58,7 +61,9 @@
 
 
 (define (drop-lens n)
-  (make-lens (drop _ n) (set-drop n _ _)))
+  (lens-rename
+   (make-lens (drop _ n) (set-drop n _ _))
+   `(drop-lens ,n)))
 
 (module+ test
   (define drop2-lens (drop-lens 2))
@@ -67,18 +72,20 @@
 
 
 (define (list-ref-lens i)
-  (lens-compose car-lens (drop-lens i)))
+  (lens-rename
+   (lens-compose car-lens (drop-lens i))
+   `(list-ref-lens ,i)))
 
-(define first-lens (list-ref-lens 0))
-(define second-lens (list-ref-lens 1))
-(define third-lens (list-ref-lens 2))
-(define fourth-lens (list-ref-lens 3))
-(define fifth-lens (list-ref-lens 4))
-(define sixth-lens (list-ref-lens 5))
-(define seventh-lens (list-ref-lens 6))
-(define eighth-lens (list-ref-lens 7))
-(define ninth-lens (list-ref-lens 8))
-(define tenth-lens (list-ref-lens 9))
+(define first-lens   (lens-rename (list-ref-lens 0) 'first-lens))
+(define second-lens  (lens-rename (list-ref-lens 1) 'second-lens))
+(define third-lens   (lens-rename (list-ref-lens 2) 'third-lens))
+(define fourth-lens  (lens-rename (list-ref-lens 3) 'fourth-lens))
+(define fifth-lens   (lens-rename (list-ref-lens 4) 'fifth-lens))
+(define sixth-lens   (lens-rename (list-ref-lens 5) 'sixth-lens))
+(define seventh-lens (lens-rename (list-ref-lens 6) 'seventh-lens))
+(define eighth-lens  (lens-rename (list-ref-lens 7) 'eigth-lens))
+(define ninth-lens   (lens-rename (list-ref-lens 8) 'ninth-lens))
+(define tenth-lens   (lens-rename (list-ref-lens 9) 'tenth-lens))
 
 
 (module+ test

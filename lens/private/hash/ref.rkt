@@ -3,6 +3,7 @@
 (require racket/contract
          fancy-app
          "../base/main.rkt"
+         "../base/rename.rkt"
          "../util/immutable.rkt")
 
 (module+ test
@@ -14,8 +15,10 @@
 
 
 (define (hash-ref-lens key)
-  (make-lens (hash-ref _ key)
-             (hash-set _ key _)))
+  (lens-rename
+   (make-lens (hash-ref _ key)
+              (hash-set _ key _))
+   `(hash-ref-lens ,(format "~v" key))))
 
 (module+ test
   (define a (hash-ref-lens 'a))

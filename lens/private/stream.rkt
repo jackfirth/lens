@@ -11,6 +11,7 @@ provide
 require racket/stream
         fancy-app
         "base/main.rkt"
+        "base/rename.rkt"
         "compound/main.rkt"
 
 module+ test
@@ -36,14 +37,18 @@ module+ test
   (stream-cons (stream-first s) rst))
 
 (define stream-first-lens
-  (make-lens
-   stream-first
-   stream-set-first))
+  (lens-rename
+   (make-lens
+    stream-first
+    stream-set-first)
+   'stream-first-lens))
 
 (define stream-rest-lens
-  (make-lens
-   stream-rest
-   stream-set-rest))
+  (lens-rename
+   (make-lens
+    stream-rest
+    stream-set-rest)
+   'stream-rest-lens))
 
 (define (stream-tail-lens i)
   (make-lens

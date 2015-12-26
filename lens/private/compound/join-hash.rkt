@@ -5,6 +5,7 @@
          unstable/sequence
          fancy-app
          "../base/main.rkt"
+         "../base/rename.rkt"
          "../util/alternating-list.rkt"
          "../util/immutable.rkt"
          "../util/list-pair-contract.rkt"
@@ -30,7 +31,7 @@
     (keys+values->hash keys (lens-view list-lens target)))
   (define (set target new-view-hash)
     (lens-set list-lens target (map (hash-ref new-view-hash _) keys)))
-  (make-lens get set))
+  (lens-rename (make-lens get set) `(lens-join/hash ...)))
 
 (module+ test
   (define a-b-lens (lens-join/hash 'b third-lens

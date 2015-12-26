@@ -3,6 +3,7 @@
 require racket/contract
         unstable/lens/isomorphism/base
         "../base/main.rkt"
+        "../base/rename.rkt"
         "../util/immutable.rkt"
         "../util/rest-contract.rkt"
         "compose.rkt"
@@ -19,7 +20,8 @@ provide
 
 
 (define (lens-join/string . lenses)
-  (lens-compose list->string-lens (apply lens-join/list lenses)))
+  (lens-rename (lens-compose list->string-lens (apply lens-join/list lenses))
+               `(lens-join/string ...)))
 
 (define list->string-lens
   (make-isomorphism-lens list->immutable-string string->list))

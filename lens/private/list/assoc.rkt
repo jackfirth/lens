@@ -12,7 +12,8 @@
           ))
 
 (require fancy-app
-         "../base/main.rkt")
+         "../base/main.rkt"
+         "../base/rename.rkt")
 
 (module+ test
   (require rackunit "../test-util/test-lens.rkt")
@@ -38,10 +39,14 @@
   (check-equal? (assoc-set assoc-list 'b 200) '((a . 1) (b . 200) (c . 3))))
 
 
-(define (assoc-lens key #:is-equal? [equal? equal?])
-  (define get (assoc-get _ key #:is-equal? equal?))
-  (define set (assoc-set _ key _ #:is-equal? equal?))
-  (make-lens get set))
+(define (assoc-lens key #:is-equal? [equal-proc equal?])
+  (define get (assoc-get _ key #:is-equal? equal-proc))
+  (define set (assoc-set _ key _ #:is-equal? equal-proc))
+  (lens-rename (make-lens get set)
+               (cond [(eq? equal-proc equal?) `(assoc-lens ,(format "~v" key))]
+                     [(eq? equal-proc eqv?)   `(assv-lens ,(format "~v" key))]
+                     [(eq? equal-proc eq?)    `(assq-lens ,(format "~v" key))]
+                     [else                    `(assoc-lens ,(format "~v" key) ...)])))
 
 (module+ test
   (define assoc-b-lens (assoc-lens 'b))
