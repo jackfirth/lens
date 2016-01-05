@@ -3,7 +3,7 @@ except-in
   combine-in
     "base/main.rkt"
     "compound/main.rkt"
-    "dict.rkt"
+    "dict/dict.rkt"
     "hash/main.rkt"
     "list/main.rkt"
     "stream.rkt"

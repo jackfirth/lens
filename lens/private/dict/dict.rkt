@@ -6,7 +6,7 @@
            (-> any/c (lens/c functional-dict? any/c))]
           ))
 
-(require lens/private/util/functional-dict racket/dict fancy-app "base/main.rkt")
+(require lens/private/util/functional-dict racket/dict fancy-app "../base/main.rkt")
 (module+ test
   (require rackunit))
 

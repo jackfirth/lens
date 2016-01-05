@@ -1,2 +1,2 @@
 #lang reprovide
-lens/private/define-nested
+lens/private/compound/define-nested

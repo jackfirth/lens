@@ -12,5 +12,5 @@
 @include-section["../vector/main.scrbl"]
 @include-section["../string/main.scrbl"]
 @include-section["../stream.scrbl"]
-@include-section["../dict.scrbl"]
+@include-section["../dict/dict.scrbl"]
 @include-section["../../applicable.scrbl"]

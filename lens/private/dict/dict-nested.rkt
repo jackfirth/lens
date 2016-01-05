@@ -7,7 +7,7 @@ provide
 
 require lens/private/base/main
         lens/private/compound/thrush
-        lens/private/dict
+        lens/private/dict/dict
         lens/private/util/functional-dict
 module+ test
   require rackunit fancy-app

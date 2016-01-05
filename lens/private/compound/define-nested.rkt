@@ -7,7 +7,7 @@ require lens/private/compound/thrush
                    racket/syntax
                    syntax/parse
                    syntax/srcloc
-                   "util/id-append.rkt"
+                   "../util/id-append.rkt"
 module+ test
   require lens/private/base/base
           lens/private/list/main
