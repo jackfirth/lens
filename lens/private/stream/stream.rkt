@@ -10,12 +10,12 @@ provide
 
 require racket/stream
         fancy-app
-        "base/main.rkt"
-        "compound/main.rkt"
+        "../base/main.rkt"
+        "../compound/main.rkt"
 
 module+ test
   require rackunit
-          "test-util/test-lens.rkt"
+          "../test-util/test-lens.rkt"
 
 
 module+ test

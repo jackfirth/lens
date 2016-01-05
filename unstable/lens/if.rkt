@@ -1,2 +1,2 @@
 #lang reprovide
-lens/private/if
+lens/private/compound/if
