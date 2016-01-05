@@ -6,14 +6,14 @@ provide
     lens-join/assoc (->* [] #:rest (listof2 any/c lens?) (lens/c any/c (listof pair?)))
 
 require lens/private/base/main
-        lens/private/compound/join-list
+        lens/private/list/join-list
         lens/private/list/assoc
         lens/private/util/alternating-list
         lens/private/util/list-pair-contract
         racket/match
         unstable/sequence
 module+ test
-  require rackunit lens/private/list/main
+  require rackunit lens/private/list/list-ref-take-drop
 
 (define (lens-join/assoc . ks/lenses)
   (define-values [keys lenses]

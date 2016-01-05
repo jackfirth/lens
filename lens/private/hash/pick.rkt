@@ -3,7 +3,7 @@
 (require racket/contract
          racket/list
          "../base/main.rkt"
-         "../compound/join-hash.rkt"
+         "../hash/join-hash.rkt"
          "../util/immutable.rkt"
          "../util/rest-contract.rkt"
          "ref.rkt")

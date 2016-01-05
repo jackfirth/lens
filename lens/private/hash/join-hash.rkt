@@ -8,7 +8,7 @@
          "../util/alternating-list.rkt"
          "../util/immutable.rkt"
          "../util/list-pair-contract.rkt"
-         "join-list.rkt")
+         "../list/join-list.rkt")
 
 (module+ test
   (require rackunit

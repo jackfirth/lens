@@ -1,2 +1,2 @@
 #lang reprovide
-lens/private/compound/join-assoc
+lens/private/list/join-assoc

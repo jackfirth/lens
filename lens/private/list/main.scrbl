@@ -8,4 +8,5 @@
 
 @include-section["car-cdr.scrbl"]
 @include-section["list-ref-take-drop.scrbl"]
+@include-section["join-list.scrbl"]
 @include-section["assoc.scrbl"]
