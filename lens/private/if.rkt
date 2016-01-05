@@ -11,7 +11,7 @@
                      syntax/parse
                      ))
 (module+ test
-  (require rackunit lens/private/list/main lens/private/vector/main lens/private/string))
+  (require rackunit lens/private/list/main lens/private/vector/main lens/private/string/main))
 
 (define (lens-if pred lens1 lens2)
   (make-lens

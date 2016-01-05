@@ -11,12 +11,13 @@
           ))
 
 (require fancy-app
-         "base/main.rkt"
-         "util/immutable.rkt"
-         "compound/main.rkt")
+         "../base/main.rkt"
+         "../util/immutable.rkt"
+         "../string/join-string.rkt"
+         "../compound/main.rkt")
 
 (module+ test
-  (require rackunit "test-util/test-lens.rkt"))
+  (require rackunit "../test-util/test-lens.rkt"))
 
 
 (define (string-ref-lens i)

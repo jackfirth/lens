@@ -7,7 +7,7 @@ except-in
     "hash/main.rkt"
     "list/main.rkt"
     "stream.rkt"
-    "string.rkt"
+    "string/main.rkt"
     "struct/main.rkt"
     "vector/main.rkt"
   gen:lens
