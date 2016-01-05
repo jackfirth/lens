@@ -5,7 +5,7 @@ require racket/contract
         "../base/main.rkt"
         "../util/immutable.rkt"
         "../util/rest-contract.rkt"
-        "compose.rkt"
+        "../compound/compose.rkt"
         "../list/join-list.rkt"
 
 module+ test
