@@ -12,11 +12,11 @@ require fancy-app
         lens/private/util/list-pair-contract
         racket/match
         unstable/sequence
-        "isomorphism/base.rkt"
+        lens/private/isomorphism/base
 module+ test
   require lens/private/list/main
           rackunit
-          "isomorphism/data.rkt"
+          lens/private/isomorphism/data
           "map.rkt"
 
 ;; lens-zoom : (Lens (Outer Inner) Inner) (Lens A B) -> (Lens (Outer A) (Outer B))

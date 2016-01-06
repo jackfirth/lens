@@ -10,7 +10,7 @@ provide
 require lens/private/base/main
         lens/private/list/main
         lens/private/compound/main
-        "isomorphism/base.rkt"
+        lens/private/isomorphism/base
 
 module+ test
   require rackunit fancy-app

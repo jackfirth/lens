@@ -5,7 +5,7 @@ provide lazy-lens
 
 require fancy-app lens/private/base/main racket/promise
 module+ test
-  require rackunit "if.rkt" "isomorphism/data.rkt" "map.rkt"
+  require rackunit "if.rkt" "isomorphism.rkt" "map.rkt"
 
 (define-syntax-rule (lazy-lens expr)
   (let ([p (delay expr)])

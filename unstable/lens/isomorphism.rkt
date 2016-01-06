@@ -1,2 +1,2 @@
 #lang reprovide
-"isomorphism/main.rkt"
+lens/private/isomorphism/main

@@ -1,7 +1,7 @@
 #lang sweet-exp racket/base
 
 require racket/contract
-        unstable/lens/isomorphism/base
+        lens/private/isomorphism/base
         "../base/main.rkt"
         "../util/immutable.rkt"
         "../util/rest-contract.rkt"

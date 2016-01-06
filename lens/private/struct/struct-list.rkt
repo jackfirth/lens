@@ -3,7 +3,7 @@
 provide struct->list-lens list->struct-lens
 
 require racket/local
-        unstable/lens/isomorphism/base
+        lens/private/isomorphism/base
         for-syntax racket/base
                    racket/list
                    racket/struct-info
