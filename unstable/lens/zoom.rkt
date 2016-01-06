@@ -17,7 +17,7 @@ module+ test
   require lens/private/list/main
           rackunit
           lens/private/isomorphism/data
-          "map.rkt"
+          lens/private/list/map
 
 ;; lens-zoom : (Lens (Outer Inner) Inner) (Lens A B) -> (Lens (Outer A) (Outer B))
 (define (lens-zoom zoom-lens transformer-lens)
