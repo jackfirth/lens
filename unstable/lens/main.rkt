@@ -19,5 +19,5 @@
 "sublist.rkt"
 "substring.rkt"
 "syntax.rkt"
-"view-set.rkt"
+"set-all.rkt"
 "zoom.rkt"

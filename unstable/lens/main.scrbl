@@ -32,7 +32,7 @@ this library being backwards-compatible.
   "sublist.scrbl"
   "substring.scrbl"
   "syntax.scrbl"
-  "view-set.scrbl"
+  "set-all.scrbl"
   "zoom.scrbl"
   )
 
