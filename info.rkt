@@ -36,4 +36,5 @@
     "lens/private/test-util"
     "lens/private/util"
     "unstable/lens/struct-provide.rkt"
-    "unstable/lens/syntax.rkt"))
+    "unstable/lens/syntax.rkt"
+    "unstable/lens/zoom.rkt"))
