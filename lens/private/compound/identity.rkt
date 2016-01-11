@@ -3,7 +3,7 @@
 require racket/function
         racket/contract/base
         "../base/main.rkt"
-        unstable/lens/isomorphism/base
+        lens/private/isomorphism/base
 
 module+ test
   require rackunit

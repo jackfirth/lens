@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require "doc-util/main.rkt")
+@(require "../doc-util/main.rkt")
 
 @title[#:tag "strings-reference"]{String Lenses}
 

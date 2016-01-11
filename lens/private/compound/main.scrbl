@@ -6,7 +6,3 @@
 
 @scribble-include/no-subsection["compose.scrbl"]
 @scribble-include/no-subsection["thrush.scrbl"]
-@scribble-include/no-subsection["join-list.scrbl"]
-@scribble-include/no-subsection["join-hash.scrbl"]
-@scribble-include/no-subsection["join-vector.scrbl"]
-@scribble-include/no-subsection["join-string.scrbl"]

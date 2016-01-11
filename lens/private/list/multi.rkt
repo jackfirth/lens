@@ -4,6 +4,7 @@
          "../base/main.rkt"
          "../compound/main.rkt"
          "../util/rest-contract.rkt"
+         "join-list.rkt"
          "list-ref-take-drop.rkt")
 
 (module+ test

@@ -2,6 +2,8 @@
 
 @(require "../doc-util/main.rkt")
 
+@title{Joining lenses to view lists}
+
 @defproc[(lens-join/list [lens lens?] ...) lens?]{
   Constructs a lens that combines the view of each
   @racket[lens] into a list of views. This lens can

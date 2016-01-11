@@ -1,3 +1,2 @@
 #lang reprovide
-"syntax/syntax.rkt"
-"syntax/syntax-keyword.rkt"
+lens/private/syntax/main

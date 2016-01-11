@@ -3,11 +3,11 @@ except-in
   combine-in
     "base/main.rkt"
     "compound/main.rkt"
-    "dict.rkt"
+    "dict/dict.rkt"
     "hash/main.rkt"
     "list/main.rkt"
-    "stream.rkt"
-    "string.rkt"
+    "stream/stream.rkt"
+    "string/main.rkt"
     "struct/main.rkt"
     "vector/main.rkt"
   gen:lens

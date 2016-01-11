@@ -5,6 +5,7 @@
          "../compound/main.rkt"
          "../util/immutable.rkt"
          "../util/rest-contract.rkt"
+         "../vector/join-vector.rkt"
          "ref.rkt")
 
 (module+ test
