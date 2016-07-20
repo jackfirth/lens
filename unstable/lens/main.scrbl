@@ -33,6 +33,7 @@ this library being backwards-compatible.
   "sublist.scrbl"
   "substring.scrbl"
   "syntax.scrbl"
+  (lib "lens/private/syntax/stx.scrbl")
   "set-all.scrbl"
   "zoom.scrbl"
   )

@@ -20,5 +20,6 @@
 "sublist.rkt"
 "substring.rkt"
 "syntax.rkt"
+"syntax/stx.rkt"
 "set-all.rkt"
 "zoom.rkt"
