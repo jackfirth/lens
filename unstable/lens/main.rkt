@@ -1,4 +1,5 @@
 #lang reprovide
+"append.rkt"
 "arrow.rkt"
 "define-nested.rkt"
 "dict-nested.rkt"
