@@ -53,10 +53,11 @@
       [(a ...) (ormap (target-stx target-id) (syntax->list #'(a ...)))]
       [a (and (bound-identifier=? target-id #'a) #'a)]))
   
-  (define template->pattern
-    (syntax-parser #:literals (_)
-      [(a ...) #`(#,@(stx-map template->pattern #'(a ...)))]
-      [_ (generate-temporary)]
+  (define (template->pattern stx)
+    (syntax-parse stx
+      ;; preserve lexical context, source location, and properties
+      [(a ...) (datum->syntax stx (stx-map template->pattern #'(a ...)) stx stx)]
+      [(~literal _) (generate-temporary)]
       [a #'a]))
   
   (define ((template-rebuilder target-id) parse-pattern)
