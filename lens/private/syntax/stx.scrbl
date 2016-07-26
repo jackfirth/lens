@@ -74,14 +74,24 @@ This is the syntax version of @racket[append*-lens].
   (lens-set stx-append*-lens #'((a) (b c) () (d e f)) #'(1 2 3 4 5 6))
 ]}
 
-@defproc[(stx-append*n-lens [n exact-nonnegative-integer?]) lens?]{
-Creates a lens that flattens a list @racket[n] levels down when
+@defproc[(stx-flatten/depth-lens [n exact-nonnegative-integer?]) lens?]{
+Creates a lens that flattens a stx-list of depth @racket[n] when
 viewing, and restores the original structure when setting.
 
-This is the syntax version of @racket[append*n-lens].
+This is the syntax version of @racket[flatten/depth-lens].
 
 @lens-unstable-examples[
-  (lens-view (stx-append*n-lens 2) #'(((a) ()) (() (b) (c)) () ((d e) () (f))))
-  (lens-set (stx-append*n-lens 2) #'(((a) ()) (() (b) (c)) () ((d e) () (f))) #'(1 2 3 4 5 6))
+  (lens-view (stx-flatten/depth-lens 0) #'42)
+  (lens-set (stx-flatten/depth-lens 0) #'42 #'(43))
+  (lens-view (stx-flatten/depth-lens 1) #'(a b c))
+  (lens-set (stx-flatten/depth-lens 1) #'(a b c) #'(1 2 3))
+  (lens-view (stx-flatten/depth-lens 2) #'((a) (b c) () (d e f)))
+  (lens-set (stx-flatten/depth-lens 2) #'((a) (b c) () (d e f)) #'(1 2 3 4 5 6))
+  (lens-view (stx-flatten/depth-lens 3) #'(((a) ()) (() (b) (c)) () ((d e) () (f))))
+  (lens-set (stx-flatten/depth-lens 3) #'(((a) ()) (() (b) (c)) () ((d e) () (f))) #'(1 2 3 4 5 6))
 ]}
+
+@defproc[(stx-append*n-lens [n exact-nonnegative-integer?]) lens?]{
+This is deprecated. Use @racket[(stx-flatten/depth-lens (add1 n))] instead.
+}
 

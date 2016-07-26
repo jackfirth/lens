@@ -12,10 +12,10 @@ may change in future releases. Do not depend on
 this library being backwards-compatible.
 
 @(include-sections
-  (lib "lens/private/list/append.scrbl")
   "arrow.scrbl"
   "define-nested.scrbl"
   "dict-nested.scrbl"
+  (lib "lens/private/list/flatten.scrbl")
   "hash-filterer.scrbl"
   "if.scrbl"
   "isomorphism.scrbl"

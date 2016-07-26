@@ -17,6 +17,7 @@
          stx-caddr-lens
          stx-cdddr-lens
          stx-append*-lens
+         stx-flatten/depth-lens
          stx-append*n-lens
          )
 
@@ -105,20 +106,88 @@
        (cons (restore-stx s-lst f-lst)
              (restore-structure s-rst f-rst)))]))
 
+
+;; stx-flatten/depth-lens : (Lens (Stx-Listof* Any n) (Stx-Listof Any))
+;; where the only valid views are stx-lists with the same length as
+;; the result of (stx-flatten/depth n target)
+(define (stx-flatten/depth-lens n)
+  (make-lens
+   (stx-flatten/depth n _)
+   (stx-unflatten/depth n _ _)))
+
 ;; stx-append*-lens : (Lens (Stx-Listof (Stx-Listof Any)) (Stx-Listof Any))
 ;; where the only valid views are stx-lists with the same length as
 ;; the result of applying stx-append* to the target.
+;; Viewing is equivalent to using stx-append*
+;; Setting restores the structure of the original nested stx-list
 (define stx-append*-lens
-  (make-lens
-   stx-append*
-   restore-structure))
+  (stx-flatten/depth-lens 2))
+
+;; stx-flatten/depth : n (Stx-Listof* A n) -> (Stx-Listof A)
+(define (stx-flatten/depth n lst*)
+  (check-structure-depth! n lst*)
+  (cond [(zero? n) (list lst*)]
+        [else (stx-append*n (sub1 n) lst*)]))
+
+;; stx-unflatten/depth : n (Stx-Listof* A n) (Stx-Listof B) -> (Stx-Listof* B n)
+(define (stx-unflatten/depth n lst* lst)
+  (check-structure-depth! n lst*)
+  (check-flattened-length! n lst* lst)
+  (cond [(zero? n)
+         (match-define (list v) (stx->list* lst))
+         v]
+        [else
+         (stx-unappend*n (sub1 n) lst* lst)]))
+
+;; stx-append*n : n (Stx-Listof (Stx-Listof* A n)) -> (Stx-Listof A)
+(define (stx-append*n n lst*)
+  (cond [(zero? n) lst*]
+        [else (stx-append*n (sub1 n) (stx-append* lst*))]))
+
+;; stx-unappend*n : n (Stx-Listof (Stx-Listof* A n)) (Stx-Listof B) -> (Stx-Listof (Stx-Listof* B n))
+(define (stx-unappend*n n lst* lst)
+  (cond [(zero? n) lst]
+        [else (restore-structure
+               lst*
+               (stx-unappend*n (sub1 n) (stx-append* lst*) lst))]))
 
 (define (stx-append*n-lens n)
-  (apply lens-thrush (make-list n stx-append*-lens)))
+  (stx-flatten/depth-lens (add1 n)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; stx-list/depth? : Natural Any -> Boolean
+(define (stx-list/depth? n structure)
+  (cond [(zero? n) #true]
+        [else (and (stx-list? structure)
+                   (stx-andmap (stx-list/depth? (sub1 n) _) structure))]))
+
+;; check-structure-depth! : n (Stx-Listof* A n) -> Void
+(define (check-structure-depth! depth structure)
+  (unless (stx-list/depth? depth structure)
+    (raise-argument-error 'stx-flatten/depth-lens
+                          (format "a nested stx-list of depth ~v" depth)
+                          structure)))
+
+;; check-flattened-length! : n (Stx-Listof* A n) (Stx-Listof B) -> Void
+(define (check-flattened-length! depth structure flattened)
+  (unless (= (stx-length (stx-flatten/depth depth structure)) (stx-length flattened))
+    (raise-argument-error 'stx-flatten/depth-lens
+                          (format "a stx-list of length ~v"
+                                  (stx-length (stx-flatten/depth depth structure)))
+                          1
+                          structure
+                          flattened)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; stx-length : (Stx-Listof A) -> Natural
 (define (stx-length lst)
   (length (stx->list* lst)))
+
+;; stx-andmap : [A -> Boolean] (Stx-Listof A) -> Boolean
+(define (stx-andmap f lst)
+  (andmap f (stx->list* lst)))
 
 ;; stx-split-at : (Stx-Listof A) Natural -> (values (Listof A) (Stx-Listof A))
 (define (stx-split-at lst* pos*)
@@ -242,6 +311,14 @@
                         (list '(#%app - a b) '(#%app * c d))
                         (list)))
 
+    (check-exn #rx"expected: a nested stx-list of depth 2\n  given: '\\(5\\)"
+               (λ () (lens-view stx-append*-lens (list 5))))
+    (check-exn #rx"expected: a nested stx-list of depth 2\n  given: '\\(5\\)"
+               (λ () (lens-set stx-append*-lens (list 5) (list 'a))))
+
+    (check-exn #rx"expected: a stx-list of length 3\n  given: '\\(a b\\)"
+               (λ () (lens-set stx-append*-lens (list (list 1) (list 2 3) (list)) (list 'a 'b))))
+
     (test-lens-laws stx-append*-lens
                     (list (list 1) (list 2 3) (list))
                     (list 'a 'b 'c)
@@ -251,17 +328,20 @@
                     (list a* b* c*)
                     (list "a" "b" "c"))
     )
-  (test-case "stx-append*n-lens"
-    (define append**-lens (stx-append*n-lens 2))
-    (define append***-lens (stx-append*n-lens 3))
+  (test-case "stx-flatten/depth-lens"
+    (define flat0-lens (stx-flatten/depth-lens 0))
+    (define flat1-lens (stx-flatten/depth-lens 1))
+    (define flat2-lens (stx-flatten/depth-lens 2))
+    (define flat3-lens (stx-flatten/depth-lens 3))
+    (define flat4-lens (stx-flatten/depth-lens 4))
 
-    (check-equal? (lens-view append**-lens
+    (check-equal? (lens-view flat3-lens
                              (list (list (list) (list 1))
                                    (list (list 2 3))
                                    (list)
                                    (list (list 4) (list) (list 5 6))))
                   (list 1 2 3 4 5 6))
-    (check-equal? (lens-set append**-lens
+    (check-equal? (lens-set flat3-lens
                             (list (list (list) (list 1))
                                    (list (list 2 3))
                                    (list)
@@ -272,7 +352,7 @@
                         (list)
                         (list (list 'd) (list) (list 'e 'f))))
 
-    (test-lens-laws append**-lens
+    (test-lens-laws flat3-lens
                     (list (list (list) (list 1))
                           (list (list 2 3))
                           (list)
@@ -280,13 +360,13 @@
                     (list 'a 'b 'c 'd 'e 'f)
                     (list "a" "b" "c" "d" "e" "f"))
 
-    (check-equal? (lens-view append***-lens
+    (check-equal? (lens-view flat4-lens
                              (list (list (list) (list (list 1)))
                                    (list (list (list) (list 2 3)))
                                    (list)
                                    (list (list (list 4) (list)) (list) (list (list 5 6)))))
                   (list 1 2 3 4 5 6))
-    (check-equal? (lens-set append***-lens
+    (check-equal? (lens-set flat4-lens
                             (list (list (list) (list (list 1)))
                                   (list (list (list) (list 2 3)))
                                   (list)
@@ -297,7 +377,39 @@
                         (list)
                         (list (list (list 'd) (list)) (list) (list (list 'e 'f)))))
 
-    (test-lens-laws append***-lens
+     (check-exn #rx"expected: a nested stx-list of depth 3\n *given: '\\(5\\)"
+               (λ () (lens-view flat3-lens (list 5))))
+    (check-exn #rx"expected: a nested stx-list of depth 3\n  given: '\\(5\\)"
+               (λ () (lens-set flat3-lens (list 5) (list 'a))))
+
+    (check-exn #rx"expected: a stx-list of length 6\n  given: '\\(a b\\)"
+               (λ () (lens-set flat3-lens
+                               (list (list (list) (list 1))
+                                     (list (list 2 3))
+                                     (list)
+                                     (list (list 4) (list) (list 5 6)))
+                               (list 'a 'b))))
+    
+   (test-lens-laws flat0-lens
+                    42
+                    (list 'a)
+                    (list "a"))
+    (test-lens-laws flat1-lens
+                    (list 1 2 3)
+                    (list 'a 'b 'c)
+                    (list "a" "b" "c"))
+    (test-lens-laws flat2-lens
+                    (list (list 1) (list 2 3) (list))
+                    (list 'a 'b 'c)
+                    (list "a" "b" "c"))
+    (test-lens-laws flat3-lens
+                    (list (list (list) (list 1))
+                          (list (list 2 3))
+                          (list)
+                          (list (list 4) (list) (list 5 6)))
+                    (list 'a 'b 'c 'd 'e 'f)
+                    (list "a" "b" "c" "d" "e" "f"))
+    (test-lens-laws flat4-lens
                     (list (list (list) (list (list 1)))
                           (list (list (list) (list 2 3)))
                           (list)
