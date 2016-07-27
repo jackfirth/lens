@@ -2,7 +2,7 @@
 
 (require racket/local
          syntax/parse/define
-         alexis/util/struct
+         struct-update
          "../base/main.rkt"
          (for-syntax racket/base
                      syntax/parse
