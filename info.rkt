@@ -14,8 +14,9 @@
     "unstable-list-lib"
     "unstable-contract-lib"
     "fancy-app"
-    "alexis-util"
-    "sweet-exp"
+    "syntax-classes-lib"
+    "struct-update-lib"
+    "sweet-exp-lib"
     "kw-make-struct"
     "reprovide-lang"
     "scribble-lib"))

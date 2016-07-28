@@ -1,12 +1,12 @@
 #lang racket/base
 
 (require syntax/parse/define
-         alexis/util/struct
+         struct-update
          racket/provide-syntax
          "../base/main.rkt"
-         (submod alexis/util/struct get-struct-accessors)
          (for-syntax racket/base
                      syntax/parse
+                     syntax/parse/class/struct-id
                      racket/syntax
                      racket/struct-info))
 
@@ -21,14 +21,10 @@
          struct+lenses-out)
 
 
-(define-for-syntax (get-struct-field-ids struct-info failure-context)
-  (define-values (_ field-ids)
-    (get-struct-accessors struct-info failure-context))
-  field-ids)
-
-(define-for-syntax (get-struct-id-field-ids struct-id-stx)
-  (define info (extract-struct-info (syntax-local-value struct-id-stx)))
-  (get-struct-field-ids info struct-id-stx))
+(define-for-syntax (get-struct-own-accessor-ids struct-id-stx)
+  (syntax-parse struct-id-stx
+    [s:struct-id
+     (attribute s.own-accessor-id)]))
 
 (define-for-syntax (map-format-id lex-context format-str ids)
   (define (format-one-id id)
@@ -36,10 +32,10 @@
   (map format-one-id ids))
 
 (define-for-syntax (struct-get-set-lens-ids struct-id-stx)
-  (define field-ids (get-struct-id-field-ids struct-id-stx))
-  (define set-ids (map-format-id struct-id-stx "~a-set" field-ids))
-  (define lens-ids (map-format-id struct-id-stx "~a-lens" field-ids))
-  (list field-ids set-ids lens-ids))
+  (define accessor-ids (get-struct-own-accessor-ids struct-id-stx))
+  (define set-ids (map-format-id struct-id-stx "~a-set" accessor-ids))
+  (define lens-ids (map-format-id struct-id-stx "~a-lens" accessor-ids))
+  (list accessor-ids set-ids lens-ids))
 
 (define-syntax define-struct-lenses
   (syntax-parser
@@ -61,8 +57,8 @@
 (define-provide-syntax struct-lenses-out
   (syntax-parser
     [(struct-lenses-out struct-type:id)
-     #:do [(define field-ids (get-struct-id-field-ids #'struct-type))]
-     #:with [lens-id ...] (map-format-id #'struct-type "~a-lens" field-ids)
+     #:do [(define accessor-ids (get-struct-own-accessor-ids #'struct-type))]
+     #:with [lens-id ...] (map-format-id #'struct-type "~a-lens" accessor-ids)
      #'(combine-out lens-id ...)]))
 
 (define-provide-syntax struct+lenses-out
