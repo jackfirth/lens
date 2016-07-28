@@ -25,7 +25,7 @@
             eighth-lens
             ninth-lens
             tenth-lens)]{
-  Lenses for examiniming specific items of lists. Shorthands
+  Lenses for examining specific items of lists. Shorthands
   for the common use cases of @racket[list-ref-lens].
   @lens-examples[
     (lens-view third-lens '(a b c d))

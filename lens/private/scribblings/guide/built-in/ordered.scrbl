@@ -50,8 +50,8 @@ create a lens that performs indexed lookups for nested lists using only @racket[
 This can also be generalized to @emph{n}-dimensional lists:
 
 @(lens-interaction
-  (define (list-ref-lens* . indicies)
-    (apply lens-compose (map list-ref-lens indicies)))
+  (define (list-ref-lens* . indices)
+    (apply lens-compose (map list-ref-lens indices)))
   (lens-set (list-ref-lens* 0 1 0)
             '(((a b) (c d))
               ((e f) (g h)))

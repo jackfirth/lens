@@ -7,7 +7,7 @@
 
 @defproc[(assoc-lens [key any/c] [#:is-equal? key-equal? (-> any/c any/c any/c) equal?])
          lens?]{
-  Constructs a lens for examiniming association lists.
+  Constructs a lens for examining association lists.
   Specifically, for a given association list the returned
   lens examines the second value of the first pair that
   has a key that is @racket[key-equal?] to @racket[key].
