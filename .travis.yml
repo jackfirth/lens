@@ -3,8 +3,12 @@ sudo: false
 env:
   global:
     - RACKET_DIR=~/racket
-    - VERSION_TO_COVER="6.3"
+    - VERSION_TO_COVER="6.5"
   matrix:
+    - RACKET_VERSION="6.0.1"
+      CATALOG_VERSION="6.0.1"
+    - RACKET_VERSION="6.1"
+      CATALOG_VERSION="6.1"
     - RACKET_VERSION="6.1.1"
       CATALOG_VERSION="6.1.1"
     - RACKET_VERSION="6.2"
@@ -13,12 +17,18 @@ env:
       CATALOG_VERSION="6.2.1"
     - RACKET_VERSION="6.3"
       CATALOG_VERSION="6.3"
+    - RACKET_VERSION="6.4"
+      CATALOG_VERSION="6.4"
+    - RACKET_VERSION="6.5"
+      CATALOG_VERSION="6.5"
+    - RACKET_VERSION="6.6"
+      CATALOG_VERSION="6.6"
     - RACKET_VERSION="HEAD"
-      CATALOG_VERSION="6.3"
+      CATALOG_VERSION="6.6"
 matrix:
   allow_failures:
     - env: RACKET_VERSION="HEAD"
-           CATALOG_VERSION="6.3"
+           CATALOG_VERSION="6.6"
 
 before_install:
   - git clone https://github.com/greghendershott/travis-racket.git ../travis-racket
