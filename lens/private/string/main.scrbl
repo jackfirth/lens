@@ -2,5 +2,5 @@
 
 @title{String Lenses}
 
-@include-section["string.scrbl"]
-@include-section["join-string.scrbl"]
+@scribble-include/no-subsection["string.scrbl"]
+@scribble-include/no-subsection["join-string.scrbl"]
