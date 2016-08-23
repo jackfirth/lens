@@ -1,0 +1,23 @@
+#lang sweet-exp reprovide
+syntax/parse/define
+lens/private/doc-util/deflenses
+lens/private/doc-util/include-sections
+lens/private/doc-util/lens-tech
+lens/private/doc-util/lenses-examples
+lens/private/doc-util/other-reference
+lens/private/doc-util/stability-notice
+for-label
+  lens
+  unstable/lens
+  racket/base
+  racket/match
+  racket/list
+  racket/vector
+  racket/stream
+  racket/set
+  racket/contract
+  racket/function
+for-syntax
+  racket/base
+  syntax/parse
+  racket/syntax
