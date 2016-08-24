@@ -40,8 +40,8 @@ before_install:
   - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco pkg install --deps search-auto cover-coveralls; fi
 
 install:
- - raco pkg install --deps search-auto $TRAVIS_BUILD_DIR
+ - raco pkg install --deps search-auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
 
 script:
- - raco test $TRAVIS_BUILD_DIR
- - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco cover -f coveralls -d $TRAVIS_BUILD_DIR/coverage .; fi
+ - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens
+ - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco cover -f coveralls -d $TRAVIS_BUILD_DIR/coverage -p lens-common lens-data lens-lib lens-unstable lens-doc lens; fi

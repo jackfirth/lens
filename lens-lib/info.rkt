@@ -2,32 +2,31 @@
 
 (define collection 'multi)
 
+(define version "2.0")
+
 (define deps
   '("base"
     "lens-common"
     "lens-data"
-    "lens-lib"
-    "lens-unstable"
-    "lens-doc"
+    "reprovide-lang"
     ))
 
 (define implies
   '("lens-common"
     "lens-data"
-    "lens-lib"
-    "lens-unstable"
-    "lens-doc"
     ))
 
 (define update-implies
   '("lens-common"
     "lens-data"
-    "lens-lib"
-    "lens-unstable"
-    "lens-doc"
+    ))
+
+(define build-deps
+  '("sweet-exp-lib"
     ))
 
 (define cover-omit-paths
   '(#rx"info\\.rkt"
+    #rx"main\\.rkt"
     ))
 
