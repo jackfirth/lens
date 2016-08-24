@@ -25,7 +25,7 @@
          (rename-contract length=?
                           `(string-length-=/c ,n))))
 
-(require lens)
+(require lens/common)
 
 (module+ test
   (require rackunit))

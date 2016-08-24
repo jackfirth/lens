@@ -5,7 +5,7 @@
 (require "flatten.rkt")
 
 (module+ test
-  (require rackunit lens lens/private/test-util/test-lens))
+  (require rackunit lens/common lens/private/test-util/test-lens))
 
 (define (append*n-lens n)
   (flatten/depth-lens (add1 n)))

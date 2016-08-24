@@ -2,7 +2,7 @@
 
 (provide append*-lens flatten/depth-lens flatten/depth unflatten/depth)
 
-(require fancy-app lens racket/list racket/match)
+(require fancy-app lens/common racket/list racket/match)
 
 (module+ test
   (require rackunit syntax/parse lens/private/test-util/test-lens))

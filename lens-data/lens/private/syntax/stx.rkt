@@ -21,7 +21,7 @@
          stx-append*n-lens
          )
 
-(require fancy-app lens racket/list racket/match syntax/stx)
+(require fancy-app lens/common lens/private/list/main racket/list racket/match syntax/stx)
 
 (module+ test
   (require rackunit syntax/parse lens/private/test-util/test-lens))

@@ -22,7 +22,8 @@
     ))
 
 (define build-deps
-  '("sweet-exp-lib"
+  '("rackunit-lib"
+    "sweet-exp-lib"
     ))
 
 (define cover-omit-paths

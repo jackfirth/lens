@@ -1,11 +1,11 @@
 #lang racket/base
 
-(require lens
+(require lens/common
          racket/contract/base
          fancy-app)
 
 (module+ test
-  (require rackunit))
+  (require rackunit lens/private/list/main))
 
 (provide
  (contract-out

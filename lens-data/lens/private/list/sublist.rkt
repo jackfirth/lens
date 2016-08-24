@@ -2,7 +2,7 @@
 
 (provide sublist-lens)
 
-(require lens
+(require lens/common
          lens/private/list/list-ref-take-drop)
 
 (module+ test

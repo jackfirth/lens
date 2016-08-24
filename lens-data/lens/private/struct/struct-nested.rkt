@@ -1,7 +1,8 @@
 #lang racket/base
 
 (require fancy-app
-         lens
+         lens/common
+         lens/private/struct/main
          (for-syntax racket/base
                      syntax/parse))
 
