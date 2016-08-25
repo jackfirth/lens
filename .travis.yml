@@ -40,7 +40,8 @@ before_install:
   - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco pkg install --deps search-auto cover-coveralls; fi
 
 install:
- - raco pkg install --deps search-auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
+ - raco pkg install --auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
+ - raco setup -p --check-pkg-deps lens-common lens-data lens-lib lens-unstable lens-doc lens
 
 script:
  - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens
