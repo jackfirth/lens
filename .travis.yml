@@ -29,8 +29,8 @@ before_install:
 
 install:
  - raco pkg install --auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
- - raco setup
 
 script:
  - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens
  - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco cover -f coveralls -d $TRAVIS_BUILD_DIR/coverage -p lens-common lens-data lens-lib lens-unstable lens-doc lens; fi
+ - raco setup
