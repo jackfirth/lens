@@ -5,30 +5,19 @@ env:
     - RACKET_DIR=~/racket
     - VERSION_TO_COVER="6.5"
   matrix:
-    - RACKET_VERSION="6.0.1"
-      CATALOG_VERSION="6.0.1"
-    - RACKET_VERSION="6.1"
-      CATALOG_VERSION="6.1"
-    - RACKET_VERSION="6.1.1"
-      CATALOG_VERSION="6.1.1"
-    - RACKET_VERSION="6.2"
-      CATALOG_VERSION="6.2"
-    - RACKET_VERSION="6.2.1"
-      CATALOG_VERSION="6.2.1"
-    - RACKET_VERSION="6.3"
-      CATALOG_VERSION="6.3"
-    - RACKET_VERSION="6.4"
-      CATALOG_VERSION="6.4"
-    - RACKET_VERSION="6.5"
-      CATALOG_VERSION="6.5"
-    - RACKET_VERSION="6.6"
-      CATALOG_VERSION="6.6"
-    - RACKET_VERSION="HEAD"
-      CATALOG_VERSION="6.6"
+    - RACKET_VERSION="6.0.1" CATALOG_VERSION="6.0.1"
+    - RACKET_VERSION="6.1" CATALOG_VERSION="6.1" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.1.1" CATALOG_VERSION="6.1.1" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.2" CATALOG_VERSION="6.2" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.2.1" CATALOG_VERSION="6.2.1" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.3" CATALOG_VERSION="6.3" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.4" CATALOG_VERSION="6.4" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.5" CATALOG_VERSION="6.5" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="6.6" CATALOG_VERSION="6.6" CHECK_DEPS_FLAGS="--check-pkg-deps"
+    - RACKET_VERSION="HEAD" CATALOG_VERSION="6.6" CHECK_DEPS_FLAGS="--check-pkg-deps"
 matrix:
   allow_failures:
-    - env: RACKET_VERSION="HEAD"
-           CATALOG_VERSION="6.6"
+    - env: RACKET_VERSION="HEAD" CATALOG_VERSION="6.6" CHECK_DEPS_FLAGS="--check-pkg-deps"
 
 before_install:
   - git clone https://github.com/greghendershott/travis-racket.git ../travis-racket
@@ -36,12 +25,11 @@ before_install:
   - export PATH="${RACKET_DIR}/bin:${PATH}"
   - export VERSION_SPECIFIC_CATALOG="http://download.racket-lang.org/releases/${CATALOG_VERSION}/catalog/"
   - raco pkg config --set catalogs $VERSION_SPECIFIC_CATALOG http://pkgs.racket-lang.org http://planet-compats.racket-lang.org
-  - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco pkg install --deps search-auto cover; fi
-  - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco pkg install --deps search-auto cover-coveralls; fi
+  - if [ "${VERSION_TO_COVER}" == "${RACKET_VERSION}" ]; then raco pkg install --auto cover cover-coveralls; fi
 
 install:
  - raco pkg install --auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
- - raco setup --check-pkg-deps --pkgs lens-common lens-data lens-lib lens-unstable lens-doc lens
+ - raco setup ${CHECK_DEPS_FLAGS} --pkgs lens-common lens-data lens-lib lens-unstable lens-doc lens
 
 script:
  - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens
