@@ -22,3 +22,4 @@ source code: @url["https://github.com/jackfirth/lens"]
 
 @include-section["private/scribblings/guide.scrbl"]
 @include-section["private/scribblings/reference.scrbl"]
+@include-section[(lib "unstable/lens/main.scrbl")]

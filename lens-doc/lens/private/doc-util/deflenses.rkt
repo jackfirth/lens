@@ -1,7 +1,7 @@
 #lang racket
 
 (require scribble/manual
-         (for-label lens/private/base/main))
+         (for-label lens))
 
 (provide deflens
          deflenses)
