@@ -1,6 +1,6 @@
 #lang reprovide
 "car-cdr.rkt"
-"list-ref-take-drop.rkt"
+(except-in "list-ref-take-drop.rkt" drop-lens take-lens)
 "cadr-etc.rkt"
 "multi.rkt"
 "join-list.rkt"
