@@ -4,6 +4,8 @@
 
 @title[#:tag "pair-list-reference"]{Pair and List Lenses}
 
+@defmodule[lens/data/list]
+
 @see-guide-note["pair-list-guide"]{pair and list lenses}
 
 @include-section["car-cdr.scrbl"]
