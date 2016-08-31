@@ -5,6 +5,8 @@
 
 @title[#:tag "dict-reference"]{Dict lenses}
 
+@defmodule[lens/data/dict]
+
 @see-guide-note["dict-guide"]{dictionary lenses}
 
 @defproc[(dict-ref-lens [key any/c]) lens?]{

@@ -1,7 +1,7 @@
 #lang racket/base
 
-(require reprovide/reprovide)
-(reprovide lens/common/applicable lens)
+(require reprovide/reprovide lens/private/common/applicable)
+(reprovide lens)
 
 (module+ test
   (require rackunit)

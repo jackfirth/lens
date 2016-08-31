@@ -5,6 +5,8 @@
 
 @title[#:tag "streams-reference"]{Stream Lenses}
 
+@defmodule[lens/data/stream]
+
 @see-guide-note["streams-guide"]{stream lenses}
 
 @defthing[stream-first-lens lens?]{

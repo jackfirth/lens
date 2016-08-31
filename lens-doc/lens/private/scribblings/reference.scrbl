@@ -4,13 +4,6 @@
 
 @local-table-of-contents[]
 
-@include-section[(lib "lens/private/base/main.scrbl")]
-@include-section[(lib "lens/private/compound/main.scrbl")]
-@include-section["../list/main.scrbl"]
-@include-section["../hash/main.scrbl"]
-@include-section["../struct/main.scrbl"]
-@include-section["../vector/main.scrbl"]
-@include-section["../string/main.scrbl"]
-@include-section["../stream/stream.scrbl"]
-@include-section["../dict/dict.scrbl"]
+@include-section["reference/common.scrbl"]
+@include-section["reference/data.scrbl"]
 @include-section["../../applicable.scrbl"]

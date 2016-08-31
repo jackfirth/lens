@@ -5,6 +5,8 @@
 
 @title[#:tag "hash-reference"]{Hash Lenses}
 
+@defmodule[lens/data/hash]
+
 @see-guide-note["hash-guide"]{hash lenses}
 
 @scribble-include/no-subsection["ref.scrbl"]
