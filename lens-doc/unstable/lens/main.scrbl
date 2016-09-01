@@ -34,6 +34,7 @@ this library being backwards-compatible.
   "substring.scrbl"
   "syntax.scrbl"
   (lib "lens/private/syntax/stx.scrbl")
+  (lib "lens/private/syntax/srcloc.scrbl")
   "set-all.scrbl"
   "zoom.scrbl"
   )
