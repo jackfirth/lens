@@ -21,5 +21,6 @@
 "substring.rkt"
 "syntax.rkt"
 "syntax/stx.rkt"
+"syntax/srcloc.rkt"
 "set-all.rkt"
 "zoom.rkt"
