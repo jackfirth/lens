@@ -1,6 +1,6 @@
 #lang scribble/manual
 
-@(require lens/private/doc-util/main)
+@(require lens/private/doc-util/main (for-label syntax/srcloc))
 
 @title{Syntax object source locations}
 
@@ -59,4 +59,24 @@ A lens that views the source span a syntax object.
   (lens-set syntax-span-lens #'here 34)
   (syntax-span (lens-set syntax-span-lens #'here 34))
 ]}
+
+@deftogether[[
+  @defthing[source-location->srcloc-lens (lens/c source-location? srcloc?)]
+  @defthing[source-location->list-lens (lens/c source-location? source-location-list?)]
+  @defthing[source-location->vector-lens (lens/c source-location? source-location-vector?)]
+]]{
+Lenses for converting from all the common types of source locations
+into @racket[srcloc] structures, lists, and vectors.
+}
+
+@deftogether[[
+  @defthing[source-location-source-lens (lens/c source-location? any/c)]
+  @defthing[source-location-line-lens (lens/c source-location? (or/c exact-positive-integer? #f))]
+  @defthing[source-location-column-lens (lens/c source-location? (or/c exact-nonnegative-integer? #f))]
+  @defthing[source-location-position-lens (lens/c source-location? (or/c exact-positive-integer? #f))]
+  @defthing[source-location-span-lens (lens/c source-location? (or/c exact-nonnegative-integer? #f))]
+]]{
+Like @racket[syntax-source-lens], @racket[syntax-line-lens], etc, but for all
+the common types of source locations.
+}
 
