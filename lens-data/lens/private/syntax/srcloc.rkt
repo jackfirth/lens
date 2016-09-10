@@ -39,10 +39,13 @@ module+ test
 
 ;; syntax-set-source-location : Syntax Source-Location -> Syntax
 (define (syntax-set-source-location stx src)
-  (datum->syntax stx
-                 (syntax-e stx)
-                 (source-location->list src)
-                 stx))
+  (define stx* (syntax-disarm stx #f))
+  (syntax-rearm
+   (datum->syntax stx*
+                  (syntax-e stx*)
+                  (source-location->list src)
+                  stx*)
+   stx))
 
 (define syntax-srcloc-lens
   (make-lens
