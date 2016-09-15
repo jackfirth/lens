@@ -35,6 +35,8 @@
 
 (module+ test
   (define ws-lens (string-split-lens #px"\\s+"))
+  (check-equal? (lens-view ws-lens "a b c") '("a" "b" "c"))
+  (check-equal? (lens-set ws-lens "a b c" '("d" "e" "f")) "d e f")
   (check-equal? (lens-view ws-lens "  foo bar  baz \r\n\t")
                 '("" "foo" "bar" "baz" ""))
   (check-equal? (lens-set ws-lens "  foo bar  baz \r\n\t" '("a" "b" "c" "d" "e"))
@@ -43,14 +45,28 @@
                 '("a" "b" "c" "d" "e"))
   (check-equal? (lens-set ws-lens "a  b c  d \r\n\te" '("" "foo" "bar" "baz" ""))
                 "  foo bar  baz \r\n\t")
+  ;; this input would violate the lens laws
+  (check-exn (regexp (regexp-quote "expected a string not matching #px\"\\\\s+\", given: \"e f\""))
+             (λ ()
+               (lens-set ws-lens "a b c" '("d" "e f" "g"))))
+
   (define newline-lens (string-split-lens "\n"))
   (check-equal? (lens-view newline-lens "a,b\nc,d\ne,f,g")
                 '("a,b" "c,d" "e,f,g"))
   (check-equal? (lens-set newline-lens "a,b\nc,d\ne,f,g" '("1" "2" "3"))
                 "1\n2\n3")
+  ;; this input would violate the lens laws
+  (check-exn (regexp (regexp-quote "expected a string not matching \"\\n\", given: \"2\\n2.5\""))
+             (λ ()
+               (lens-set newline-lens "a,b\nc,d\ne,f,g" '("1" "2\n2.5" "3"))))
+
   (define comma-lens (string-split-lens #\,))
   (check-equal? (lens-view comma-lens "a,b,c")
                 '("a" "b" "c"))
   (check-equal? (lens-set comma-lens "a,b,c" '("1" "2" "3"))
                 "1,2,3")
+  ;; this input would violate the lens laws
+  (check-exn (regexp (regexp-quote "expected a string not matching #\\,, given: \"2,2.5\""))
+             (λ ()
+               (lens-set comma-lens "a,b,c" '("1" "2,2.5" "3"))))
   )
