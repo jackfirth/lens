@@ -21,7 +21,7 @@
       [(string? sep) (regexp (regexp-quote sep))]
       [(char? sep) (regexp (regexp-quote (string sep)))]
       [(regexp? sep) sep]
-      [else (error 'bad)]))
+      [else (error 'string-split-lens "expected a string, char, or regexp, given: ~v" sep)]))
   (define (get str)
     (map string->immutable-string (regexp-split sep-rx str)))
   (define (set str lst)
