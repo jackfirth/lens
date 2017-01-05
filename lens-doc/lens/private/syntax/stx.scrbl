@@ -4,6 +4,15 @@
 
 @title{Syntax object lenses based on @racketmodname[syntax/stx]}
 
+The lenses in this section preserve the distinction between syntax pairs and
+syntax lists, e.g.
+@RACKETBLOCK[(lens-set stx->list-lens #'(UNSYNTAX @tt{(a . (b c))}) '(1 2 3))]
+will have the same structure as
+@RACKETBLOCK[#'(UNSYNTAX @tt{(1 . (2 3))})]
+If the distinction between syntax pairs and syntax lists were not preserved,
+the result would instead be:
+@RACKETBLOCK[#'(UNSYNTAX @tt{(1 2 3)})]
+
 @defthing[stx->list-lens lens?]{
 A lens that views a stx-list as a list. Viewing with this lens is
 equivalent to using @racket[stx->list], and if the target is a syntax

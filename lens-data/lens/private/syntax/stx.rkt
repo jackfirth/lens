@@ -36,7 +36,19 @@
 ;;                       [Any Any -> Any])
 (define (restore-stx stx dat)
   (if (syntax? stx)
-      (datum->syntax stx dat stx stx)
+      ;; Preserve the distinction between #'(a . (b c)) and #'(a b c)
+      (let loop ([stx1 stx]
+                 [dat1 dat])
+        (cond
+          [(syntax? stx1)
+           (datum->syntax stx1 (loop (syntax-e stx1) dat1) stx1 stx1)]
+          [(and (pair? stx1) (pair? dat1))
+           (cons (car dat1)
+                 (loop (cdr stx1) (cdr dat1)))]
+          [(null? stx1)
+           stx1]
+          [else
+           dat1]))
       dat))
 
 (define stx-e-lens
@@ -211,7 +223,13 @@
   (define 1* #'1)
   (define 2* #'2)
   (define 3* #'3)
-  (test-case "syntax-e-lens and stx-e-lens"
+  (test-case "restore-stx"
+    (let ([one-dot-two-three (restore-stx #'(a . (b c)) '(1 2 3))])
+      ;; Check that the result has the shape #'(1 . (2 3)) and not #'(1 2 3)
+      (check-true (syntax? one-dot-two-three))
+      (check-true (pair? (syntax-e one-dot-two-three)))
+      (check-true (syntax? (cdr (syntax-e one-dot-two-three))))))
+  (test-case "stx-e-lens"
     (check-equal? (lens-view stx-e-lens a*) 'a)
     (check-equal? (syntax-e (lens-set stx-e-lens a* 1)) 1)
     (check-equal? (lens-view stx-e-lens 'a) 'a)
@@ -229,7 +247,15 @@
                   (list 1* 2* 3*))
     (check-exn #rx"expected a stx-list, given #<syntax.* 5>"
                (λ () (lens-view stx->list-lens #'5)))
+    (test-case "stx->list-lens preserves the distinction between #'(a . (b c)) and #'(a b c)"
+      (let ([one-dot-two-three (lens-set stx->list-lens #'(a . (b c)) '(1 2 3))])
+        ;; Check that the result has the shape #'(1 . (2 3)) and not #'(1 2 3)
+        (check-true (syntax? one-dot-two-three))
+        (check-true (pair? (syntax-e one-dot-two-three)))
+        (check-true (syntax? (cdr (syntax-e one-dot-two-three)))))
+      )
     )
+  
   (test-case "(stx-map-lens stx->list-lens)"
     (check-equal? (lens-view (stx-map-lens stx->list-lens) #`((#,a*) (#,b* #,c*) ()))
                   (list (list a*) (list b* c*) (list)))
@@ -327,6 +353,23 @@
                     (list (list 1*) (list 2* 3*) (list))
                     (list a* b* c*)
                     (list "a" "b" "c"))
+    (test-case "stx-append*-lens preserves the distinction between #'([a . (b c)] …) and #'([a b c] …)"
+      (let ([with-dots (lens-set stx-append*-lens
+                                 #'([a . (b c)] [d e . (f)] . ([g h]))
+                                 '(1 2 3 4 5 6 7 8))])
+        ;; Check that the result has the shape #'([1 . (2 3)] [4 5 . (6)] . ([7 8]))
+        ;; and not #'([1 2 3] [4 5 6] [7 8])
+        (define (show-shape e)
+          (cond
+            [(syntax? e) `(stx ,(show-shape (syntax-e e)))]
+            [(pair? e) (cons (show-shape (car e))
+                             (show-shape (cdr e)))]
+            [else e]))
+        (check-equal? (show-shape with-dots)
+                      (show-shape #'([1 . (2 3)] [4 5 . (6)] . ([7 8]))))
+        (check-not-equal? (show-shape with-dots)
+                          (show-shape #'([1 2 3] [4 5 6] [7 8]))))
+      )
     )
   (test-case "stx-flatten/depth-lens"
     (define flat0-lens (stx-flatten/depth-lens 0))
