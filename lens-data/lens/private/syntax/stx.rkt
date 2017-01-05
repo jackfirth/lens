@@ -40,7 +40,6 @@
     [(syntax? stx) (datum->syntax stx (restore-stx (syntax-e stx) dat) stx stx)]
     [(and (pair? stx) (pair? dat))
      (cons (car dat) (restore-stx (cdr stx) (cdr dat)))]
-    [(null? stx) stx]
     [else dat]))
 
 (define stx-e-lens
@@ -232,6 +231,13 @@
                   (list 1* 2* 3*))
     (check-equal? (lens-view stx-e-lens (list a* b* c*)) (list a* b* c*))
     (check-equal? (lens-set stx-e-lens (list a* b* c*) (list 1* 2* 3*)) (list 1* 2* 3*))
+
+    (check-equal? (lens-view stx-e-lens '()) '())
+    (check-equal? (lens-view stx-e-lens #'()) '())
+    (check-equal? (lens-set stx-e-lens '() '(1))
+                  '(1))
+    (check-equal? (syntax->datum (lens-set stx-e-lens #'() '(1)))
+                  '(1))
     )
   (test-case "stx->list-lens"
     (check-equal? (lens-view stx->list-lens #`(#,a* #,b* #,c*))
@@ -240,6 +246,14 @@
                   (list 1* 2* 3*))
     (check-exn #rx"expected a stx-list, given #<syntax.* 5>"
                (λ () (lens-view stx->list-lens #'5)))
+
+    (check-equal? (lens-view stx->list-lens '()) '())
+    (check-equal? (lens-view stx->list-lens #'()) '())
+    (check-equal? (lens-set stx->list-lens '() '(1))
+                  '(1))
+    (check-equal? (syntax->datum (lens-set stx->list-lens #'() '(1)))
+                  '(1))
+
     (test-case "stx->list-lens preserves the distinction between #'(a . (b c)) and #'(a b c)"
       (define one-dot-two-three (lens-set stx->list-lens #'(a . (b c)) '(1 2 3)))
       ;; Check that the result has the shape #'(1 . (2 3)) and not #'(1 2 3)
