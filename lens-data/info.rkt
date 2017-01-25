@@ -3,7 +3,7 @@
 (define collection 'multi)
 
 (define deps
-  '(("racket" "6.3")
+  '(("racket" #:version "6.3")
     "base"
     "lens-common"
     "rackunit-lib"
