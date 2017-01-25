@@ -2,7 +2,7 @@
 
 (require racket/contract
          racket/match
-         unstable/sequence
+         racket/sequence
          fancy-app
          lens/private/base/main
          lens/private/util/alternating-list

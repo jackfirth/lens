@@ -11,7 +11,7 @@ require lens/private/base/main
         lens/private/util/alternating-list
         lens/private/util/list-pair-contract
         racket/match
-        unstable/sequence
+        racket/sequence
 module+ test
   require rackunit lens/private/list/list-ref-take-drop
 

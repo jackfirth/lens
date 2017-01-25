@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require unstable/sequence
+(require racket/sequence
          racket/match
          racket/contract/base
          lens/private/base/base

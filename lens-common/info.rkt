@@ -8,7 +8,6 @@
     "rackunit-lib"
     "reprovide-lang"
     "unstable-contract-lib"
-    "unstable-lib"
     ))
 
 (define build-deps

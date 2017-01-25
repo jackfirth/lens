@@ -6,7 +6,6 @@
   '("base"
     "lens-common"
     "rackunit-lib"
-    "unstable-lib"
     "unstable-list-lib"
     "unstable-contract-lib"
     "fancy-app"

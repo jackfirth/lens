@@ -11,7 +11,7 @@ require fancy-app
         lens/private/compound/thrush
         lens/private/util/list-pair-contract
         racket/match
-        unstable/sequence
+        racket/sequence
         lens/private/isomorphism/base
 module+ test
   require lens/private/list/main
