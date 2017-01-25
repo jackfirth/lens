@@ -10,6 +10,7 @@ provide alternating->assoc-list
 require racket/list
         racket/match
         racket/sequence
+        racket/dict
 module+ test
   require rackunit
 
