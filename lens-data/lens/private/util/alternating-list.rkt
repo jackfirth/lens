@@ -9,7 +9,8 @@ provide alternating->assoc-list
 
 require racket/list
         racket/match
-        unstable/sequence
+        racket/sequence
+        racket/dict
 module+ test
   require rackunit
 
@@ -20,7 +21,7 @@ module+ test
 
 (define (assoc->alternating-list alist)
   (append*
-   (for/list ([(k v) (in-pairs alist)])
+   (for/list ([(k v) (in-dict alist)])
      (list k v))))
 
 (define (keys+values->assoc-list keys values)

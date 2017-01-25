@@ -3,12 +3,10 @@
 (define collection 'multi)
 
 (define deps
-  '("base"
+  '(("racket" #:version "6.3")
+    "base"
     "lens-common"
     "rackunit-lib"
-    "unstable-lib"
-    "unstable-list-lib"
-    "unstable-contract-lib"
     "fancy-app"
     "syntax-classes-lib"
     "struct-update-lib"

@@ -11,7 +11,7 @@ provide
 require fancy-app
         lens/private/base/main
         lens/private/util/immutable
-        unstable/hash
+        racket/hash
 module+ test
   require lens/private/test-util/test-lens
           rackunit

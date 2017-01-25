@@ -3,12 +3,11 @@
 (define collection 'multi)
 
 (define deps
-  '("base"
+  '(("racket" #:version "6.3")
+    "base"
     "fancy-app"
     "rackunit-lib"
     "reprovide-lang"
-    "unstable-contract-lib"
-    "unstable-lib"
     ))
 
 (define build-deps
