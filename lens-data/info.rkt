@@ -6,8 +6,6 @@
   '("base"
     "lens-common"
     "rackunit-lib"
-    "unstable-list-lib"
-    "unstable-contract-lib"
     "fancy-app"
     "syntax-classes-lib"
     "struct-update-lib"

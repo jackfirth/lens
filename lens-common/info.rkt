@@ -7,7 +7,6 @@
     "fancy-app"
     "rackunit-lib"
     "reprovide-lang"
-    "unstable-contract-lib"
     ))
 
 (define build-deps
