@@ -3,7 +3,7 @@ sudo: false
 env:
   global:
     - RACKET_DIR=~/racket
-    - VERSION_TO_COVER="6.5"
+    - VERSION_TO_COVER="6.8"
   matrix:
     - RACKET_VERSION="6.3" CATALOG_VERSION="6.3"
     - RACKET_VERSION="6.4" CATALOG_VERSION="6.4"
