@@ -11,11 +11,6 @@ provide
 require racket/match
         lens/private/util/rest-contract
         "base.rkt"
-module+ test
-  require lens/private/base/main
-          lens/private/compound/identity
-          lens/private/isomorphism/data
-          rackunit
 
 (define (isomorphism-compose . args)
   (match args
@@ -26,8 +21,3 @@ module+ test
 
 (define (isomorphism-thrush . args)
   (apply isomorphism-compose (reverse args)))
-
-module+ test
-  (define string->vector-lens (isomorphism-thrush string->list-lens list->vector-lens))
-  (check-equal? (lens-view string->vector-lens "abc") #(#\a #\b #\c))
-  (check-equal? (lens-set string->vector-lens "abc" #(#\1 #\2 #\3)) "123")

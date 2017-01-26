@@ -11,8 +11,7 @@
     ))
 
 (define build-deps
-  '("lens-data"
-    "sweet-exp-lib"
+  '("sweet-exp-lib"
     ))
 
 (define cover-omit-paths

@@ -8,10 +8,6 @@ require lens/private/compound/thrush
                    syntax/parse
                    syntax/srcloc
                    "../util/id-append.rkt"
-module+ test
-  require lens/private/base/base
-          lens/private/list/main
-          rackunit
 
 begin-for-syntax
   (define (with-sub-range-binders stx prop)
@@ -58,17 +54,4 @@ begin-for-syntax
          (define base-lens base-lens-expr)
          clause.def
          ...)]))
-
-module+ test
-  (define-nested-lenses [first first-lens]
-    [first first-lens]
-    [second second-lens]
-    [third third-lens
-      [first first-lens]
-      [second second-lens]])
-  (check-equal? (lens-view first-first-lens '((a b c d) e)) 'a)
-  (check-equal? (lens-view first-second-lens '((a b c d) e)) 'b)
-  (check-equal? (lens-view first-third-lens '((a b c d) e)) 'c)
-  (check-equal? (lens-view first-third-first-lens '((a b (c d) e) f)) 'c)
-  (check-equal? (lens-view first-third-second-lens '((a b (c d) e) f)) 'd)
 
