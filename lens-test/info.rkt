@@ -5,6 +5,14 @@
 (define deps '())
 
 (define build-deps
-  '("lens-lib"
+  '("base"
+    "rackunit-lib"
+    "lens-lib"
     "sweet-exp-lib"
     ))
+
+(define cover-omit-paths
+  '(#rx"info\\.rkt"
+    #rx"main\\.rkt"
+    ))
+
