@@ -22,9 +22,9 @@ before_install:
   - raco pkg install --auto cover cover-codecov
 
 install:
- - raco pkg install --auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/
+ - raco pkg install --auto lens-common/ lens-data/ lens-lib/ lens-unstable/ lens-doc/ lens/ lens-test/
 
 script:
- - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens
- - raco cover -f codecov -d $TRAVIS_BUILD_DIR/coverage -p lens-common lens-data lens-lib lens-unstable lens-doc lens
+ - raco test -p lens-common lens-data lens-lib lens-unstable lens-doc lens lens-test
+ - raco cover -f codecov -d $TRAVIS_BUILD_DIR/coverage -p lens-common lens-data lens-lib lens-unstable lens-doc lens lens-test
  - raco setup
