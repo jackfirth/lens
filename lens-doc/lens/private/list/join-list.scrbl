@@ -8,8 +8,12 @@
   Constructs a lens that combines the view of each
   @racket[lens] into a list of views. This lens can
   be used to view and set a list of values in a single
-  target. If any of the lenses share views, then when
-  setting the later lenses override the earlier ones.
+  target.
+
+  The joined lens only follows the
+  @seclink["laws"]{lens laws} if the views of the
+  argument lenses don't overlap.
+
   @lens-examples[
     (define first-third-fifth-lens
       (lens-join/list first-lens
