@@ -36,11 +36,13 @@ provide
 ;; and
 ;; each X-piece is a valid view for X-piece-lens
 
-;; If the views of the X-piece-lenses don't overlap, then for every X-piece...:
-;; (lens-view X-piece-lens (lens-set/list X {X-piece-lens X-piece} ...))
+;; If the views of the X-piece-lenses don't overlap, then for every combination
+;; of X-pieces, A and B:
+;; (lens-set B-lens (lens-set A-lens X A) B)
 ;; =
-;; X-piece
+;; (lens-set A-lens (lens-set B-lens X B) A)
 ;; ...
+;; In other words, lens-set operations for the X-piece-lenses "commute."
 
 ;; Context:
 ;; C1:   {lens laws for X-piece-lens}
@@ -51,7 +53,13 @@ provide
 ;;     ...
 ;; C3:   {Def. lens-set/list, repeated application of C1}
 ;;     (lens-set/list X {X-piece-lens (lens-view X-piece-lens X)} ...) = X
-;; C4:   {assumption that X-piece-lenses don't overlap}
+;; C4.   {assumption that X-piece-lenses don't overlap}
+;;     For every combination of X-Pieces, A and B:
+;;     (lens-set B-lens (lens-set A-lens X A) B)
+;;     =
+;;     (lens-set A-lens (lens-set B-lens X B) A)
+;;     ...
+;; C5:   {repeated application of C4, C2}
 ;;     (lens-view X-piece-lens (lens-set/list X {X-piece-lens X-piece} ...))
 ;;     =
 ;;     X-piece
@@ -80,7 +88,7 @@ provide
 ;;   in (list
 ;;       (lens-view X-piece-lens Y)
 ;;       ...)
-;; =   {C4}
+;; =   {C5}
 ;;   (list X-piece ...)
 ;; =   {Def. X-pieces}
 ;;   X-pieces
