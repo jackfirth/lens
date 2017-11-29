@@ -20,6 +20,7 @@ module+ test
   require lens/private/base/main
           lens/private/compound/identity
           lens/private/isomorphism/data
+          racket/function
           rackunit
 
 ;; ------------------------------------------------------------------------
@@ -45,15 +46,23 @@ module+ test
      (λ (a)
        (cond [(pred-a? a) (check (a->b a) pred-b?)]
              ...
-             [else (error 'isomorphism-cond)]))
+             [else
+              (error 'isomorphism-cond
+                     "all cond conditions were false\n  target: ~v"
+                     a)]))
      (λ (b)
        (cond [(pred-b? b) (check (b->a b) pred-a?)]
              ...
-             [else (error 'isomorphism-cond)])))))
+             [else
+              (error 'isomorphism-cond
+                     "all cond conditions were false\n  view: ~v"
+                     b)])))))
 
 (define (check val pred?)
   (unless (pred? val)
-    (error 'bi-cond "promised a value passing ~v, given ~v" pred? val))
+    (error 'isomorphism-cond
+           "promised a value passing ~v, given ~v"
+           pred? val))
   val)
 
 ;; -----------------------------------------------------------------------
@@ -147,6 +156,72 @@ module+ test
 ;; -----------------------------------------------------------------------
 
 module+ test
-  (define string->vector-lens (isomorphism-thrush string->list-lens list->vector-lens))
-  (check-equal? (lens-view string->vector-lens "abc") #(#\a #\b #\c))
-  (check-equal? (lens-set string->vector-lens "abc" #(#\1 #\2 #\3)) "123")
+  test-case "compose and thrush"
+    (define string->vector-lens
+      (isomorphism-thrush string->list-lens list->vector-lens))
+    (check-equal? (lens-view string->vector-lens "abc") #(#\a #\b #\c))
+    (check-equal? (lens-set string->vector-lens "abc" #(#\1 #\2 #\3)) "123")
+    ;
+    (define char-vector->string-lens
+      (isomorphism-compose list->string-lens vector->list-lens))
+    (check-equal? (lens-view char-vector->string-lens #(#\a #\b #\c)) "abc")
+    (check-equal? (lens-set char-vector->string-lens #(#\a #\b #\c) "123")
+                  #(#\1 #\2 #\3))
+  ;
+  test-case "cond and join"
+    (struct nat [n] #:transparent)
+    (struct neg-sub1 [n] #:transparent)
+    ;; An Int is one of:
+    ;;  - (nat Natural)
+    ;;  - (neg-sub1 Natural)
+    (define int->integer-lens
+      (isomorphism-cond
+        [nat?
+         (isomorphism-join
+           nat
+           identity
+           [nat-n  identity-lens  identity])
+         (negate negative?)]
+        [neg-sub1?
+         (isomorphism-join
+           neg-sub1
+           (λ (x) (sub1 (- x)))
+           [neg-sub1-n  identity-lens  (λ (n) (- (add1 n)))])
+         negative?]))
+    (check-equal? (lens-view int->integer-lens (nat 74)) 74)
+    (check-equal? (lens-view int->integer-lens (neg-sub1 35)) -36)
+    (check-equal? (lens-set int->integer-lens (nat 74) 9) (nat 9))
+    (check-equal? (lens-set int->integer-lens (nat 74) -36) (neg-sub1 35))
+    (check-equal? (lens-set int->integer-lens (neg-sub1 35) 9) (nat 9))
+    (check-equal? (lens-set int->integer-lens (neg-sub1 35) -20) (neg-sub1 19))
+  ;
+  test-case "cond error"
+    (define dom-num-str-lens
+      (isomorphism-cond
+        [number?  identity-lens  number?]
+        [string?  identity-lens  string?]))
+    (check-equal? (lens-view dom-num-str-lens "Immastring") "Immastring")
+    (check-equal? (lens-view dom-num-str-lens 12345) 12345)
+    (check-equal? (lens-set dom-num-str-lens 12345 "replacement") "replacement")
+    ;
+    (check-exn
+      #rx"isomorphism-cond: all cond conditions were false\n  target: '\\(23\\)"
+      (λ ()
+        (lens-view dom-num-str-lens (list 23))))
+    (check-exn
+      #rx"isomorphism-cond: all cond conditions were false\n  view: '\\(23\\)"
+      (λ ()
+        (lens-set dom-num-str-lens 12345 (list 23))))
+    ;
+    (define error-lens
+      (isomorphism-cond
+        [number?  identity-lens  string?]))
+    (check-exn
+      #rx"promised a value passing #<procedure:string\\?>, given 4"
+      (λ ()
+        (lens-view error-lens 4)))
+    (check-exn
+      #rx"promised a value passing #<procedure:number\\?>, given \"astri\""
+      (λ ()
+        (lens-set error-lens 4 "astri")))
+
