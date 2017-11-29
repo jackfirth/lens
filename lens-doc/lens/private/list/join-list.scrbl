@@ -12,7 +12,9 @@
 
   The joined lens only follows the
   @seclink["laws"]{lens laws} if the views of the
-  argument lenses don't overlap.
+  argument lenses don't overlap. Views of the lenses
+  overlap when setting one can change the view of
+  another lens.
 
   @lens-examples[
     (define first-third-fifth-lens

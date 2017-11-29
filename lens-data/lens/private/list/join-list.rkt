@@ -38,11 +38,9 @@ provide
 
 ;; If the views of the X-piece-lenses don't overlap, then for every combination
 ;; of X-pieces, A and B:
-;; (lens-set B-lens (lens-set A-lens X A) B)
-;; =
-;; (lens-set A-lens (lens-set B-lens X B) A)
-;; ...
-;; In other words, lens-set operations for the X-piece-lenses "commute."
+;; if (lens-view A-lens X) = A,
+;; then (lens-view A-lens (lens-set B-lens X B)) = A.
+;; In other words, setting B can't change the view of A.
 
 ;; Context:
 ;; C1:   {lens laws for X-piece-lens}
@@ -55,11 +53,11 @@ provide
 ;;     (lens-set/list X {X-piece-lens (lens-view X-piece-lens X)} ...) = X
 ;; C4.   {assumption that X-piece-lenses don't overlap}
 ;;     For every combination of X-Pieces, A and B:
-;;     (lens-set B-lens (lens-set A-lens X A) B)
-;;     =
-;;     (lens-set A-lens (lens-set B-lens X B) A)
+;;     (lens-view A-lens X) = A
+;;     =>
+;;     (lens-view A-lens (lens-set B-lens X B)) = A
 ;;     ...
-;; C5:   {repeated application of C4, C2}
+;; C5:   {C2, repeated application of C4}
 ;;     (lens-view X-piece-lens (lens-set/list X {X-piece-lens X-piece} ...))
 ;;     =
 ;;     X-piece
