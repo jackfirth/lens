@@ -34,11 +34,11 @@
                    "view of target after setting it's view not equal? to the set view"))
 
 (define-check (check-lens-set-set lens target new-view1 new-view2)
-  (let* ([target* (lens-set lens target new-view1)]
-         [target** (lens-set lens target* new-view2)])
-    (check-lens-view lens target**
-                     new-view2
-                     "view of target after setting its view twice not equal? to second view")))
+  (let* ([target/1  (lens-set lens target new-view1)]
+         [target/12 (lens-set lens target/1 new-view2)]
+         [target/2  (lens-set lens target new-view2)])
+    (check-equal? target/12 target/2
+      "target after setting view twice not equal? to setting to second view")))
 
 (define (test-lens-laws lens test-target test-view1 test-view2)
   (check-lens-view-set lens test-target)

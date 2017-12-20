@@ -52,10 +52,14 @@ and setters "ought" to work. The laws for lenses are:
     two views @racket[v-first] and @racket[v-second] of @racket[L],
     the expression
     @racketblock[
-      (lens-view L (lens-set L (lens-set L T v-first) v-second))
+      (lens-set L (lens-set L T v-first) v-second)
     ]
-    must be equal to @racket[v-second] with respect to a reasonable
-    definition of equality for views of @racket[L].
+    must be equal to
+    @racketblock[
+      (lens-set L T v-second)
+    ]
+    with respect to a reasonable definition of equality for targets
+    of @racket[L].
   }
 ]
 
@@ -69,4 +73,4 @@ All lenses provided by this library are proper unless otherwise
 stated. There is no enforcement or contract that lenses constructed
 with functions from this library will always be proper, but individual
 functions may provide conditional guarantees about their interactions
-with improper lenses and the lens laws
+with improper lenses and the lens laws.
