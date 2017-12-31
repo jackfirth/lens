@@ -20,30 +20,158 @@ module+ test
           lens/private/list/map
 
 ;; lens-zoom : (Lens (Outer Inner) Inner) (Lens A B) -> (Lens (Outer A) (Outer B))
-(define (lens-zoom zoom-lens transformer-lens)
-  (match transformer-lens
+(define (lens-zoom zoom-lens trans-lens)
+  (match trans-lens
     [(make-isomorphism-lens transformer inverse)
      ;; transformer : A -> B
      ;; inverse     : B -> A
      (make-isomorphism-lens
       (lens-transform zoom-lens _ transformer) ; (Outer A) -> (Outer B)
       (lens-transform zoom-lens _ inverse))]   ; (Outer B) -> (Outer A)
-    [transformer-lens
+    [_
      ;; get : (Outer A) -> (Outer B)
-     (define (get tgt)
-       ;; transformer : A -> B
-       (define (transformer a)
-         (lens-view transformer-lens a))
-       (lens-transform zoom-lens tgt transformer))
-     ;; set : (Outer A) (Outer B) -> (Outer A)
-     (define (set tgt nvw)
+     (define (get x)
        ;; a : A
-       (define a (lens-view zoom-lens tgt))
-       ;; transformer : B -> A
-       (define (transformer b)
-         (lens-set transformer-lens a b))
-       (lens-transform zoom-lens nvw transformer))
+       (define a (lens-view zoom-lens x))
+       ;; inner : B
+       (define inner (lens-view trans-lens a))
+       (lens-set zoom-lens x inner))
+     ;; set : (Outer A) (Outer B) -> (Outer A)
+     (define (set x y)
+       ;; a : A, b : B
+       (define a (lens-view zoom-lens x))
+       (define b (lens-view zoom-lens y))
+       ;; inner : A
+       (define inner (lens-set trans-lens a b))
+       (lens-set zoom-lens y inner))
      (make-lens get set)]))
+
+
+;; For the zoomed lens to follow the lens laws, these properties need to hold
+;; for all X : (Outer A) and Y, Y1, Y2 : (Outer B).
+;; (get (set X Y)) = Y
+;; (set X (get X)) = X
+;; (set (set X Y1) Y2) = (set X Y2)
+
+;; Context:
+;; C1.   {lens laws for trans-lens}
+;;     (lens-view trans-lens (lens-set trans-lens A B)) = B
+;; C2.   {lens laws for trans-lens}
+;;     (lens-set trans-lens A (lens-view trans-lens A)) = A
+;; C3.   {lens laws for zoom-lens}
+;;     for all X : (Outer Inner) and A : Inner,
+;;     (lens-view zoom-lens (lens-set zoom-lens X A)) = A
+;; C4.   {lens laws for zoom-lens}
+;;     for all X : (Outer Inner),
+;;     (lens-set zoom-lens X (lens-view zoom-lens X)) = X
+;; C5.   {lens laws for trans-lens}
+;;     (lens-set trans-lens (lens-set trans-lens A B1) B2)
+;;     =
+;;     (lens-set trans-lens A B2)
+;; C6.   {lens laws for zoom-lens}
+;;     for all X : (Outer Inner), A1 : Inner, and A2 : Inner,
+;;     (lens-set zoom-lens (lens-set zoom-lens X A1) A2)
+;;     =
+;;     (lens-set zoom-lens X A2)
+
+
+;; Proof for (get (set X Y)) = Y:
+;;   (get (set X Y))
+;; =   {Def. set}
+;;   let a = (lens-view zoom-lens X)
+;;   let b = (lens-view zoom-lens Y)
+;;   let inner = (lens-set trans-lens a b)
+;;   (get (lens-set zoom-lens Y inner))
+;; =   {Def. get}
+;;   let a = (lens-view zoom-lens X)
+;;   let b = (lens-view zoom-lens Y)
+;;   let inner = (lens-set trans-lens a b)
+;;   let outer = (lens-set zoom-lens Y inner)
+;;   let a* = (lens-view zoom-lens outer)
+;;   let inner* = (lens-view trans-lens a*)
+;;   (lens-set zoom-lens outer inner*)
+;; =   {C3}
+;;   let a = (lens-view zoom-lens X)
+;;   let b = (lens-view zoom-lens Y)
+;;   let inner = (lens-set trans-lens a b)
+;;   let outer = (lens-set zoom-lens Y inner)
+;;   let inner* = (lens-view trans-lens inner)
+;;   (lens-set zoom-lens outer inner*)
+;; =   {C1}
+;;   let a = (lens-view zoom-lens X)
+;;   let b = (lens-view zoom-lens Y)
+;;   let inner = (lens-set trans-lens a b)
+;;   let outer = (lens-set zoom-lens Y inner)
+;;   (lens-set zoom-lens outer b)
+;; =   {C6}
+;;   let b = (lens-view zoom-lens Y)
+;;   (lens-set zoom-lens Y b)
+;; =   {C4}
+;;   Y
+
+
+;; Proof for (set X (get X)) = X:
+;;   (set X (get X))
+;; =   {Def. get}
+;;   let a = (lens-view zoom-lens X)
+;;   let inner = (lens-view trans-lens a)
+;;   (set X (lens-set zoom-lens X inner))
+;; =   {Def. set}
+;;   let a = (lens-view zoom-lens X)
+;;   let inner = (lens-view trans-lens a)
+;;   let y = (lens-set zoom-lens X inner)
+;;   let b = (lens-view zoom-lens y)
+;;   let inner* = (lens-set trans-lens a b)
+;;   (lens-set zoom-lens y inner*)
+;; =   {C3}
+;;   let a = (lens-view zoom-lens X)
+;;   let inner = (lens-view trans-lens a)
+;;   let y = (lens-set zoom-lens X inner)
+;;   let inner* = (lens-set trans-lens a inner)
+;;   (lens-set zoom-lens y inner*)
+;; =   {C2}
+;;   let a = (lens-view zoom-len X)
+;;   let inner = (lens-view trans-lens a)
+;;   let y = (lens-set zoom-lens X inner)
+;;   (lens-set zoom-lens y a)
+;; =   {C6}
+;;   let a = (lens-view zoom-lens X)
+;;   (lens-set zoom-lens X a)
+;; =   {C4}
+;;   X
+
+
+;; Proof for (set (set X Y1) Y2) = (set X Y2):
+;;   (set (set X Y1) Y2)
+;; =   {Def. set}
+;;   let a1 = (lens-view zoom-lens X)
+;;   let b1 = (lens-view zoom-lens Y1)
+;;   let inner1 = (lens-set trans-lens a1 b1)
+;;   (set (lens-set zoom-lens Y1 inner1) Y2)
+;; =   {Def. set}
+;;   let a1 = (lens-view zoom-lens X)
+;;   let b1 = (lens-view zoom-lens Y1)
+;;   let inner1 = (lens-set trans-lens a1 b1)
+;;   let outer1 = (lens-set zoom-lens Y1 inner1)
+;;   let a2 = (lens-view zoom-lens outer1)
+;;   let b2 = (lens-view zoom-lens Y2)
+;;   let inner2 = (lens-set trans-lens a2 b2)
+;;   (lens-set zoom-lens Y2 inner2)
+;; =   {C3}
+;;   let a1 = (lens-view zoom-lens X)
+;;   let b1 = (lens-view zoom-lens Y1)
+;;   let inner1 = (lens-set trans-lens a1 b1)
+;;   let b2 = (lens-view zoom-lens Y2)
+;;   let inner2 = (lens-set trans-lens inner1 b2)
+;;   (lens-set zoom-lens Y2 inner2)
+;; =   {C5}
+;;   let a1 = (lens-view zoom-lens X)
+;;   let b2 = (lens-view zoom-lens Y2)
+;;   let inner2 = (lens-set trans-lens a1 b2)
+;;   (lens-set zoom-lens Y2 inner2)
+;; =   {Def. set}
+;;   (set X Y2)
+
 
 (define (lens-zoom* . lenses/transformers)
   (apply lens-thrush
