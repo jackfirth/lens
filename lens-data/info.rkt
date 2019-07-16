@@ -11,7 +11,7 @@
     "syntax-classes-lib"
     "struct-update-lib"
     "kw-make-struct"
-    "reprovide-lang"
+    "reprovide-lang-lib"
     ))
 
 (define build-deps

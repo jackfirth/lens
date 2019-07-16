@@ -7,7 +7,7 @@
     "base"
     "fancy-app"
     "rackunit-lib"
-    "reprovide-lang"
+    "reprovide-lang-lib"
     ))
 
 (define build-deps
