@@ -10,7 +10,7 @@
     "fancy-app"
     "syntax-classes-lib"
     "struct-update-lib"
-    "kw-make-struct"
+    "kw-make-struct-lib"
     "reprovide-lang-lib"
     ))
 
