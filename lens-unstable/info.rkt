@@ -5,7 +5,7 @@
 (define deps
   '("base"
     "lens-lib"
-    "reprovide-lang"
+    "reprovide-lang-lib"
     ))
 
 (define build-deps

@@ -8,7 +8,7 @@
   '("base"
     "lens-common"
     "lens-data"
-    "reprovide-lang"
+    "reprovide-lang-lib"
     ))
 
 (define implies

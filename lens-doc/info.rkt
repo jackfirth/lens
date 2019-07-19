@@ -7,7 +7,7 @@
     "lens-lib"
     "lens-unstable"
     "scribble-lib"
-    "reprovide-lang"
+    "reprovide-lang-lib"
     "jack-scribble-example"
     ))
 
