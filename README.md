@@ -1,4 +1,4 @@
-# lens ![Version](https://img.shields.io/badge/Version-2.0-green.svg) [![Build Status](https://travis-ci.org/jackfirth/lens.svg?branch=master)](https://travis-ci.org/jackfirth/lens) [![codecov](https://codecov.io/gh/jackfirth/lens/branch/master/graph/badge.svg)](https://codecov.io/gh/jackfirth/lens) [![Stories in Ready](https://badge.waffle.io/jackfirth/lens.png?label=ready&title=Ready)](https://waffle.io/jackfirth/lens) [![Scribble Docs](https://img.shields.io/badge/Docs-Scribble%20-blue.svg)](http://pkg-build.racket-lang.org/doc/lens/index.html) [![Join the chat at https://gitter.im/jackfirth/lens](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jackfirth/lens?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# lens [![Build Status][travis-ci-badge]][travis-ci-status] [![codecov][codecov-badge]][codecov-status] [![Scribble Docs][lens-documentation-badge]][lens-documentation]
 
 A Racket package for creating and composing pure functional lenses.
 
@@ -54,7 +54,7 @@ Lenses can also be extended to operate on some new data structure:
 '((a 2) (b 4) (c 6))
 ```
 
-See [the documentation](http://pkg-build.racket-lang.org/doc/lens/index.html) for a full API reference
+See [the documentation][lens-documentation] for a full API reference
 
 #### So when would I want to use lenses?
 
@@ -72,8 +72,13 @@ In particular, consider using lenses if you find yourself doing any of the follo
 - Wishing you could treat data X as if it were a Y, i.e. "I wish this struct was a list so I could `map` over it easily"
 - Creating structs that have nested struct instances inside them.
 
-For a more in depth introduction, see [The Lens Guide](http://pkg-build.racket-lang.org/doc/lens/lens-guide.html). For detailed API documentation, see [The Lens Reference](http://pkg-build.racket-lang.org/doc/lens/lens-reference.html).
+For a more in depth introduction, see [The Lens Guide][lens-guide]. For detailed API documentation, see [The Lens Reference][lens-reference].
 
-#### Contributions
-
-This project uses Github issues organized by a [Waffle board](https://waffle.io/jackfirth/lens) to track what's being worked on. Check the board to see if there's any features, bugs, etc. that interest you, or create a new Github issue to inquire about something you'd like to see changed.
+[codecov-badge]: https://codecov.io/gh/jackfirth/lens/branch/master/graph/badge.svg
+[codecov-status]: https://codecov.io/gh/jackfirth/lens
+[lens-documentation]: https://docs.racket-lang.org/lens/index.html
+[lens-documentation-badge]: https://img.shields.io/badge/Docs-Scribble%20-blue.svg
+[lens-guide]: https://docs.racket-lang.org/lens/lens-guide.html
+[lens-reference]: https://docs.racket-lang.org/lens/lens-reference.html
+[travis-ci-badge]: https://travis-ci.org/jackfirth/lens.svg?branch=master
+[travis-ci-status]: https://travis-ci.org/jackfirth/lens
