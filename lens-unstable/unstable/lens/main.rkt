@@ -5,6 +5,7 @@
 "flatten.rkt"
 "hash-filterer.rkt"
 "if.rkt"
+"improper.rkt"
 "isomorphism.rkt"
 "join-assoc.rkt"
 "lazy.rkt"
